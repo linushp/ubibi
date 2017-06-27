@@ -2,7 +2,38 @@ var path = require('path');
 var fs = require('fs');
 
 
-var replaceStaticPath = function (p1, p2, str) {
+/**
+ *
+ * @param p1
+ * @param p2
+ * @param str
+ * @param replaceOptions {urlPrefix,urlSuffix}
+ * @returns {void|string|XML}
+ */
+var replaceStaticPath = function (p1, p2, str,replaceOptions) {
+
+    var replaceOptions_urlPrefix = replaceOptions['urlPrefix'];
+
+    var replaceOptions_urlSuffix = replaceOptions['urlSuffix'];
+
+    var wrapperPath = function(rootPath){
+        var result = rootPath;
+        if(replaceOptions_urlPrefix){
+            result =  replaceOptions_urlPrefix + rootPath;
+        }
+
+        if(replaceOptions_urlSuffix){
+            if(result.indexOf('?')>=0){
+                result = result + "&" + replaceOptions_urlSuffix;
+            }else {
+                result = result + "?" + replaceOptions_urlSuffix;
+            }
+        }
+
+        return result;
+    };
+
+
     return str.replace(/(href|src)=[\\"\\']\.{1,2}\/.*[\\"\\']/gm, function (x) {
         var m1 = p1;
         var m2 = p2;
@@ -16,9 +47,9 @@ var replaceStaticPath = function (p1, p2, str) {
             var f11 = f1.replace(m1, '/');
 
             if (x.indexOf('href=') === 0) {
-                return 'href="' + f11 + '"';
+                return 'href="' + wrapperPath(f11) + '"';
             } else {
-                return 'src="' + f11 + '"';
+                return 'src="' + wrapperPath(f11) + '"';
             }
         }
 
@@ -29,9 +60,9 @@ var replaceStaticPath = function (p1, p2, str) {
             var f11 = f1.replace(m1, '/');
 
             if (x.indexOf('href=') === 0) {
-                return "href='" + f11 + "'";
+                return "href='" + wrapperPath(f11) + "'";
             } else {
-                return "src='" + f11 + "'";
+                return "src='" + wrapperPath(f11) + "'";
             }
         }
         return x;
@@ -40,7 +71,7 @@ var replaceStaticPath = function (p1, p2, str) {
 
 
 
-var getFileContentAsync = function (filePath,isReplaceStaticPath) {
+var getFileContentAsync = function (filePath,replaceOptions) {
     var p1 = path.join(__dirname, '../../');
     var p2 = path.join(p1, filePath);
     return new Promise(function(resolve,reject){
@@ -48,8 +79,8 @@ var getFileContentAsync = function (filePath,isReplaceStaticPath) {
             if(err){
                 reject(err);
             }else {
-                if(isReplaceStaticPath){
-                    data = replaceStaticPath(p1,p2,data);
+                if(replaceOptions){
+                    data = replaceStaticPath(p1,p2,data,replaceOptions);
                 }
                 resolve(data);
             }
@@ -57,4 +88,16 @@ var getFileContentAsync = function (filePath,isReplaceStaticPath) {
     });
 };
 
+
+
+  /**
+   *
+    var promise = staticHtmlUtils.getFileContentAsync("/static/photos.html",{
+        urlPrefix:'http://cdn.ubibi.cn'
+    });
+
+    promise.then(function(data){
+        res.send(data);
+    });
+ */
 exports.getFileContentAsync = getFileContentAsync;
