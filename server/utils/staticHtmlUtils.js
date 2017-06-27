@@ -71,8 +71,12 @@ var replaceStaticPath = function (p1, p2, str,replaceOptions) {
 
 
 
+
+var _rootPath = path.join(__dirname, '../../');
+
+
 var getFileContentAsync = function (filePath,replaceOptions) {
-    var p1 = path.join(__dirname, '../../');
+    var p1 = _rootPath;
     var p2 = path.join(p1, filePath);
     return new Promise(function(resolve,reject){
         fs.readFile(p2, 'utf-8', function (err, data) {
@@ -90,8 +94,15 @@ var getFileContentAsync = function (filePath,replaceOptions) {
 
 
 
-  /**
-   *
+
+exports.configRootPath = function(rootPath){
+    _rootPath = rootPath;
+};
+
+
+
+/**
+ *
     var promise = staticHtmlUtils.getFileContentAsync("/static/photos.html",{
         urlPrefix:'http://cdn.ubibi.cn'
     });
