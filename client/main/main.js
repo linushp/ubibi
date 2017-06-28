@@ -1,4 +1,4 @@
-
+var html = require('./mmm.html');
 
 var Foo = { template: '<div>foo</div>' };
 var Bar = { template: '<div>bar</div>' };
@@ -12,7 +12,7 @@ var router = new VueRouter({
     ]
 });
 
-
+debugger;
 
 
 

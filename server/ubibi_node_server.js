@@ -22,11 +22,15 @@ app.use("/api/v1",ApiController);
 app.use("/static", express.static(path.join(__dirname, '../static')));
 
 app.get("/*",function (req, res) {
-    var siteLanguage = req.siteLanguage;
+
+    var static_host = '';
+    if(process.env.NODE_ENV==="production"){
+        static_host='//cdn.ubibi.cn'
+    }
+
     res.render('main/main.html', {
         title: 'ubibi',
-        siteLanguage: siteLanguage,
-        message: 'Hello there!'
+        static_host:static_host
     });
 });
 

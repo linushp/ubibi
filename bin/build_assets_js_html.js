@@ -18,7 +18,7 @@ if(Array.isArray(name)){
 
 
 
-var html = '<script src="/static/assets/js/'+name+'"></script>';
+var html = '<script src="<%=static_host%>/static/assets/js/'+name+'"></script>';
 
 var out_path = "/server/views/"+entryFileName+"/assets.js.html";
 
