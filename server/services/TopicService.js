@@ -3,8 +3,8 @@ var SqlQueryUtils = require('../utils/SqlQueryUtils');
 
 function getTopicListByWhereSql(pageNo, pageSize, whereSql) {
 
-    var pageNo = parseInt(pageNo || 1, 10);
-    var pageSize = parseInt(pageSize || 30, 10);
+    pageNo = parseInt(pageNo || 1, 10);
+    pageSize = parseInt(pageSize || 30, 10);
     whereSql = whereSql || "";
 
     var limitStart = (pageNo - 1) * pageSize;

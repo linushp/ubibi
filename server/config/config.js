@@ -6,9 +6,9 @@ exports.doConfig = function(){
     SqlQueryUtils.configMySQL({
         connectionLimit: 10,
         host: '127.0.0.1',
-        user: '',
+        user: 'root',
         password: '',
-        database: '',
+        database: 'ubibi',
         port: 3306
     });
 

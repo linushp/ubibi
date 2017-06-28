@@ -19,4 +19,4 @@ str = minify(str,{collapseWhitespace:true});
 
 
 
-webpack -p ./client/home.js ./static/assets/home.min.js
+webpack -p ./client/main.js ./static/assets/home.min.js

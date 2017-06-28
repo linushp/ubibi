@@ -28,5 +28,5 @@ node ./bin/build_assets_css_html.js $BUILD_PAGE_MODE $BUILD_PAGE_NAME $BUILD_VER
 
 
 #使用方法:
-#       sh ./build_less.sh p home
-#       sh ./build_less.sh d home
+#       sh ./build_less.sh p main
+#       sh ./build_less.sh d main

@@ -3,7 +3,7 @@ BUILD_PAGE_NAME=$2
 
 rm -rf static/assets/js/$BUILD_PAGE_NAME.*
 
-#webpack -p -j ./client/home.js ./static/assets/home.[hash:8].js > ./tmp/assets_home.json
+#webpack -p -j ./client/main.js ./static/assets/main.[hash:8].js > ./tmp/assets_main.json
 
 
 if [ $BUILD_PAGE_MODE = "p" ]; then
@@ -22,5 +22,5 @@ node ./bin/build_assets_js_html.js $BUILD_PAGE_NAME
 
 
 #使用方法:
-#       sh ./build_js.sh p home
-#       sh ./build_js.sh d home
+#       sh ./build_js.sh p main
+#       sh ./build_js.sh d main
