@@ -18,8 +18,7 @@ app.set('view engine', 'html');
 app.use(cookieParser());
 app.use(languageParser('siteLanguage','en'));
 
-app.use("/api",ApiController);
-
+app.use("/api/v1/",ApiController);
 
 app.get('/', function (req, res) {
     var siteLanguage = req.siteLanguage;

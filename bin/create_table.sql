@@ -18,6 +18,7 @@ create table ubibi.t_reply
 		primary key,
 	topic_id int null,
 	content longtext null,
+	floor_num int null,
 	author_id int null,
 	author_info text null,
 	create_time varchar(100) null,
@@ -50,6 +51,7 @@ create table ubibi.t_topic
 (
 	id int auto_increment
 		primary key,
+	topic_type int null comment '1 article 2 discuss',
 	title varchar(400) null,
 	description text null,
 	cover_img varchar(100) null,
@@ -74,6 +76,7 @@ create table ubibi.t_user
 	id int auto_increment
 		primary key,
 	nickname varchar(100) null,
+	mobile varchar(30) null,
 	email varchar(200) null,
 	passwd varchar(400) null,
 	avatar varchar(300) null,
@@ -87,5 +90,30 @@ create table ubibi.t_user
 	constraint t_user_email_uindex
 		unique (email)
 )
+;
+
+create table ubibi.t_user_msg
+(
+	id int auto_increment
+		primary key,
+	owner_id int null,
+	owner_info int null,
+	msg varchar(500) null,
+	author_id int null,
+	author_info text null,
+	create_time varchar(30) null,
+	reply_msg varchar(500) null,
+	reply_time varchar(30) null,
+	constraint t_user_msg_id_uindex
+		unique (id)
+)
+;
+
+create index t_user_msg_owner_id_index
+	on t_user_msg (owner_id)
+;
+
+create index t_user_msg_author_id_index
+	on t_user_msg (author_id)
 ;
 
