@@ -83,7 +83,7 @@ function doQueryAsync(requestModel) {
 
 
 function doQueryCacheAsync(requestModel, cacheKey, cacheSecond) {
-    if (cacheSecond && cacheSecond > 0) {
+    if (cacheSecond && cacheSecond > 0 && cacheKey) {
         var cacheObject = _query_result_cache[cacheKey];
         if (cacheObject) {
             var cacheObjectTime = cacheObject['time'];
