@@ -9,9 +9,8 @@ exports.doConfig = function(){
         user: '',
         password: '',
         database: '',
-        port: 3660
+        port: 3306
     });
-
 
 
 

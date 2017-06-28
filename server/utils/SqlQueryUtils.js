@@ -82,7 +82,7 @@ function doQueryAsync(requestModel) {
 }
 
 
-function doQueryCacheableAsync(requestModel, cacheKey, cacheSecond) {
+function doQueryCacheAsync(requestModel, cacheKey, cacheSecond) {
     if (cacheSecond && cacheSecond > 0) {
         var cacheObject = _query_result_cache[cacheKey];
         if (cacheObject) {
@@ -100,9 +100,19 @@ function doQueryCacheableAsync(requestModel, cacheKey, cacheSecond) {
     });
 }
 
+
+
+function doClearCacheByKey(cacheKey){
+    _query_result_cache[cacheKey] = null;
+}
+
+
+
+
 module.exports = {
     configMySQL: configMySQL,
     configSqlMap: configSqlMap,
     doQueryAsync: doQueryAsync,
-    doQueryCacheableAsync: doQueryCacheableAsync
+    doQueryCacheAsync: doQueryCacheAsync,
+    doClearCacheByKey: doClearCacheByKey
 };
