@@ -22,7 +22,7 @@ else {
     name = BUILD_PAGE_NAME + ".css";
 }
 //var html = '<script src="/static/assets/js/'+name+'"></script>';
-var html = '<link href="/static/assets/css/'+name+'" rel="stylesheet" />';
+var html = '<link href="<%=static_host%>/static/assets/css/'+name+'" rel="stylesheet" />';
 
 
 var out_path = "/server/views/"+BUILD_PAGE_NAME+"/assets.css.html";
