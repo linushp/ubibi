@@ -1,20 +1,26 @@
+
 function sendXmlHttpRequest(method, url, data, contentType, responseType) {
     return new Promise(function (resolve, reject) {
         var xhr = new XMLHttpRequest();
         xhr.open(method, url, true);
 
+        //1.responseType
         if (responseType) {
             xhr.responseType = responseType;
         } else {
             xhr.responseType = 'text';
         }
 
+
+        //2.contentType
+        var CONST_CONTENT_TYPE = 'Content-Type';
         if (contentType === 'form') {
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.setRequestHeader(CONST_CONTENT_TYPE, "application/x-www-form-urlencoded");
         }
         if (contentType === 'json') {
-            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhr.setRequestHeader(CONST_CONTENT_TYPE, "application/json;charset=UTF-8");
         }
+
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4) {
@@ -27,12 +33,22 @@ function sendXmlHttpRequest(method, url, data, contentType, responseType) {
             }
         };
 
+
+
+
+        //3.data
         if (data) {
             xhr.send(data);
         } else {
             xhr.send();
         }
+
     });
+}
+
+
+function jsonParseResponseText(responseText){
+    return JSON.parse(responseText);
 }
 
 
@@ -42,9 +58,7 @@ function sendGetRequest(url) {
 
 
 function sendGetJSONRequest(url) {
-    return sendGetRequest(url).then(function (responseText) {
-        return JSON.parse(responseText);
-    });
+    return sendGetRequest(url).then(jsonParseResponseText);
 }
 
 
@@ -52,12 +66,9 @@ function sendPostRequest(url, data, contentType) {
     return sendXmlHttpRequest("POST", url, data, contentType);
 }
 
-
 function sendPostJSONRequest(url, data) {
     var dataStr = JSON.stringify(data);
-    return sendPostRequest(url, dataStr, 'json').then(function (responseText) {
-        return JSON.parse(responseText);
-    });
+    return sendPostRequest(url, dataStr, 'json').then(jsonParseResponseText);
 }
 
 
