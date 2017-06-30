@@ -12,25 +12,25 @@ var ApiController = require('./controller/ApiController');
 config.doConfig();
 var app = express();
 app.engine('html', ejs.renderFile);
-app.set('x-powered-by',false);
+app.set('x-powered-by', false);
 app.set('views', path.join(__dirname, './views'));
 app.set('view engine', 'html');
 app.use(cookieParser());
-app.use(languageParser('siteLanguage','en'));
+app.use(languageParser('siteLanguage', 'en'));
 
-app.use("/api/v1",ApiController);
+app.use("/api/v1", ApiController);
 app.use("/static", express.static(path.join(__dirname, '../static')));
 
-app.get("/*",function (req, res) {
+app.get("/*", function (req, res) {
 
     var static_host = '';
-    if(process.env.NODE_ENV==="production"){
-        static_host='//cdn.ubibi.cn'
+    if (process.env.NODE_ENV === "production") {
+        static_host = '//cdn.ubibi.cn'
     }
 
     res.render('main/main.html', {
         title: 'ubibi',
-        static_host:static_host
+        static_host: static_host
     });
 });
 
