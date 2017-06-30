@@ -79,7 +79,7 @@ module.exports = {
     devServer: {
         port: 6783,
         host: "0.0.0.0",
-        contentBase: './',
+        contentBase: '../',
         historyApiFallback: true,
         proxy: {
             '/api/v1': {
