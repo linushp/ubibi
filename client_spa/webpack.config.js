@@ -3,8 +3,8 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var path = require('path');
 
-var extractCSS = new ExtractTextPlugin('app/[name].[chunkhash:8].css');
-var extractLESS = new ExtractTextPlugin('app/[name].[chunkhash:8].css');
+var extractCSS = new ExtractTextPlugin('app/[name].[hash:8].css');
+var extractLESS = new ExtractTextPlugin('app/[name].[hash:8].css');
 
 var __appPath = path.join(__dirname, "./");
 
@@ -25,13 +25,18 @@ module.exports = {
     output: {
         path: path.resolve(__appPath, '../static/assets_spa'),
         publicPath: "",
-        filename: 'app/[name].[chunkhash:8].js',
-        chunkFilename: 'app/module.[name].[chunkhash:8].js'
+        filename: 'app/[name].[hash:8].js',
+        chunkFilename: 'app/module.[name].[hash:8].js'
     },
 
     module: {
 
         rules: [
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: "babel-loader"
+            },
             {
                 test: /\.html$/,
                 loader: 'string-loader'
@@ -57,7 +62,7 @@ module.exports = {
             compress: { warnings: false }
 
         }),
-        new webpack.NoErrorsPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
         new webpack.DefinePlugin({
             '__DEV__': !isProduction,
             'process.env.NODE_ENV': isProduction ? '"production"' : '"development"'
@@ -72,7 +77,7 @@ module.exports = {
     devtool: isProduction ? false : 'source-map',
 
     devServer: {
-        port: 6782,
+        port: 6783,
         host: "0.0.0.0",
         contentBase: './',
         historyApiFallback: true,
