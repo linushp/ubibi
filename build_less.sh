@@ -5,9 +5,9 @@ BUILD_VERSION=$(date '+%s')
 rm -rf static/assets/css/$BUILD_PAGE_NAME.*
 
 if [ $BUILD_PAGE_MODE = "p" ]; then
-   #lessc --plugin=less-plugin-clean-css="advanced" ./client/$BUILD_PAGE_NAME/$BUILD_PAGE_NAME.less ./static/assets/css/$BUILD_PAGE_NAME.${BUILD_VERSION}.css
+   #lessc --plugin=less-plugin-clean-css="advanced" ./client_multi/$BUILD_PAGE_NAME/$BUILD_PAGE_NAME.less ./static/assets/css/$BUILD_PAGE_NAME.${BUILD_VERSION}.css
 
-   lessc --plugin=less-plugin-clean-css="advanced" ./client/$BUILD_PAGE_NAME/$BUILD_PAGE_NAME.less ./static/assets/css/$BUILD_PAGE_NAME.min.css
+   lessc --plugin=less-plugin-clean-css="advanced" ./client_multi/$BUILD_PAGE_NAME/$BUILD_PAGE_NAME.less ./static/assets/css/$BUILD_PAGE_NAME.min.css
    MD5_STRING=$(md5 ./static/assets/css/$BUILD_PAGE_NAME.min.css)
    MD5_STRING_VALUE=$(echo $MD5_STRING|cut -d'=' -f2)
    MD5_STRING_VALUE=$(echo $MD5_STRING_VALUE|sed s/[[:space:]]//g)
@@ -15,7 +15,7 @@ if [ $BUILD_PAGE_MODE = "p" ]; then
    BUILD_VERSION=$MD5_STRING_VALUE
 
 else
-   lessc ./client/$BUILD_PAGE_NAME/$BUILD_PAGE_NAME.less ./static/assets/css/$BUILD_PAGE_NAME.css
+   lessc ./client_multi/$BUILD_PAGE_NAME/$BUILD_PAGE_NAME.less ./static/assets/css/$BUILD_PAGE_NAME.css
 fi
 
 
