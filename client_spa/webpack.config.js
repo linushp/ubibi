@@ -39,7 +39,7 @@ module.exports = {
             },
             {
                 test: /\.html$/,
-                loader: 'string-loader'
+                loader: 'string2-loader'
             },
             {
                 test: /\.css$/,

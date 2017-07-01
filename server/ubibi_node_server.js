@@ -2,9 +2,9 @@ var http = require('http');
 var path = require('path');
 var ejs = require('ejs');
 var express = require('express');
+var adjustHtmlUrl = require('adjust-html-url');
 var cookieParser = require('cookie-parser');
 var languageParser = require('./utils/languageParser');
-var staticHtmlUtils = require('./utils/staticHtmlUtils');
 var config = require('./config/config');
 
 var photos_controller = require('./controller/photos_controller');
@@ -31,20 +31,14 @@ app.get("/*", function (req, res) {
         useCache = true;
     }
 
-    staticHtmlUtils.getFileContentAsync('/static/assets_spa/index.html', {
+
+    adjustHtmlUrl.doAdjust('/static/assets_spa/index.html', {
         urlPrefix: static_host,
         useCache: useCache
     }).then(function (d) {
         res.send(d);
     });
 
-
-
-    //
-    // res.render('main/main.html', {
-    //     title: 'ubibi',
-    //     static_host: static_host
-    // });
 });
 
 

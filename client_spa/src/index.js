@@ -1,15 +1,23 @@
 import * as AjaxUtils from '../../client_utils/AjaxUtils';
 import './index.less';
+import {template_header,template_approot} from './template.html';
+
+console.log(template_approot);
+console.log(template_header);
 
 var AppHeader = {
-    template:'' +
-    '<div class="app-header">' +
-    '   header' +
-    ' </div>'
+    template:template_header
 };
 
 
-var Foo = { template: '<div> <app-header /> <router-view></router-view> foo</div>',components:{'app-header':AppHeader}};
+var AppComponent = {
+    template: template_approot,
+    components:{
+        'app-header':AppHeader
+    }
+};
+
+
 var Foo2 = { template: '<div>222222--{{aaa}}</div>' ,data:function(){
     return {aaa:111};
 }};
@@ -21,7 +29,7 @@ var router = new VueRouter({
     routes: [
         {
             path: '/',
-            component: Foo ,
+            component: AppComponent ,
             children:[
                 {
                     path:'foo',

@@ -15,7 +15,7 @@
     "less": "^2.7.2",
     "less-loader": "^4.0.4",
     "postcss-loader": "^2.0.6",
-    "string-loader": "0.0.1",
+    "string2-loader": "0.0.3",
     "style-loader": "^0.18.2",
     "webpack": "^3.0.0",
     "webpack-dev-server": "^2.5.0"
