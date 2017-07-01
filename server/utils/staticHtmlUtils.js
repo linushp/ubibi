@@ -54,9 +54,9 @@ var replaceStaticPath = function (p1, p2, str, replaceOptions) {
     return str.replace(/<(script|link|a|img)([^>]*)(src|href)=('|")([^'"]+)('|")([^>]*)>/img, function (a, $1, $2, $3, $4, $5, $6, $7) {
 
         var url = $5;
-        if(/^http:\/\//.test(url) || /^https:\/\//.test(url) || /\/\//.test(url)){
+        if (/^http:\/\//.test(url) || /^https:\/\//.test(url) || /\/\//.test(url)) {
             return a;
-        }else {
+        } else {
             url = adjustUrlToBasedRoot(url);
             url = wrapperPath(url);
             return "<" + $1 + $2 + $3 + "=" + $4 + url + $6 + $7 + ">";
@@ -64,8 +64,6 @@ var replaceStaticPath = function (p1, p2, str, replaceOptions) {
     });
 
 };
-
-
 
 
 var getFileContentAsync = function (filePath, replaceOptions) {
@@ -91,8 +89,6 @@ exports.configRootPath = function (rootPath) {
 };
 
 
-
-
 /**
  *
  var promise = staticHtmlUtils.getFileContentAsync("/static/photos.html",{
@@ -104,18 +100,18 @@ exports.configRootPath = function (rootPath) {
         res.send(data);
     });
  */
-var getFileContentAsync_cache={};
+var getFileContentAsync_cache = {};
 exports.getFileContentAsync = function (filePath, replaceOptions) {
     var useCache = replaceOptions && replaceOptions.useCache;
-    if(useCache){
-        var cacheObject  = getFileContentAsync_cache[filePath];
-        if(cacheObject){
+    if (useCache) {
+        var cacheObject = getFileContentAsync_cache[filePath];
+        if (cacheObject) {
             return Promise.resolve(cacheObject);
         }
     }
 
-    return getFileContentAsync(filePath,replaceOptions).then(function (result) {
-        if(useCache){
+    return getFileContentAsync(filePath, replaceOptions).then(function (result) {
+        if (useCache) {
             getFileContentAsync_cache[filePath] = result;
         }
         return result;
