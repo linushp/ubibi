@@ -56,7 +56,7 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             inject: true,
-            template: path.resolve(__appPath,'index.html')
+            template: path.resolve(__appPath,'index.shtml')
         }),
         new webpack.optimize.UglifyJsPlugin({
             compress: { warnings: false }
@@ -77,7 +77,7 @@ module.exports = {
     devtool: isProduction ? false : 'source-map',
 
     devServer: {
-        port: 6783,
+        port: 2702,
         host: "0.0.0.0",
         contentBase: '../',
         historyApiFallback: true,
