@@ -74,7 +74,7 @@ module.exports = {
     ],
 
 
-    devtool: isProduction ? false : 'source-map',
+    devtool: isProduction ? false : 'eval-cheap-source-map',
 
     devServer: {
         port: 2702,

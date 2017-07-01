@@ -1,4 +1,4 @@
-var AjaxUtils = require('../utils/AjaxUtils');
+var AjaxUtils = require('../../client_utils/AjaxUtils');
 
 
 var AppHeader = {

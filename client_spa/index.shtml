@@ -8,6 +8,9 @@
 </head>
 <body>
 
+<div id="mainBody">
+    <router-view></router-view>
+</div>
 
 <script src="/static/lib/vue-2.3.0/vue.min.js"></script>
 <script src="/static/lib/vue-router-2.6.0/dist/vue-router.min.js"></script>
