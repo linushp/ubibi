@@ -50,7 +50,8 @@ var replaceStaticPath = function (p1, p2, str, replaceOptions) {
         return f11;
     }
 
-    return str.replace(/<(script|link|a|img)(.*)(src|href)=('|")([^'"]+)('|")([^>]*)>/img, function (a, $1, $2, $3, $4, $5, $6, $7) {
+
+    return str.replace(/<(script|link|a|img)([^>]*)(src|href)=('|")([^'"]+)('|")([^>]*)>/img, function (a, $1, $2, $3, $4, $5, $6, $7) {
 
         var url = $5;
         if(/^http:\/\//.test(url) || /^https:\/\//.test(url) || /\/\//.test(url)){

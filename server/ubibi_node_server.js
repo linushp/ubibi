@@ -39,7 +39,7 @@ app.get("/*", function (req, res) {
     });
 
 
-    
+
     //
     // res.render('main/main.html', {
     //     title: 'ubibi',
