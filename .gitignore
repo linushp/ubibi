@@ -5,3 +5,4 @@ tmp/
 static/assets/
 static/assets_spa/
 client_spa/node_modules/
+npm-debug.log
