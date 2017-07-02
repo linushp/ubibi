@@ -1,4 +1,3 @@
-
 function sendXmlHttpRequest(method, url, data, contentType, responseType) {
     return new Promise(function (resolve, reject) {
         var xhr = new XMLHttpRequest();
@@ -34,8 +33,6 @@ function sendXmlHttpRequest(method, url, data, contentType, responseType) {
         };
 
 
-
-
         //3.data
         if (data) {
             xhr.send(data);
@@ -47,18 +44,32 @@ function sendXmlHttpRequest(method, url, data, contentType, responseType) {
 }
 
 
-function jsonParseResponseText(responseText){
+function jsonParseResponseText(responseText) {
     return JSON.parse(responseText);
 }
 
 
-function sendGetRequest(url) {
-    return sendXmlHttpRequest("GET", url);
+var GET_REQUEST_CACHE = {};
+function sendGetRequest(url, isUseCache) {
+    if (isUseCache) {
+        if (GET_REQUEST_CACHE[url] && GET_REQUEST_CACHE[url].timeStamp + 1000 * 3600 * 24 < new Date().getTime()) {
+            return Promise.resolve(GET_REQUEST_CACHE[url].data);
+        }
+    }
+    return sendXmlHttpRequest("GET", url).then(function (data) {
+        if (isUseCache) {
+            GET_REQUEST_CACHE[url] = {
+                data: data,
+                timeStamp: new Date().getTime()
+            };
+        }
+        return data;
+    });
 }
 
 
-function sendGetJSONRequest(url) {
-    return sendGetRequest(url).then(jsonParseResponseText);
+function sendGetJSONRequest(url, isUseCache) {
+    return sendGetRequest(url, isUseCache).then(jsonParseResponseText);
 }
 
 

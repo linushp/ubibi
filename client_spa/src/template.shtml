@@ -1,0 +1,36 @@
+
+
+<string2-template id="template_approot">
+    <div class="app-root">
+        <app-header />
+        <router-view/>
+    </div>
+</string2-template>
+
+
+
+
+<string2-template id="template_header">
+
+    <div class="app-header">
+        <div class="nav">
+
+        </div>
+    </div>
+
+</string2-template>
+
+
+
+<string2-template id="template_topics">
+    <div class="app-topics" id='qqq'>
+        aaaa
+    </div>
+</string2-template>
+
+
+<string2-template id="template_topic">
+    <div class="app-topics">
+        bbb
+    </div>
+</string2-template>

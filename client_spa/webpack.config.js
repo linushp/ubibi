@@ -38,7 +38,7 @@ module.exports = {
                 loader: "babel-loader"
             },
             {
-                test: /\.html$/,
+                test: /\.shtml$/,
                 loader: 'string2-loader'
             },
             {
@@ -56,7 +56,7 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             inject: true,
-            template: path.resolve(__appPath,'index.shtml')
+            template: path.resolve(__appPath,'index.html')
         }),
         new webpack.optimize.UglifyJsPlugin({
             compress: { warnings: false }
