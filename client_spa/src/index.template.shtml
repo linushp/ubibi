@@ -14,7 +14,7 @@
 
     <div class="app-header">
         <div class="nav">
-
+            <router-link to="/user/create">注册</router-link>
         </div>
     </div>
 
@@ -23,7 +23,7 @@
 
 
 <string2-template id="template_topics">
-    <div class="app-topics" id='qqq'>
+    <div class="app-topics" >
         aaaa
     </div>
 </string2-template>

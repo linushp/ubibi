@@ -1,11 +1,12 @@
 import * as AjaxUtils from '../../client_utils/AjaxUtils';
 import './index.less';
+import {UserCreateComponent} from './views/user/user';
 import {
     template_header,
     template_approot,
     template_topics,
     template_topic
-} from './template.shtml';
+} from './index.template.shtml';
 
 var AppHeader = {
     template: template_header
@@ -36,7 +37,7 @@ var TopicComponent = {
 
 
 var router = new VueRouter({
-    mode: 'history',
+    // mode: 'history',
     routes: [
         {
             path: '/',
@@ -51,6 +52,11 @@ var router = new VueRouter({
                 {
                     path: 'topic',
                     component: TopicComponent
+                },
+
+                {
+                    path:'user/create',
+                    component:UserCreateComponent
                 }
             ]
         }

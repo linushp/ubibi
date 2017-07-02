@@ -32,7 +32,7 @@ function getTopicListByWhereSql(pageNo, pageSize, whereSql) {
  * @param pageNo 不能为空
  * @param pageSize 不能为空
  * @param category_id 可以为空
- * @param is_top 可以为空
+ * @param is_top 可以为空 0/1
  * @param topic_type 可以为空 或 1 article 2 discuss
  */
 function getTopicListByCategory(pageNo, pageSize, category_id, is_top, topic_type) {
@@ -74,9 +74,10 @@ function getReplyList(topic_id) {
 
 }
 
-
+//subject==is key word, can be searched
 module.exports = {
     getCategoryList: getCategoryList,
     getTopicListByCategory: getTopicListByCategory,
-    getSubjectList: getSubjectList
+    getSubjectList: getSubjectList,
+    
 };
