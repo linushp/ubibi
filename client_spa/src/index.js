@@ -37,7 +37,7 @@ var TopicComponent = {
 
 
 var router = new VueRouter({
-    // mode: 'history',
+    mode: window.history.pushState ? 'history' : 'hash',
     routes: [
         {
             path: '/',
@@ -55,8 +55,8 @@ var router = new VueRouter({
                 },
 
                 {
-                    path:'user/create',
-                    component:UserCreateComponent
+                    path: 'user/create',
+                    component: UserCreateComponent
                 }
             ]
         }

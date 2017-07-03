@@ -24,7 +24,7 @@ module.exports = {
 
     output: {
         path: path.resolve(__appPath, '../static/assets_spa'),
-        publicPath: "",
+        publicPath: isProduction ? '' : '/',
         filename: 'app/[name].[hash:8].js',
         chunkFilename: 'app/module.[name].[hash:8].js'
     },
@@ -43,11 +43,11 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: extractCSS.extract([ 'css-loader', 'postcss-loader' ])
+                use: extractCSS.extract(['css-loader', 'postcss-loader'])
             },
             {
                 test: /\.less$/,
-                use: extractLESS.extract([ 'css-loader', 'less-loader' ])
+                use: extractLESS.extract(['css-loader', 'less-loader'])
             }
         ]
     },
@@ -56,10 +56,10 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             inject: true,
-            template: path.resolve(__appPath,'index.html')
+            template: path.resolve(__appPath, 'index.html')
         }),
         new webpack.optimize.UglifyJsPlugin({
-            compress: { warnings: false }
+            compress: {warnings: false}
 
         }),
         new webpack.NoEmitOnErrorsPlugin(),
