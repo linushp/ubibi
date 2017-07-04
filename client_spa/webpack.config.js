@@ -79,6 +79,7 @@ module.exports = {
     devServer: {
         port: 2702,
         host: "0.0.0.0",
+        disableHostCheck: true,
         contentBase: '../',
         historyApiFallback: true,
         proxy: {
