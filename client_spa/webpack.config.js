@@ -56,7 +56,7 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             inject: true,
-            template: path.resolve(__appPath, 'index.html')
+            template: path.resolve(__appPath, 'src/index.html')
         }),
         new webpack.optimize.UglifyJsPlugin({
             compress: {warnings: false}

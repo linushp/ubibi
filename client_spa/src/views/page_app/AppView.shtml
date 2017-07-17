@@ -1,0 +1,23 @@
+
+<string2-template id="AppRootTemplate">
+    <div class="app-root">
+        <app-header />
+        <router-view/>
+    </div>
+</string2-template>
+
+
+<string2-template id="AppHeaderTemplate">
+
+    <div class="app-header">
+        <div class="nav">
+
+            <div class="nav-right">
+                <router-link class="login-link" to="/user/login">登录</router-link>
+                <router-link class="login-link" to="/user/create">注册</router-link>
+            </div>
+
+        </div>
+    </div>
+
+</string2-template>

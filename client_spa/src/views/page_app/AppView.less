@@ -1,0 +1,27 @@
+@import "../../_variables.less";
+
+
+.app-header{
+  height: @PAGE_HEADER_HEIGHT;
+  width: 100%;
+  .nav{
+    width: 100%;
+    height: @PAGE_HEADER_HEIGHT;
+    background: #19bca1;
+    position: fixed;
+    top:0;
+    left: 0;
+  }
+  .nav-right{
+    float: right;
+    height: @PAGE_HEADER_HEIGHT;
+    .login-link{
+      color: #ffffff;
+      text-decoration: none;
+      display:inline-block;
+      line-height:  @PAGE_HEADER_HEIGHT;
+      padding: 0 5px;
+    }
+    margin-right: 20px;
+  }
+}

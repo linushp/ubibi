@@ -1,12 +1,24 @@
 
-<string2-template id="createUserTemplate">
+<string2-template id="UserCreateTemplate">
+
     <div class="user-create">
 
-        <div>
+        <div class="">
             <div @click="regType='email'" :class="{regTypeCurrent:regType=='email'}">邮箱注册</div>
             <div @click="regType='mobile'" :class="{regTypeCurrent:regType=='mobile'}">手机注册</div>
         </div>
 
 
+
+    </div>
+</string2-template>
+
+
+
+
+
+<string2-template id="UserLoginTemplate">
+    <div class="user-login">
+        user login
     </div>
 </string2-template>

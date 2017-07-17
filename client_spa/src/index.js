@@ -1,63 +1,20 @@
 import * as AjaxUtils from '../../client_utils/AjaxUtils';
-import './index.less';
-import {UserCreateComponent} from './views/user/user';
-import {
-    template_header,
-    template_approot,
-    template_topics,
-    template_topic
-} from './index.template.shtml';
-
-var AppHeader = {
-    template: template_header
-};
-
-
-var AppComponent = {
-    template: template_approot,
-    components: {
-        'app-header': AppHeader
-    }
-};
-
-
-var TopicsComponent = {
-    template: template_topics,
-    data: function () {
-        return {aaa: 111};
-    }
-};
-
-var TopicComponent = {
-    template: template_topic,
-    data: function () {
-        return {aaa: 111};
-    }
-};
-
+import AppView from './views/page_app/AppView';
+import {UserCreateComponent,UserLoginComponent} from './views/page_user/user';
+import {TopicsView} from './views/page_topics/TopicsView';
+import './_commons.less';
 
 var router = new VueRouter({
-    mode: window.history.pushState ? 'history' : 'hash',
+    mode: 'hash', //window.history.pushState ? 'history' : 'hash',
     routes: [
         {
             path: '/',
-            component: AppComponent,
+            component: AppView,
             children: [
-                {
-                    path: 'topics',
-                    alias: '',
-                    component: TopicsComponent
-                },
-
-                {
-                    path: 'topic',
-                    component: TopicComponent
-                },
-
-                {
-                    path: 'user/create',
-                    component: UserCreateComponent
-                }
+                {path: 'topics', component: TopicsView},
+                {path: 'topic', component: {}},
+                {path: 'user/create', component: UserCreateComponent},
+                {path: 'user/login', component: UserLoginComponent}
             ]
         }
     ]
