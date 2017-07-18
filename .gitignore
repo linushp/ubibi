@@ -2,7 +2,5 @@ node_modules/
 .idea/
 tmp/
 .DS_Store
-static/assets/
-static/assets_spa/
 client_spa/node_modules/
 npm-debug.log
