@@ -1,6 +1,6 @@
 
 
-export function createPureVueComponent(templates){
+export function installStateLessComponent(templates){
     for (var id in templates) {
         if (templates.hasOwnProperty(id)) {
             var template = templates[id];
