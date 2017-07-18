@@ -1,5 +1,6 @@
 import * as AjaxUtils from '../../client_utils/AjaxUtils';
 import AppView from './views/page_app/AppView';
+import './components/components';
 import {UserCreateComponent,UserLoginComponent} from './views/page_user/user';
 import {TopicsView} from './views/page_topics/TopicsView';
 import './_commons.less';

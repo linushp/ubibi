@@ -1,0 +1,9 @@
+
+<string2-template id="bs-card" props="className">
+    <div class="bs-card" :class="className">
+        <div class="bs-card-ms">
+            <slot />
+        </div>
+    </div>
+</string2-template>
+

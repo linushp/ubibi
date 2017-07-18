@@ -6,9 +6,7 @@
 <string2-template id="t1">
 
     <div class="TopicsView">
-        <div v-for="topic in topicList">
-            <TopicsItemView :topic="topic" />
-        </div>
+        <TopicsItemView v-for="topic in topicList" :topic="topic" />
     </div>
 
 </string2-template>
@@ -17,7 +15,7 @@
 
 
 <string2-template id="t2">
-    <div class="TopicsItemView">
+    <bs-card className="TopicsItemView">
         <div class="title">宝塔管理面安装tipask3.x视频教程（5分钟急速安装）</div>
-    </div>
+    </bs-card>
 </string2-template>
