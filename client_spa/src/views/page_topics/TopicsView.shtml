@@ -16,13 +16,28 @@
 
 
 <string2-template id="t2">
-    <bs-card className="TopicsItemView">
-        <div class="title">宝塔管理面安装tipask3.x视频教程（5分钟急速安装）</div>
+    <bs-card :className="topic.img?'TopicsItemView':' TopicsItemView noCover'">
+        <div class="cover">
+            <img src="/static/images/tmp/aaaa.png" >
+        </div>
+        <div class="content">
+            <div class="title">宝塔管理面安装tipask3.x视频教程（5分钟急速安装）</div>
+            <div class="summary">网站的关键词排名优化是每个网站运营者必须的工作，做SEO优化说难也不难，说容易也不容易，如果想把网站关键词排名优化到百度首页，那也要看关键词竞争强度，优化网站的时间，网站权重，SEOer经验与优化技术等因素能否把网站关键词排名优化到百度首页。所以想要把关键词排名优化到百度首页，起码要清楚百度搜索引擎是通过什么数据来判断页面的质量，然而再进一步不断进行完善改进!
+            </div>
+            <div class="infos">
+                <img class="avatar" src="/static/images/tmp/aaaa.png">
+                <span class="nickname">luanhaipeng</span>
+                <span class="createtime">发布于 2017-06-20 13:57</span>
+                <span class="viewcount"> 阅读 ( 340 ) </span>
+            </div>
+        </div>
+        <div class="bs-clear"></div>
     </bs-card>
 </string2-template>
 
 
+
 <string2-template id="t3">
-    <div slot="title" class="title111">hello</div>
+    <div slot="title" class="title111">新建文件夹</div>
     <div slot="body">hello world--{{data}}</div>
 </string2-template>

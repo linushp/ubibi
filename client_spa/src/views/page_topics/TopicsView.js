@@ -43,7 +43,7 @@ var TopicsView = {
     },
     data: function () {
         return {
-            topicList: [{}]
+            topicList: [{},{img:true},{},{img:true},{}]
         };
     }
 };

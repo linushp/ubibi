@@ -1,4 +1,4 @@
-import {DialogTemplate} from './Dialog.shtml';
+import {DialogTemplate,AlertDialogTemplate} from './Dialog.shtml';
 import './Dialog.less';
 
 var CONST_CLOSE = 'close';
@@ -55,7 +55,6 @@ function openDialogComponent(VueComponent) {
 
     document.body.appendChild(vm.$el);
     vm.isDialogOpen = true;
-
     return vm;
 }
 
@@ -99,9 +98,27 @@ function createDialog(componentConfig) {
 }
 
 
-export default function Dialog(componentConfig) {
+function Dialog(componentConfig) {
     var component = createDialog(componentConfig);
     this.openDialog = function () {
         return openDialogComponent(component);
     }
 }
+
+var AlertDialog = new Dialog({
+    template: AlertDialogTemplate,
+    data: function () {
+        return {
+            title: "",
+            message: ""
+        }
+    }
+});
+
+export function openAlert(message,title){
+    var vm = AlertDialog.openDialog();
+    vm.message = message;
+    vm.title = title;
+}
+
+export default Dialog;

@@ -1,2 +1,62 @@
 .TopicsItemView{
+  position: relative;
+
+  &.noCover{
+    .cover{
+      display: none;
+    }
+    .content{
+      margin-left: 6px;
+    }
+  }
+
+
+  .cover{
+    position: absolute;
+    left: 20px;
+    top: 15px;
+    img{
+      width: 200px;
+      height: 120px;
+    }
+  }
+  .content{
+    margin-left: 220px;
+    .title{
+      color: #333;
+      font-size: 16px;
+      line-height: 40px;
+    }
+    .summary{
+      color: #777;
+      font-size: 13px;
+      line-height: 1.6;
+      overflow: hidden;
+      height: 42px;
+    }
+  }
+
+
+  .infos{
+    margin-top: 10px;
+    height: 30px;
+    line-height: 30px;
+    color: #999;
+    font-size: 13px;
+    .avatar{
+      width: 20px;
+      height: 20px;
+      border-radius: 100px;
+      position: relative;
+      top:5px;
+    }
+
+    span{
+      display: inline-block;
+      margin-left: 20px;
+    }
+    span.nickname{
+      margin-left: 5px;
+    }
+  }
 }
