@@ -28,7 +28,7 @@ app.get("/*", function (req, res) {
     var useCache = false;
     if (process.env.NODE_ENV === "production") {
         static_host = 'http://cdn.ubibi.cn';
-        useCache = true;
+        //useCache = true;
     }
 
 
