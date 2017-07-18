@@ -1,5 +1,6 @@
 
-import {t1,t2} from './TopicsView.shtml';
+import {t1,t2,t3} from './TopicsView.shtml';
+import Dialog from '../../components/Dialog/Dialog';
 import './TopicsView.less';
 
 var TopicsItemView = {
@@ -12,14 +13,37 @@ var TopicsItemView = {
     }
 };
 
+var TopicViewDialog = new Dialog({
+    template: t3,
+    data: function () {
+        return {
+            data: new Date().getTime()
+        }
+    },
+    dialog: {
+        className: 'TopicViewDialog',
+        beforeClose:function(){
+            //debugger;
+        },
+        afterClose:function(){
+            //debugger;
+        }
+    }
+});
+
 var TopicsView = {
     template: t1,
     components:{
         TopicsItemView:TopicsItemView
     },
+    methods: {
+        openDialog: function () {
+            TopicViewDialog.openDialog();
+        }
+    },
     data: function () {
         return {
-            topicList: [{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}]
+            topicList: [{}]
         };
     }
 };
@@ -28,6 +52,8 @@ var TopicsView = {
 var TopicView = {
 
 };
+
+
 
 
 module.exports = {

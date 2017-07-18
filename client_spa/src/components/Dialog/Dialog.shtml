@@ -1,0 +1,20 @@
+<string2-template id="DialogTemplate">
+
+    <div class="bs-dialog-wrapper">
+        <div class="bs-dialog" :class="className" :style='{"z-index":zIndex}'>
+            <div class="bs-dialog-header">
+                <div class="bs-dialog-title"> <slot name="title"/></div>
+                <button @click="onCloseDialog(0)">关闭</button>
+            </div>
+            <div class="bs-dialog-body">
+                <slot name="body"/>
+            </div>
+            <div class="bs-dialog-footer">
+                <button class="ok" @click="onCloseDialog(1)">确定</button>
+                <button class="cancel"  @click="onCloseDialog(0)">取消</button>
+            </div>
+        </div>
+        <div class="bs-dialog-mask" :style='{"z-index":zMaskIndex}'></div>
+    </div>
+
+</string2-template>

@@ -6,6 +6,7 @@
 <string2-template id="t1">
 
     <div class="TopicsView">
+        <button @click="openDialog">openDialog</button>
         <TopicsItemView v-for="topic in topicList" :topic="topic" />
     </div>
 
@@ -18,4 +19,10 @@
     <bs-card className="TopicsItemView">
         <div class="title">宝塔管理面安装tipask3.x视频教程（5分钟急速安装）</div>
     </bs-card>
+</string2-template>
+
+
+<string2-template id="t3">
+    <div slot="title" class="title111">hello</div>
+    <div slot="body">hello world--{{data}}</div>
 </string2-template>
