@@ -1,9 +1,16 @@
 
-<string2-template id="bs-card" props="className">
+<string2-template id="bs-card" props="className,title">
     <div class="bs-card" :class="className">
         <div class="bs-card-ms">
+            <div class="bs-card-title" v-if="title&&title.length>0">{{title}}</div>
             <slot />
         </div>
     </div>
 </string2-template>
 
+
+
+
+<string2-template id="bs-button" props="className,title,theme">
+    <div @click="onClick()" class="bs-button" :class="(className||'') + ' bs-button-'+theme ">{{title}}</div>
+</string2-template>

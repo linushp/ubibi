@@ -1,0 +1,33 @@
+
+
+<string2-template id="ReplyViewTemplate">
+    <div class="ReplyView">
+        
+        
+        <div class="ReplyCreate">
+            <textarea v-model="createMsg" placeholder="说些什么..."/>
+            <div class="clear"></div>
+            <bs-button title="提交回复" theme="ok" @click="onReply()"/>
+        </div>
+        
+        <div class="ReplyItem" v-for="replyItem in replyList">
+            <div class="reply-avatar">
+                <img src="/static/images/tmpimg/aaaa.png"/>
+            </div>
+            <div class="reply-content">
+                <div class="line1">
+                    <span class="nickname">栾海鹏</span>
+                    <span class="floorNumber">1楼</span>
+                    <span class="createtime">2017年07月18日19:55</span>
+                </div>
+                <div class="line2">
+                    咱都是开发就你上空间大非农看就
+                </div>
+            </div>
+        </div>
+
+        <div class="ReplyLoad">加载更多回复...</div>
+
+
+    </div>
+</string2-template>

@@ -1,5 +1,5 @@
 
-import {t1,t2,t3} from './TopicsView.shtml';
+import {t1,t2,t3,t4} from './TopicsView.shtml';
 import Dialog from '../../components/Dialog/Dialog';
 import './TopicsView.less';
 
@@ -43,14 +43,19 @@ var TopicsView = {
     },
     data: function () {
         return {
-            topicList: [{},{img:true},{},{img:true},{}]
+            topicList: [{id:1},{id:2,img:true},{id:3},{id:4,img:true},{id:5}]
         };
     }
 };
 
 
-var TopicView = {
+var TopicSingleView = {
+    template:t4,
+    data:function(){
+        return {
 
+        };
+    }
 };
 
 
@@ -58,5 +63,5 @@ var TopicView = {
 
 module.exports = {
     TopicsView:TopicsView,
-    TopicView:TopicView
+    TopicSingleView:TopicSingleView
 };

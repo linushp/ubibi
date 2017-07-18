@@ -26,6 +26,8 @@
       color: #333;
       font-size: 16px;
       line-height: 40px;
+      display: block;
+      text-decoration: none;
     }
     .summary{
       color: #777;
@@ -39,8 +41,7 @@
 
   .infos{
     margin-top: 10px;
-    height: 30px;
-    line-height: 30px;
+    line-height: 25px;
     color: #999;
     font-size: 13px;
     .avatar{
@@ -53,10 +54,56 @@
 
     span{
       display: inline-block;
-      margin-left: 20px;
+      margin-left: 10px;
     }
     span.nickname{
       margin-left: 5px;
     }
   }
 }
+
+
+@media screen and (max-width: 750px)  {
+
+  .TopicsItemView{
+    .cover{
+      display: none;
+    }
+    .content{
+      margin-left: 6px;
+    }
+  }
+}
+
+
+@media screen and (max-width: 420px)  {
+  .TopicsItemView{
+    .infos span.createtime{
+      display: none;
+    }
+  }
+}
+
+.TopicSingleView {
+
+  h1.topic-title {
+    font-size: 20px;
+  }
+  .topic-summary {
+    padding: 25px;
+    background: #f3f5f9;
+    line-height: 24px;
+    overflow: hidden;
+  }
+
+  .topic-content {
+    margin: 20px 0;
+    p {
+      margin: 10px 0;
+    }
+  }
+
+}
+
+
+

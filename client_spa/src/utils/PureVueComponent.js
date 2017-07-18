@@ -15,7 +15,12 @@ export function installStateLessComponent(templates){
                 var propsArray = props.split(',');
                 Vue.component(id, {
                     template: templateString,
-                    props: propsArray
+                    props: propsArray,
+                    methods:{
+                        onClick:function(obj){
+                            this.$emit('click',obj);
+                        }
+                    }
                 });
             }
         }

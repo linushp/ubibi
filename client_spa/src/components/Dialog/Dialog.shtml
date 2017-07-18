@@ -10,8 +10,8 @@
                 <slot name="body"/>
             </div>
             <div class="bs-dialog-footer">
-                <i class="cancel"  @click="onCloseDialog(0)">取消</i>
-                <i class="ok" @click="onCloseDialog(1)">确定</i>
+                <i class="bs-button bs-button-cancel"  @click="onCloseDialog(0)">取消</i>
+                <i class="bs-button bs-button-ok" @click="onCloseDialog(1)">确定</i>
             </div>
         </div>
         <div class="bs-dialog-mask" :style='{"z-index":zMaskIndex}'></div>
