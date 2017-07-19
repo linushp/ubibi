@@ -1,4 +1,4 @@
-create table ubibi.t_category
+create table ubibi_001.t_category
 (
 	id int auto_increment
 		primary key,
@@ -12,7 +12,7 @@ create table ubibi.t_category
 )
 ;
 
-create table ubibi.t_reply
+create table ubibi_001.t_reply
 (
 	id int auto_increment
 		primary key,
@@ -33,7 +33,7 @@ create index t_reply_topic_id_index
 	on t_reply (topic_id)
 ;
 
-create table ubibi.t_subject
+create table ubibi_001.t_subject
 (
 	id int auto_increment
 		primary key,
@@ -47,7 +47,7 @@ create table ubibi.t_subject
 )
 ;
 
-create table ubibi.t_topic
+create table ubibi_001.t_topic
 (
 	id int auto_increment
 		primary key,
@@ -71,7 +71,7 @@ create table ubibi.t_topic
 )
 ;
 
-create table ubibi.t_user
+create table ubibi_001.t_user
 (
 	id int auto_increment
 		primary key,
@@ -92,7 +92,7 @@ create table ubibi.t_user
 )
 ;
 
-create table ubibi.t_user_msg
+create table ubibi_001.t_user_msg
 (
 	id int auto_increment
 		primary key,
