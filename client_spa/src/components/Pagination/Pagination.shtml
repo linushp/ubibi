@@ -1,0 +1,7 @@
+<ul class="bs-pagination" >
+    <li v-show="current != 1" @click="current-- && goto(current)" ><span>上一页</span></li>
+    <li v-for="index in pages" @click="goto(index)" :class="{'active':current == index}" :key="index">
+        <span>{{index}}</span>
+    </li>
+    <li v-show="allpage != current && allpage != 0 " @click="current++ && goto(current++)"><span>下一页</span></li>
+</ul>

@@ -1,5 +1,5 @@
 
-import {t1,t2,t3,t4} from './TopicsView.shtml';
+import {t1,t2,t3,t4,t5,t6} from './TopicsView.shtml';
 import Dialog from '../../components/Dialog/Dialog';
 import './TopicsView.less';
 
@@ -39,10 +39,14 @@ var TopicsView = {
     methods: {
         openDialog: function () {
             TopicViewDialog.openDialog();
+        },
+        onPageChange:function(nextCur){
+            this.currentPage = nextCur;
         }
     },
     data: function () {
         return {
+            currentPage:1,
             topicList: [{id:1},{id:2,img:true},{id:3},{id:4,img:true},{id:5}]
         };
     }
@@ -59,9 +63,20 @@ var TopicSingleView = {
 };
 
 
+var TopicCreateView = {
+    template:t5,
+};
+
+
+
+var TopicUpdateView = {
+    template:t6,
+};
 
 
 module.exports = {
     TopicsView:TopicsView,
-    TopicSingleView:TopicSingleView
+    TopicSingleView:TopicSingleView,
+    TopicCreateView:TopicCreateView,
+    TopicUpdateView:TopicUpdateView
 };

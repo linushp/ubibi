@@ -7,7 +7,10 @@
 
     <div class="TopicsView">
         <button @click="openDialog">openDialog</button>
-        <TopicsItemView v-for="topic in topicList" :topic="topic" />
+        <bs-card>
+            <TopicsItemView v-for="topic in topicList" :topic="topic" key="topic.id"/>
+            <bs-pagination :current='currentPage' pageSize="10" totalCount="13" @page="onPageChange"/>
+        </bs-card>
     </div>
 
 </string2-template>
@@ -16,7 +19,7 @@
 
 
 <string2-template id="t2">
-    <bs-card :className="topic.img?'TopicsItemView':' TopicsItemView noCover'">
+    <div :class="topic.img?'TopicsItemView':' TopicsItemView noCover'">
         <div class="cover">
             <img src="/static/images/tmpimg/aaaa.png" >
         </div>
@@ -32,7 +35,7 @@
             </div>
         </div>
         <div class="bs-clear"></div>
-    </bs-card>
+    </div>
 </string2-template>
 
 
@@ -87,6 +90,24 @@
 
     </div>
 
+</string2-template>
+
+
+
+
+
+<string2-template id="t5">
+    <div>
+        sdfdsfdfds
+    </div>
+</string2-template>
+
+
+
+<string2-template id="t6">
+    <div>
+        update
+    </div>
 </string2-template>
 
 
