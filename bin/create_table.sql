@@ -5,8 +5,8 @@ create table ubibi_001.t_category
 	title varchar(100) null,
 	author_id int null,
 	author_info text null,
-	create_time timestamp default CURRENT_TIMESTAMP not null,
-	update_time timestamp default '0000-00-00 00:00:00' not null,
+    create_time varchar(30) default '' not null,
+	update_time varchar(30) default '' not null,
 	constraint t_category_id_uindex
 		unique (id)
 )
@@ -21,8 +21,8 @@ create table ubibi_001.t_reply
 	floor_num int null,
 	author_id int null,
 	author_info text null,
-	create_time timestamp default CURRENT_TIMESTAMP not null,
-	update_time timestamp default '0000-00-00 00:00:00' not null,
+    create_time varchar(30) default '' not null,
+	update_time varchar(30) default '' not null,
 	like_count int default '0' null,
 	constraint t_reply_id_uindex
 		unique (id)
@@ -40,8 +40,8 @@ create table ubibi_001.t_subject
 	title varchar(200) null,
 	author_id int null,
 	author_info text null,
-	create_time timestamp default CURRENT_TIMESTAMP not null,
-	update_time timestamp default '0000-00-00 00:00:00' not null,
+    create_time varchar(30) default '' not null,
+	update_time varchar(30) default '' not null,
 	constraint t_topics_id_uindex
 		unique (id)
 )
@@ -56,6 +56,7 @@ create table ubibi_001.t_topic
 	description text null,
 	cover_img varchar(100) null,
 	content longtext null,
+	is_top int default '0' null,
 	author_id int null,
 	author_info text null,
 	subject_ids varchar(400) null,
@@ -64,8 +65,8 @@ create table ubibi_001.t_topic
 	reply_count int default '0' null,
 	view_count int default '0' null,
 	like_count int default '0' null,
-	create_time timestamp default CURRENT_TIMESTAMP not null,
-	update_time timestamp default '0000-00-00 00:00:00' not null,
+	create_time varchar(30) default '' not null,
+	update_time varchar(30) default '' not null,
 	constraint t_articels_id_uindex
 		unique (id)
 )
@@ -83,7 +84,11 @@ create table ubibi_001.t_user
 	description varchar(500) null,
 	role_name varchar(10) null,
 	sex tinyint null,
-	create_time timestamp default CURRENT_TIMESTAMP not null,
+
+
+    create_time varchar(30) default '' not null,
+	update_time varchar(30) default '' not null,
+
 	score int default '0' null,
 	constraint t_user_id_uindex
 		unique (id),
@@ -101,9 +106,12 @@ create table ubibi_001.t_user_msg
 	msg varchar(500) null,
 	author_id int null,
 	author_info text null,
-	create_time timestamp default CURRENT_TIMESTAMP not null,
+
+	create_time varchar(30) default '' not null,
+    update_time varchar(30) default '' not null,
+
 	reply_msg varchar(500) null,
-	reply_time timestamp default '0000-00-00 00:00:00' not null,
+	reply_time varchar(30) default '' not null,
 	constraint t_user_msg_id_uindex
 		unique (id)
 )

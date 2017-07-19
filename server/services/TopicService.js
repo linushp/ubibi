@@ -1,5 +1,6 @@
 var _ = require('underscore');
 var SqlQueryUtils = require('../utils/SqlQueryUtils');
+var models = require('./model/models');
 
 function getTopicListByWhereSql(pageNo, pageSize, whereSql) {
 
@@ -10,17 +11,19 @@ function getTopicListByWhereSql(pageNo, pageSize, whereSql) {
     var limitStart = (pageNo - 1) * pageSize;
 
     var promise1 = SqlQueryUtils.doQueryAsync({
-        sql: "select * from t_topic " + whereSql + " limit " + limitStart + "," + pageSize
+        sql: "select "
+        + SqlQueryUtils.joinTableFields(models.TopicModel,['content'])
+        +" from t_topic " + whereSql + " limit " + limitStart + "," + pageSize
     });
 
     var promise2 = SqlQueryUtils.doQueryAsync({
-        sql: "select count(0) from t_topic " + whereSql + " "
+        sql: "select count(0) as total_count from t_topic " + whereSql + " "
     });
 
-    return Promise.all([promise1, promise2]).then(function (result1, result2) {
+    return Promise.all([promise1, promise2]).then(function (result) {
         return {
-            dataList: result1,
-            totalCount: result2
+            dataList: result[0],
+            totalCount: result[1]
         }
     });
 
@@ -35,11 +38,12 @@ function getTopicListByWhereSql(pageNo, pageSize, whereSql) {
  * @param is_top 可以为空 0/1
  * @param topic_type 可以为空 或 1 article 2 discuss
  */
-function getTopicListByCategory(pageNo, pageSize, category_id, is_top, topic_type) {
-    category_id = parseInt(category_id, 10);
+function getTopicListByCategory(pageNo, pageSize, category_id, is_top, topic_type ,orderBy) {
 
+    orderBy = orderBy || "id";
     var whereCondition = [];
     if (_.isNumber(category_id)) {
+        category_id = parseInt(category_id, 10);
         whereCondition.push('category_id=' + category_id);
     }
 
@@ -51,8 +55,14 @@ function getTopicListByCategory(pageNo, pageSize, category_id, is_top, topic_typ
         whereCondition.push('topic_type=' + topic_type);
     }
 
-    var whereConditionAnd = whereCondition.join(" and ");
-    var whereSql = " where " + whereConditionAnd + "  order by update_time desc ";
+    var whereSql = "";
+    if(whereCondition.length>0){
+        var whereConditionAnd = whereCondition.join(" and ");
+         whereSql = " where " + whereConditionAnd + "  order by "+orderBy+" desc ";
+    }else {
+         whereSql = " order by "+orderBy+" desc ";
+    }
+
     return getTopicListByWhereSql(pageNo, pageSize, whereSql);
 }
 
@@ -70,14 +80,17 @@ function getSubjectList() {
 }
 
 
-function getReplyList(topic_id) {
-
+function createTopic(topicObject){
+    topicObject['update_time'] = new Date().getTime();
+    topicObject['create_time'] = new Date().getTime();
+    return SqlQueryUtils.doInsertByModelAsync(models.TopicModel,topicObject);
 }
+
 
 //subject==is key word, can be searched
 module.exports = {
     getCategoryList: getCategoryList,
     getTopicListByCategory: getTopicListByCategory,
     getSubjectList: getSubjectList,
-    
+    createTopic:createTopic
 };

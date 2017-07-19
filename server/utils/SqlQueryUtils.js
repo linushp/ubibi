@@ -65,6 +65,14 @@ function doQueryAsync(requestModel) {
 
         var pool = getConnectionPool();
         pool.getConnection(function (err, connection) {
+
+            if(err){
+                reject(err);
+                return;
+            }
+
+            console.log(sql + "\n");
+
             connection.query(sql, params, function (error, results, fields) {
                 connection.release();
                 var sqlResponseModel = null;
@@ -109,10 +117,82 @@ function doClearCacheByKey(cacheKey){
 
 
 
+function doInsertByModelAsync(model,insertObject){
+    var objectKeys = Object.keys(insertObject);
+
+    var tableName = model.tableName;
+    var tableFields = model.tableFields;
+
+    //1.insertKeys
+    var insertKeys = [];
+    var insertKeys0 = [];
+    var insertKeys1 = [];
+    for (var i = 0; i < objectKeys.length; i++) {
+        var obj = objectKeys[i];
+        for (var j = 0; j < tableFields.length; j++) {
+            var obj1 = tableFields[j];
+            if (obj1 === obj) {
+                insertKeys.push("`" + obj + "`");
+                insertKeys0.push("?");
+                insertKeys1.push(obj);
+            }
+        }
+    }
+    var insertKeysString = insertKeys.join(',');
+    var insertKeys0String = insertKeys0.join(',');
+
+    //2.insertValues
+    var insertValues = [];
+    for (var i = 0; i < insertKeys1.length; i++) {
+        var obj2 = insertKeys1[i];
+        var value = insertObject[obj2];
+        insertValues.push(value);
+    }
+
+    var sql = "INSERT INTO  `" + tableName + "` (" + insertKeysString + ") VALUES(" + insertKeys0String + ")";
+
+    return doQueryAsync({
+        sql: sql,
+        params: insertValues
+    });
+
+}
+
+
+
+
+function joinTableFields(model,excepts){
+
+    //1.exceptsMap
+    var exceptsMap = {};
+    for (var i = 0; i < excepts.length; i++) {
+        var obj = excepts[i];
+        exceptsMap[obj] = true;
+    }
+
+
+
+
+    //2.fetchFields
+    var tableFields = model.tableFields;
+    var fetchFields = [];
+    for (var i = 0; i < tableFields.length; i++) {
+        var obj1 = tableFields[i];
+        if(!exceptsMap[obj1]){
+            fetchFields.push("`" + obj1+"`");
+        }
+    }
+    return " " +fetchFields.join(",") + " ";
+
+}
+
+
 module.exports = {
     configMySQL: configMySQL,
     configSqlMap: configSqlMap,
     doQueryAsync: doQueryAsync,
     doQueryCacheAsync: doQueryCacheAsync,
-    doClearCacheByKey: doClearCacheByKey
+    doClearCacheByKey: doClearCacheByKey,
+    doInsertByModelAsync:doInsertByModelAsync,
+    joinTableFields:joinTableFields
 };
