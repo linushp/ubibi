@@ -1,15 +1,12 @@
-
 import {t1,t2,t3,t4,t5,t6} from './TopicsView.shtml';
 import Dialog from '../../components/Dialog/Dialog';
 import './TopicsView.less';
 
 var TopicsItemView = {
     template: t2,
-    props:['topic'],
+    props: ['topic'],
     data: function () {
-        return {
-
-        };
+        return {};
     }
 };
 
@@ -22,10 +19,10 @@ var TopicViewDialog = new Dialog({
     },
     dialog: {
         className: 'TopicViewDialog',
-        beforeClose:function(){
+        beforeClose: function () {
             //debugger;
         },
-        afterClose:function(){
+        afterClose: function () {
             //debugger;
         }
     }
@@ -33,50 +30,53 @@ var TopicViewDialog = new Dialog({
 
 var TopicsView = {
     template: t1,
-    components:{
-        TopicsItemView:TopicsItemView
+    components: {
+        TopicsItemView: TopicsItemView
     },
     methods: {
         openDialog: function () {
             TopicViewDialog.openDialog();
         },
-        onPageChange:function(nextCur){
+        onPageChange: function (nextCur) {
             this.currentPage = nextCur;
         }
     },
     data: function () {
         return {
-            currentPage:1,
-            topicList: [{id:1},{id:2,img:true},{id:3},{id:4,img:true},{id:5}]
+            currentPage: 1,
+            topicList: [{id: 1}, {id: 2, img: true}, {id: 3}, {id: 4, img: true}, {id: 5}]
         };
     }
 };
 
 
 var TopicSingleView = {
-    template:t4,
-    data:function(){
-        return {
-
-        };
+    template: t4,
+    data: function () {
+        return {};
     }
 };
 
 
 var TopicCreateView = {
-    template:t5,
+    template: t5,
+    data: function () {
+        return {}
+    }
 };
 
 
-
 var TopicUpdateView = {
-    template:t6,
+    template: t6,
+    data: function () {
+        return {}
+    }
 };
 
 
 module.exports = {
-    TopicsView:TopicsView,
-    TopicSingleView:TopicSingleView,
-    TopicCreateView:TopicCreateView,
-    TopicUpdateView:TopicUpdateView
+    TopicsView: TopicsView,
+    TopicSingleView: TopicSingleView,
+    TopicCreateView: TopicCreateView,
+    TopicUpdateView: TopicUpdateView
 };

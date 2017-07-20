@@ -1,5 +1,5 @@
 .bs-pagination {
-
+  user-select:none;
   position: relative;
 
   li {
@@ -8,21 +8,28 @@
   }
 
   li span {
-    padding: .5rem 1rem;
+    padding: 0px 10px;
+    line-height: 25px;
+    font-size: 13px;
     display: inline-block;
     border: 1px solid #ddd;
     background: #fff;
     color: #0E90D2;
     cursor: pointer;
+    user-select:none;
+    border-radius: 3px;
   }
 
   li span:hover {
     background: #eee;
   }
+  
+}
 
-  li.active a {
-    background: #0E90D2;
-    color: #fff;
+.bs-pagination-active{
+  span{
+    background: #0E90D2 !important;
+    color: #fff !important;
+    border: 1px solid #0E90D2 !important;
   }
-
 }

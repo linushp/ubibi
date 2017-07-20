@@ -5,6 +5,7 @@ import './StateLessComponent/StateLessComponent.less';
 
 import './Dialog/Dialog';
 import './Pagination/Pagination';
+import './uploader/uploader';
 
 installStateLessComponent(StateLessComponent);
 

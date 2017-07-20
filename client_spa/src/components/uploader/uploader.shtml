@@ -1,0 +1,8 @@
+
+
+<string2-template id="t1">
+    <div class="bs-upload bs-upload-button" :class="className">
+        <input type="file" />
+        <bs-button title="文件上传" theme="ok" />
+    </div>
+</string2-template>

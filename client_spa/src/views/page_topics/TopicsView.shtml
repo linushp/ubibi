@@ -97,15 +97,49 @@
 
 
 <string2-template id="t5">
-    <div>
-        sdfdsfdfds
+    <div class="TopicCreateView">
+        <bs-card>
+            <div class="box">
+                <h2>文章标题:</h2>
+                <input type="text" placeholder="标题字数10字以上">
+            </div>
+
+            <div class="box">
+                <h2>文章封面:</h2>
+                <div>
+                    <bs-upload-button className="upload-cover"/>
+                </div>
+            </div>
+
+            <div class="box">
+                <h2>文章正文:</h2>
+                <div class="bs-textarea-wrapper">
+                    <textarea placeholder="撰写文章"></textarea>
+                </div>
+            </div>
+
+            <div class="box">
+                <h2>文章摘要:</h2>
+                <div class="bs-textarea-wrapper summary-textarea">
+                    <textarea placeholder="文章摘要"></textarea>
+                </div>
+            </div>
+            <div class="box">
+                <select class="select-category">
+                    <option value="0">请选择分类</option>
+                </select>
+            </div>
+            <div class="box">
+                <bs-button title="发布文章" theme="ok"/>
+            </div>
+        </bs-card>
     </div>
 </string2-template>
 
 
 
 <string2-template id="t6">
-    <div>
+    <div class="TopicUpdateView">
         update
     </div>
 </string2-template>
