@@ -87,6 +87,15 @@ function createTopic(topicObject){
 }
 
 
+
+
+
+function createReply(replyObject){
+    replyObject['update_time'] = new Date().getTime();
+    replyObject['create_time'] = new Date().getTime();
+
+}
+
 //subject==is key word, can be searched
 module.exports = {
     getCategoryList: getCategoryList,

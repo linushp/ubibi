@@ -14,7 +14,9 @@ router.get("/topics", function (req, res) {
         str =  str + x;
     }
 
-    var promise1 = TopicService.createTopic({
+    var promise = Promise.resolve();
+
+    promise = TopicService.createTopic({
         'topic_type':'1',
         'title':"hello"+t,
         'description':"description"+t,
@@ -23,7 +25,7 @@ router.get("/topics", function (req, res) {
         'author_id':"1"
     });
 
-    var promise = promise1.then(function(){
+    promise = promise.then(function(){
         return TopicService.getTopicListByCategory(1,10,null,null,null,'update_time');
     });
 
