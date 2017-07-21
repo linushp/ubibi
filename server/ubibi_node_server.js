@@ -31,7 +31,9 @@ app.get("/*", function (req, res) {
         //useCache = true;
     }
 
+    var host = req.host;
 
+    console.log("host :  ",host);
     adjustHtmlUrl.doAdjust('/static/assets_spa/index.html', {
         urlPrefix: static_host,
         useCache: useCache
