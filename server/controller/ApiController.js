@@ -52,6 +52,10 @@ router.get('/topic_category_subject', ExpressUtils.sendPromise(function (req, re
     ]);
 }));
 
+router.get('/topic_category_subject_clear_cache', ExpressUtils.sendPromise(function (req, res) {
+    return TopicService.clearCacheCategoryAndSubject();
+}));
+
 
 router.get('/reply/:topic_id', ExpressUtils.sendPromise(function (req) {
     var req_query = req.query;

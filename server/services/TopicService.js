@@ -92,6 +92,12 @@ function getSubjectList() {
 }
 
 
+function clearCacheCategoryAndSubject(){
+    SqlQueryUtils.doClearCacheByKey("getCategoryList");
+    SqlQueryUtils.doClearCacheByKey("getSubjectList");
+    return Promise.resolve("ok");
+}
+
 function createTopic(topicObject) {
     return SqlQueryUtils.doInsertByModelAsync(models.TopicModel, topicObject);
 }
@@ -114,6 +120,7 @@ function deleteTopic(topic_id) {
 module.exports = {
     getCategoryList: getCategoryList,
     getSubjectList: getSubjectList,
+    clearCacheCategoryAndSubject:clearCacheCategoryAndSubject,
     getTopicListByCategory: getTopicListByCategory,
     getTopicById: getTopicById,
     createTopic: createTopic,
