@@ -45,7 +45,7 @@ router.delete('/topic/:topic_id', ExpressUtils.sendPromise(function (req, res) {
 }));
 
 
-router.get('/topic/category_subject', ExpressUtils.sendPromise(function (req, res) {
+router.get('/topic_category_subject', ExpressUtils.sendPromise(function (req, res) {
     return Promise.all([
         TopicService.getCategoryList(),
         TopicService.getSubjectList()
