@@ -38,7 +38,7 @@ function getReplyList(pageNo, pageSize, topic_id) {
             totalCount: result[1]
         }
     });
-    
+
 }
 
 module.exports = {

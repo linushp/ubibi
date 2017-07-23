@@ -16,7 +16,8 @@ router.get("/topics", ExpressUtils.sendPromise(function (req, res) {
     var is_top = req_query.is_top || null;
     var topic_type = req_query.topic_type || null;
     var order_by = req_query.order_by || 'update_time';
-    return TopicService.getTopicListByCategory(page_no, page_size, category_id, is_top, topic_type, order_by);
+    var order_by_type = req_query.order_by_type || 'desc';
+    return TopicService.getTopicListByCategory(page_no, page_size, category_id, is_top, topic_type, order_by ,order_by_type);
 }));
 
 

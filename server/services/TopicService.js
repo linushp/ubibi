@@ -47,7 +47,10 @@ function getTopicListByWhereSql(pageNo, pageSize, whereSql) {
  * @param is_top 可以为空 0/1
  * @param topic_type 可以为空 或 1 article 2 discuss
  */
-function getTopicListByCategory(pageNo, pageSize, category_id, is_top, topic_type, orderBy) {
+function getTopicListByCategory(pageNo, pageSize, category_id, is_top, topic_type, orderBy, order_by_type) {
+    if (order_by_type !== 'asc') {
+        order_by_type = 'desc';
+    }
 
     orderBy = orderBy || "id";
     var whereCondition = [];
@@ -67,9 +70,9 @@ function getTopicListByCategory(pageNo, pageSize, category_id, is_top, topic_typ
     var whereSql = "";
     if (whereCondition.length > 0) {
         var whereConditionAnd = whereCondition.join(" and ");
-        whereSql = " where " + whereConditionAnd + "  order by " + orderBy + " desc ";
+        whereSql = " where " + whereConditionAnd + "  order by " + orderBy + " " + order_by_type + " ";
     } else {
-        whereSql = " order by " + orderBy + " desc ";
+        whereSql = " order by " + orderBy + " " + order_by_type + " ";
     }
 
     return getTopicListByWhereSql(pageNo, pageSize, whereSql);
