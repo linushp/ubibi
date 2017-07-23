@@ -2,6 +2,15 @@ var _ = require('underscore');
 var SqlQueryUtils = require('../utils/SqlQueryUtils');
 var models = require('./model/models');
 
+
+function getTopicById(topic_id) {
+    return SqlQueryUtils.doQueryAsync({
+        sql: "select * from t_topic where id = ?",
+        params: [topic_id]
+    });
+}
+
+
 function getTopicListByWhereSql(pageNo, pageSize, whereSql) {
 
     pageNo = parseInt(pageNo || 1, 10);
@@ -12,8 +21,8 @@ function getTopicListByWhereSql(pageNo, pageSize, whereSql) {
 
     var promise1 = SqlQueryUtils.doQueryAsync({
         sql: "select "
-        + SqlQueryUtils.joinTableFields(models.TopicModel,['content'])
-        +" from t_topic " + whereSql + " limit " + limitStart + "," + pageSize
+        + SqlQueryUtils.joinTableFields(models.TopicModel, ['content'])
+        + " from t_topic " + whereSql + " limit " + limitStart + "," + pageSize
     });
 
     var promise2 = SqlQueryUtils.doQueryAsync({
@@ -38,7 +47,7 @@ function getTopicListByWhereSql(pageNo, pageSize, whereSql) {
  * @param is_top 可以为空 0/1
  * @param topic_type 可以为空 或 1 article 2 discuss
  */
-function getTopicListByCategory(pageNo, pageSize, category_id, is_top, topic_type ,orderBy) {
+function getTopicListByCategory(pageNo, pageSize, category_id, is_top, topic_type, orderBy) {
 
     orderBy = orderBy || "id";
     var whereCondition = [];
@@ -56,11 +65,11 @@ function getTopicListByCategory(pageNo, pageSize, category_id, is_top, topic_typ
     }
 
     var whereSql = "";
-    if(whereCondition.length>0){
+    if (whereCondition.length > 0) {
         var whereConditionAnd = whereCondition.join(" and ");
-         whereSql = " where " + whereConditionAnd + "  order by "+orderBy+" desc ";
-    }else {
-         whereSql = " order by "+orderBy+" desc ";
+        whereSql = " where " + whereConditionAnd + "  order by " + orderBy + " desc ";
+    } else {
+        whereSql = " order by " + orderBy + " desc ";
     }
 
     return getTopicListByWhereSql(pageNo, pageSize, whereSql);
@@ -80,26 +89,31 @@ function getSubjectList() {
 }
 
 
-function createTopic(topicObject){
-    topicObject['update_time'] = new Date().getTime();
-    topicObject['create_time'] = new Date().getTime();
-    return SqlQueryUtils.doInsertByModelAsync(models.TopicModel,topicObject);
+function createTopic(topicObject) {
+    return SqlQueryUtils.doInsertByModelAsync(models.TopicModel, topicObject);
+}
+
+
+function updateTopic(topic_id, topicObject) {
+    return SqlQueryUtils.doUpdateByModelAsync(models.TopicModel, topicObject, topic_id);
+}
+
+
+function deleteTopic(topic_id) {
+    return SqlQueryUtils.doQueryAsync({
+        sql: "delete from t_topic where id = ?",
+        params: [topic_id]
+    });
 }
 
 
 
-
-
-function createReply(replyObject){
-    replyObject['update_time'] = new Date().getTime();
-    replyObject['create_time'] = new Date().getTime();
-
-}
-
-//subject==is key word, can be searched
 module.exports = {
     getCategoryList: getCategoryList,
-    getTopicListByCategory: getTopicListByCategory,
     getSubjectList: getSubjectList,
-    createTopic:createTopic
+    getTopicListByCategory: getTopicListByCategory,
+    getTopicById: getTopicById,
+    createTopic: createTopic,
+    updateTopic: updateTopic,
+    deleteTopic: deleteTopic
 };

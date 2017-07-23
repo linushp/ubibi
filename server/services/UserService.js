@@ -1,16 +1,12 @@
 var _ = require('underscore');
 var SqlQueryUtils = require('../utils/SqlQueryUtils');
+var models = require('./model/models');
 
+var UserModel = models.UserModel;
+var UserMsgModel = models.UserMsgModel;
 
-function createUser(nickname, mobile, email, passwd, avatar, description, role_name, sex) {
-    return SqlQueryUtils.doQueryAsync({
-        sql: "" +
-        " insert into t_user" +
-        " (nickname,mobile,email,passwd,avatar,description,role_name,sex)" +
-        "  values " +
-        " (?,?,?,?,?,?,?,?)",
-        params: [nickname, mobile, email, passwd, avatar, description, role_name, sex]
-    });
+function createUser(userObject) {
+    return SqlQueryUtils.doInsertByModelAsync(UserModel, userObject);
 }
 
 function isUserExistBy(fieldName, email) {
@@ -30,18 +26,18 @@ function isUserExistByEmail(email) {
 }
 
 
-function createUserByMobile(mobile, nickname, avatar, passwd) {
-    return createUser(nickname, mobile, '', passwd, avatar, '', 'guest', 0);
-}
-
-function createUserByEmail(email, nickname, avatar, passwd) {
-    return createUser(nickname, '', email, passwd, avatar, '', 'guest', 0);
+function checkUserPassword(mobileOrEmail, passwd) {
+    return SqlQueryUtils.doQueryAsync({
+        sql: 'select count(0) as total_count from ' + UserModel.tableName +
+        " where (mobile=? or email=?) and passwd=?",
+        params: [mobileOrEmail, mobileOrEmail, passwd]
+    });
 }
 
 
 module.exports = {
     isUserExistByMobile: isUserExistByMobile,
     isUserExistByEmail: isUserExistByEmail,
-    createUserByMobile: createUserByMobile,
-    createUserByEmail: createUserByEmail
+    createUser: createUser,
+    checkUserPassword: checkUserPassword
 };

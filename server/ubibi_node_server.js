@@ -7,7 +7,6 @@ var cookieParser = require('cookie-parser');
 var languageParser = require('./utils/languageParser');
 var config = require('./config/config');
 
-var photos_controller = require('./controller/photos_controller');
 var ApiController = require('./controller/ApiController');
 
 config.doConfig();

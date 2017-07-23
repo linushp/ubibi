@@ -115,9 +115,58 @@ function doClearCacheByKey(cacheKey){
 }
 
 
+function doUpdateByModelAsync(model, updateObject, object_id) {
+    updateObject['update_time'] = new Date().getTime();
+
+
+    var objectKeys = Object.keys(updateObject);
+    var tableFields = model.tableFields;
+
+
+    //1.
+    var updateKeys = [];
+    var updateValues = [];
+    for (var i = 0; i < objectKeys.length; i++) {
+        var key = objectKeys[i];
+        if (isTableField(tableFields, key)) {
+            var value = updateObject[key];
+            updateKeys.push("`" + key + "`=?");
+            updateValues.push(value);
+        }
+    }
+
+    updateValues.push(object_id);
+
+    //2. stringify
+    var updateKeyString = updateKeys.join(",");
+    var sql = "update `" + model.tableName + "` set " + updateKeyString + " where id = ?";
+
+    return doQueryAsync({
+        sql: sql,
+        params: updateValues
+    });
+
+}
+
+
+function isTableField(tableFields,obj){
+    for (var j = 0; j < tableFields.length; j++) {
+        var obj1 = tableFields[j];
+        if (obj1 === obj) {
+            return true;
+        }
+    }
+    return false;
+}
+
 
 
 function doInsertByModelAsync(model,insertObject){
+    insertObject['update_time'] = new Date().getTime();
+    insertObject['create_time'] = new Date().getTime();
+
+
+
     var objectKeys = Object.keys(insertObject);
 
     var tableName = model.tableName;
@@ -127,19 +176,18 @@ function doInsertByModelAsync(model,insertObject){
     var insertKeys = [];
     var insertKeys0 = [];
     var insertKeys1 = [];
+
     for (var i = 0; i < objectKeys.length; i++) {
         var obj = objectKeys[i];
-        for (var j = 0; j < tableFields.length; j++) {
-            var obj1 = tableFields[j];
-            if (obj1 === obj) {
-                insertKeys.push("`" + obj + "`");
-                insertKeys0.push("?");
-                insertKeys1.push(obj);
-            }
+        if (isTableField(tableFields, obj)) {
+            insertKeys.push("`" + obj + "`");
+            insertKeys0.push("?");
+            insertKeys1.push(obj);
         }
     }
-    var insertKeysString = insertKeys.join(',');
-    var insertKeys0String = insertKeys0.join(',');
+
+    var insertKeysString = insertKeys.join(','); // name,title,update_time
+    var insertKeys0String = insertKeys0.join(',');// ?,?,?,?
 
     //2.insertValues
     var insertValues = [];
@@ -172,7 +220,6 @@ function joinTableFields(model,excepts){
 
 
 
-
     //2.fetchFields
     var tableFields = model.tableFields;
     var fetchFields = [];
@@ -194,5 +241,6 @@ module.exports = {
     doQueryCacheAsync: doQueryCacheAsync,
     doClearCacheByKey: doClearCacheByKey,
     doInsertByModelAsync:doInsertByModelAsync,
+    doUpdateByModelAsync:doUpdateByModelAsync,
     joinTableFields:joinTableFields
 };
