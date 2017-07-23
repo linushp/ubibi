@@ -46,14 +46,15 @@ router.delete('/topic/:topic_id', ExpressUtils.sendPromise(function (req, res) {
 
 
 router.get('/topic_category_subject', ExpressUtils.sendPromise(function (req, res) {
+    var clear_cache = req.params['clear_cache'];
+    if (clear_cache === 'true') {
+        TopicService.clearCacheCategoryAndSubject();
+    }
+
     return Promise.all([
         TopicService.getCategoryList(),
         TopicService.getSubjectList()
     ]);
-}));
-
-router.get('/topic_category_subject_clear_cache', ExpressUtils.sendPromise(function (req, res) {
-    return TopicService.clearCacheCategoryAndSubject();
 }));
 
 
