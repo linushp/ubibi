@@ -5,6 +5,7 @@ var express = require('express');
 var adjustHtmlUrl = require('adjust-html-url');
 var cookieParser = require('cookie-parser');
 var languageParser = require('./utils/languageParser');
+var LogUtils  = require('./utils/LogUtils');
 var config = require('./config/config');
 
 var ApiController = require('./controller/ApiController');
@@ -31,7 +32,8 @@ app.get("/*", function (req, res) {
     }
 
     var hostname = req.hostname;
-    console.log(new Date().toDateString() + "   hostname :  ",hostname);
+
+    LogUtils.info("hostname:" + hostname);
 
     adjustHtmlUrl.doAdjust('/static/assets_spa/index.html', {
         urlPrefix: static_host,
@@ -44,4 +46,4 @@ app.get("/*", function (req, res) {
 
 
 http.createServer(app).listen(2701, '127.0.0.1');
-console.log('Server running at 127.0.0.1:2701');
+LogUtils.info('Server running at 127.0.0.1:2701');
