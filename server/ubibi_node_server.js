@@ -21,6 +21,10 @@ app.use(languageParser('siteLanguage', 'en'));
 
 app.use("/api/v1", ApiController);
 app.use("/static", express.static(path.join(__dirname, '../static')));
+app.get('/favicon.ico',function(req,res){
+    var filePath = path.join(__dirname, '../static/favicon.ico');
+    res.sendFile(filePath);
+});
 
 app.get("/*", function (req, res) {
 
