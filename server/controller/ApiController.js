@@ -103,5 +103,4 @@ router.post('/user/info/:uid', ExpressUtils.sendPromise(function (req) {
 }));
 
 
-
 module.exports = router;
