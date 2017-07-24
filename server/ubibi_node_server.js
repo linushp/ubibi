@@ -20,11 +20,15 @@ app.use(cookieParser());
 app.use(languageParser('siteLanguage', 'en'));
 
 app.use("/api/v1", ApiController);
-app.use("/static", express.static(path.join(__dirname, '../static')));
+
+app.use("/static", express.static(path.join(__dirname, '../static'),{
+    maxAge: 1000 * 60 * 60 * 24 * 365
+}));
+
 app.get('/favicon.ico',function(req,res){
-    var filePath = path.join(__dirname, '../static/favicon.ico');
-    res.sendFile(filePath);
+    res.sendFile(path.join(__dirname, '../static/favicon.ico'));
 });
+
 
 app.get("/*", function (req, res) {
 
