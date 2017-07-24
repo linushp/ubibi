@@ -23,7 +23,7 @@ function getReplyList(pageNo, pageSize, topic_id) {
 
     var limitStart = (pageNo - 1) * pageSize;
     var promise1 = SqlQueryUtils.doQueryAsync({
-        sql: "select * from  " + reply_table_name + " " + whereSql + " limit " + limitStart + "," + pageSize,
+        sql: "select * from  " + reply_table_name + " " + whereSql + " order by `id` desc limit " + limitStart + "," + pageSize,
         params: [topic_id]
     });
 

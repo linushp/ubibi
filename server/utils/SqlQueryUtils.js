@@ -1,4 +1,5 @@
 var mysql = require('mysql');
+var formatDate = require('rebix-utils/formatDate');
 // "mysql": "^2.13.0",
 
 var _mysql_config = {
@@ -71,7 +72,7 @@ function doQueryAsync(requestModel) {
                 return;
             }
 
-            console.log(sql + "\n");
+            console.log(formatDate(new Date(),"YYYY-MM-DD hh:mm:ss"), sql);
 
             connection.query(sql, params, function (error, results, fields) {
                 connection.release();
