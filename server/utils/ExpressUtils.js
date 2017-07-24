@@ -7,14 +7,15 @@ function isPromise(obj){
 }
 
 
-
 module.exports = {
-    sendPromise:function(handler){
-        return function (req,res){
-            var result = handler(req,res);
-            if(isPromise(result)){
-                result.then(function(result){
-                    res.send(result);
+    sendPromise: function (handler) {
+        return function (req, res) {
+            var result = handler(req, res);
+            if (isPromise(result)) {
+                result.then(function (d) {
+                    res.send(d || {msg: 'ok'});
+                }, function (e) {
+                    res.send(e || {msg: 'error'});
                 });
             }
         }

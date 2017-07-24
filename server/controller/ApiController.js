@@ -1,8 +1,8 @@
 var express = require('express');
+var md5 = require('rebix-utils/addon_nopack/md5');
 var SqlQueryUtils = require('../utils/SqlQueryUtils');
 var ExpressUtils = require('../utils/ExpressUtils');
 var router = express.Router();
-
 var TopicService = require('../services/TopicService');
 var UserService = require('../services/UserService');
 var ReplyService = require('../services/ReplyService');
@@ -73,9 +73,33 @@ router.post('/reply', ExpressUtils.sendPromise(function (req, res) {
 }));
 
 
+
 router.delete('/reply/:reply_id', ExpressUtils.sendPromise(function (req, res) {
     var reply_id = req.params['reply_id'];
     return ReplyService.deleteReply(reply_id);
+}));
+
+
+
+router.post('/user/login',ExpressUtils.sendPromise(function(req){
+    var req_body =  req.body;
+    var username = req_body.username;
+    var passwd =  md5.hex_md5('ubibi_' + req_body['passwd']);
+    return UserService.getUserInfoByPassword(username,passwd);
+}));
+
+
+router.post('/user/reg', ExpressUtils.sendPromise(function (req) {
+    //不用检查用户有没有被注册,因为会有数据库unique约束
+    var userObject = req.body;
+    userObject['passwd'] = md5.hex_md5('ubibi_' + userObject['passwd']);
+    UserService.createUser(userObject);
+}));
+
+
+router.post('/user/info/:uid', ExpressUtils.sendPromise(function (req) {
+    var uid = req.params.uid;
+    return UserService.getUserInfoByUid(uid);
 }));
 
 

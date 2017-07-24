@@ -26,18 +26,27 @@ function isUserExistByEmail(email) {
 }
 
 
-function checkUserPassword(mobileOrEmail, passwd) {
+function getUserInfoByPassword(mobileOrEmail, passwd) {
     return SqlQueryUtils.doQueryAsync({
-        sql: 'select count(0) as total_count from ' + UserModel.tableName +
-        " where (mobile=? or email=?) and passwd=?",
+        sql: 'select '+SqlQueryUtils.joinTableFields(UserModel,['passwd'])+' from ' + UserModel.tableName +
+        " where (`mobile`=? or `email`=?) and `passwd`=?",
         params: [mobileOrEmail, mobileOrEmail, passwd]
     });
 }
 
 
+function getUserInfoByUid(uid){
+    return SqlQueryUtils.doQueryAsync({
+        sql: 'select '+SqlQueryUtils.joinTableFields(UserModel,['passwd'])+' from ' + UserModel.tableName +
+        " where `id`= ? ",
+        params: [uid]
+    });
+}
+
 module.exports = {
     isUserExistByMobile: isUserExistByMobile,
     isUserExistByEmail: isUserExistByEmail,
     createUser: createUser,
-    checkUserPassword: checkUserPassword
+    getUserInfoByPassword: getUserInfoByPassword,
+    getUserInfoByUid:getUserInfoByUid
 };

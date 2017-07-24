@@ -84,14 +84,13 @@ create table ubibi_001.t_user
 	description varchar(500) null,
 	role_name varchar(10) null,
 	sex tinyint null,
-
-
-    create_time varchar(30) default '' not null,
+	create_time varchar(30) default '' not null,
 	update_time varchar(30) default '' not null,
-
 	score int default '0' null,
 	constraint t_user_id_uindex
 		unique (id),
+	constraint t_user_mobile_uindex
+		unique (mobile),
 	constraint t_user_email_uindex
 		unique (email)
 )
