@@ -3,6 +3,20 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var path = require('path');
 
+function getClientName(){
+    var cmdLineArgs = process.argv;
+    for (var i = 0; i < cmdLineArgs.length; i++) {
+        var obj = cmdLineArgs[i];
+        if(obj && obj.indexOf('client_name_')===0){
+            return obj.replace(/^client_name_/,'');
+        }
+    }
+    throw new Error('client_name is not found');
+}
+
+var clientName = getClientName();
+console.log("clientName",clientName);
+
 var extractCSS = new ExtractTextPlugin('app/[name].[hash:8].css');
 var extractLESS = new ExtractTextPlugin('app/[name].[hash:8].css');
 
@@ -19,11 +33,11 @@ module.exports = {
     target: 'web',
     cache: true,
     entry: {
-        'client_spa': path.resolve(__appPath, 'src/index.js')
+        [clientName]: path.resolve(__appPath, `src/${clientName}/index.js`)
     },
 
     output: {
-        path: path.resolve(__appPath, '../static/assets_spa'),
+        path: path.resolve(__appPath, `../static/assets/${clientName}`),
         publicPath: isProduction ? '' : '/',
         filename: 'app/[name].[hash:8].js',
         chunkFilename: 'app/module.[name].[hash:8].js'
@@ -56,11 +70,10 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             inject: true,
-            template: path.resolve(__appPath, 'src/index.html')
+            template: path.resolve(__appPath, `src/${clientName}/index.html`)
         }),
         new webpack.optimize.UglifyJsPlugin({
             compress: {warnings: false}
-
         }),
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.DefinePlugin({
@@ -84,6 +97,11 @@ module.exports = {
         historyApiFallback: true,
         proxy: {
             '/api/v1': {
+                target: 'http://127.0.0.1:2701',  //线上环境
+                secure: false,
+                changeOrigin: true
+            },
+            '/page/v1': {
                 target: 'http://127.0.0.1:2701',  //线上环境
                 secure: false,
                 changeOrigin: true

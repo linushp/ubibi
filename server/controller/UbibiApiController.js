@@ -8,7 +8,16 @@ var UserService = require('../services/UserService');
 var ReplyService = require('../services/ReplyService');
 
 
-router.get("/topics", ExpressUtils.sendPromise(function (req, res) {
+function handleRequest(handler){
+    return function (req, res){
+        var sendResult =  ExpressUtils.sendPromise(handler);
+        sendResult(req,res);
+    };
+}
+
+
+
+router.get("/topics", handleRequest(function (req, res) {
     var req_query = req.query;
     var page_size = req_query.page_size || 20;
     var page_no = req_query.page_no || 1;
@@ -21,31 +30,31 @@ router.get("/topics", ExpressUtils.sendPromise(function (req, res) {
 }));
 
 
-router.get('/topic/:topic_id', ExpressUtils.sendPromise(function (req, res) {
+router.get('/topic/:topic_id', handleRequest(function (req, res) {
     var topic_id = req.params['topic_id'];
     return TopicService.getTopicById(topic_id);
 }));
 
 
-router.post('/topic', ExpressUtils.sendPromise(function (req, res) {
+router.post('/topic', handleRequest(function (req, res) {
     var topicObject = req.body;
     return TopicService.createTopic(topicObject);
 }));
 
 
-router.put('/topic/:topic_id', ExpressUtils.sendPromise(function (req, res) {
+router.put('/topic/:topic_id', handleRequest(function (req, res) {
     var topicObject = req.body;
     var topic_id = req.params['topic_id'];
     return TopicService.updateTopic(topic_id, topicObject);
 }));
 
-router.delete('/topic/:topic_id', ExpressUtils.sendPromise(function (req, res) {
+router.delete('/topic/:topic_id', handleRequest(function (req, res) {
     var topic_id = req.params['topic_id'];
     return TopicService.deleteTopic(topic_id);
 }));
 
 
-router.get('/topic_category_subject', ExpressUtils.sendPromise(function (req, res) {
+router.get('/topic_category_subject', handleRequest(function (req, res) {
     var clear_cache = req.params['clear_cache'];
     if (clear_cache === 'true') {
         TopicService.clearCacheCategoryAndSubject();
@@ -58,7 +67,7 @@ router.get('/topic_category_subject', ExpressUtils.sendPromise(function (req, re
 }));
 
 
-router.get('/reply/:topic_id', ExpressUtils.sendPromise(function (req) {
+router.get('/reply/:topic_id', handleRequest(function (req) {
     var req_query = req.query;
     var page_size = req_query.page_size || 20;
     var page_no = req_query.page_no || 1;
@@ -67,21 +76,21 @@ router.get('/reply/:topic_id', ExpressUtils.sendPromise(function (req) {
 }));
 
 
-router.post('/reply', ExpressUtils.sendPromise(function (req, res) {
+router.post('/reply', handleRequest(function (req, res) {
     var replyObject = req.body;
     return ReplyService.createReply(replyObject);
 }));
 
 
 
-router.delete('/reply/:reply_id', ExpressUtils.sendPromise(function (req, res) {
+router.delete('/reply/:reply_id', handleRequest(function (req, res) {
     var reply_id = req.params['reply_id'];
     return ReplyService.deleteReply(reply_id);
 }));
 
 
 
-router.post('/user/login',ExpressUtils.sendPromise(function(req){
+router.post('/user/login',handleRequest(function(req){
     var req_body =  req.body;
     var username = req_body.username;
     var passwd =  md5.hex_md5('ubibi_' + req_body['passwd']);
@@ -89,15 +98,15 @@ router.post('/user/login',ExpressUtils.sendPromise(function(req){
 }));
 
 
-router.post('/user/reg', ExpressUtils.sendPromise(function (req) {
+router.post('/user/reg', handleRequest(function (req) {
     //不用检查用户有没有被注册,因为会有数据库unique约束
     var userObject = req.body;
     userObject['passwd'] = md5.hex_md5('ubibi_' + userObject['passwd']);
-    UserService.createUser(userObject);
+    return UserService.createUser(userObject);
 }));
 
 
-router.post('/user/info/:uid', ExpressUtils.sendPromise(function (req) {
+router.post('/user/info/:uid', handleRequest(function (req) {
     var uid = req.params.uid;
     return UserService.getUserInfoByUid(uid);
 }));

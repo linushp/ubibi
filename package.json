@@ -16,7 +16,8 @@
     "express": "^4.15.2",
     "mysql": "^2.13.0",
     "rebix-utils": "0.0.8",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "vue": "^2.4.2"
   },
   "devDependencies": {
     "string-loader": "0.0.1"

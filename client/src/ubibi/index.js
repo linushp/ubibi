@@ -1,4 +1,4 @@
-import * as AjaxUtils from '../../client_utils/AjaxUtils';
+import * as AjaxUtils from '../_commons/AjaxUtils';
 import AppView from './views/page_app/AppView';
 import './components/components';
 import './views/view-components/view-components';
@@ -11,6 +11,7 @@ var router = new VueRouter({
     routes: [
         {
             path: '/',
+            redirect: '/topics',
             component: AppView,
             children: [
                 {path: '/topics', component: TopicsView},
