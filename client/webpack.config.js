@@ -2,32 +2,36 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var path = require('path');
-
-function getClientName(){
-    var cmdLineArgs = process.argv;
-    for (var i = 0; i < cmdLineArgs.length; i++) {
-        var obj = cmdLineArgs[i];
-        if(obj && obj.indexOf('client_name_')===0){
-            return obj.replace(/^client_name_/,'');
-        }
-    }
-    throw new Error('client_name is not found');
-}
-
-var clientName = getClientName();
-console.log("clientName",clientName);
-
-var extractCSS = new ExtractTextPlugin('app/[name].[hash:8].css');
-var extractLESS = new ExtractTextPlugin('app/[name].[hash:8].css');
+var fs = require('fs');
 
 var __appPath = path.join(__dirname, "./");
 
 var isProduction = (function () {
     var env = process.env.NODE_ENV || "";
     var isRelease = env.trim() === "production";
-    console.log("process.env.NODE_ENV:" + process.env.NODE_ENV, "isRelease:", isRelease);
     return isRelease;
 })();
+
+
+function getClientName() {
+    var cmdLineArgs = process.argv;
+    for (var i = 0; i < cmdLineArgs.length; i++) {
+        var obj = cmdLineArgs[i];
+        if (obj && obj.indexOf('client_name_') === 0) {
+            return obj.replace(/^client_name_/, '');
+        }
+    }
+    throw new Error('client_name is not found');
+}
+
+
+var clientName = getClientName();
+console.log("clientName:", clientName);
+
+
+var extractCSS = new ExtractTextPlugin('app/[name].[hash:8].css');
+var extractLESS = new ExtractTextPlugin('app/[name].[hash:8].css');
+
 
 module.exports = {
     target: 'web',
@@ -38,7 +42,7 @@ module.exports = {
 
     output: {
         path: path.resolve(__appPath, `../static/assets/${clientName}`),
-        publicPath: isProduction ? '' : '/',
+        publicPath: isProduction ? `/static/assets/${clientName}/` : '/',
         filename: 'app/[name].[hash:8].js',
         chunkFilename: 'app/module.[name].[hash:8].js'
     },
@@ -62,6 +66,10 @@ module.exports = {
             {
                 test: /\.less$/,
                 use: extractLESS.extract(['css-loader', 'less-loader'])
+            },
+            {
+                test: /\.(png|jpg|jpeg|gif)$/i,
+                loader: 'url-loader?limit=1000&name=images/[name].[hash:8].[ext]'  // 1K以下内联
             }
         ]
     },

@@ -1,2 +1,3 @@
-import './_common.less';
-console.log("aaa");
+import './index.less';
+import imagesData from './imagesData.json';
+import {AppTemplate} from './templates.shtml';

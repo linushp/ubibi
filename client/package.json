@@ -2,13 +2,10 @@
   "name": "application-name",
   "version": "0.0.1",
   "scripts": {
-
     "dist:ubibi": "rm -rf ../static/assets/ubibi/ && NODE_ENV=production node node_modules/webpack/bin/webpack.js  --config ./webpack.config.js --progress --profile --colors --env client_name_ubibi",
     "watch:ubibi": "NODE_ENV=development node node_modules/webpack-dev-server/bin/webpack-dev-server  --config ./webpack.config.js  --hot --inline --progress --colors --env client_name_ubibi",
-
     "dist:kaihe": "rm -rf ../static/assets/kaihe/ && NODE_ENV=production node node_modules/webpack/bin/webpack.js  --config ./webpack.config.js --progress --profile --colors --env client_name_kaihe",
     "watch:kaihe": "NODE_ENV=development node node_modules/webpack-dev-server/bin/webpack-dev-server  --config ./webpack.config.js  --hot --inline --progress --colors --env client_name_kaihe"
-
   },
   "devDependencies": {
     "babel-core": "^6.25.0",
@@ -16,12 +13,14 @@
     "babel-preset-es2015": "^6.24.1",
     "css-loader": "^0.28.4",
     "extract-text-webpack-plugin": "^2.1.2",
+    "file-loader": "^0.11.2",
     "html-webpack-plugin": "^2.29.0",
     "less": "^2.7.2",
     "less-loader": "^4.0.4",
     "postcss-loader": "^2.0.6",
     "string2-loader": "0.0.5",
     "style-loader": "^0.18.2",
+    "url-loader": "^0.5.7",
     "webpack": "^3.0.0",
     "webpack-dev-server": "^2.5.0"
   },

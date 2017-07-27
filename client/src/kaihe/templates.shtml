@@ -1,0 +1,9 @@
+
+
+<string2-template id="AppTemplate">
+    <div class="AppTemplate">
+        <div class="app-header">
+            
+        </div>
+    </div>
+</string2-template>
