@@ -3,7 +3,26 @@
 <string2-template id="AppTemplate">
     <div class="AppTemplate">
         <div class="app-header">
-            
+            <div class="line1">栾凯贺</div>
+            <div class="line2">超级可爱的宝宝</div>
+        </div>
+        <div class="app-body">
+            <router-view/>
         </div>
     </div>
 </string2-template>
+
+
+
+
+<string2-template id="AppHomeTemplate">
+    <div class="AppHomeTemplate">
+        <div class="imagesDataList1" v-for="obj in imagesDataList">
+            <div class="title">{{obj.name}}</div>
+            <a class="imagesDataList2" v-for="img in obj.images" :href="img | originimage(obj.name)" target="_blank">
+                <img :src="img | smallimage(obj.name)" alt="">
+            </a>
+        </div>
+    </div>
+</string2-template>
+
