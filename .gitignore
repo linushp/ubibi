@@ -6,3 +6,4 @@ client_spa/node_modules/
 npm-debug.log
 server_config.json
 package-lock.json
+pki-validation
