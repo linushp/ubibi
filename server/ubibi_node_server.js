@@ -38,7 +38,7 @@ app.get('/favicon.ico', function (req, res) {
 function sendAssetHtml(res, name) {
     var static_host = '';
     if (process.env.NODE_ENV === "production") {
-        static_host = 'http://cdn.ubibi.cn';
+        static_host = '//cdn.ubibi.cn';
     }
     adjustHtmlUrl.doAdjust('/static/assets/' + name + '/index.html', {
         urlPrefix: static_host,
