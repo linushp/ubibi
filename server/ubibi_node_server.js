@@ -2,10 +2,10 @@ var http = require('http');
 var path = require('path');
 var ejs = require('ejs');
 var express = require('express');
-var adjustHtmlUrl = require('adjust-html-url');
 var cookieParser = require('cookie-parser');
 var languageParser = require('./utils/languageParser');
 var LogUtils = require('./utils/LogUtils');
+var sendAssetHtml = require('./utils/sendAssetHtml');
 var config = require('./config/config');
 
 
@@ -34,35 +34,11 @@ app.get('/favicon.ico', function (req, res) {
     res.sendFile(path.join(__dirname, '../static/favicon.ico'));
 });
 
-
-function sendAssetHtml(res, name) {
-    var static_host = '';
-    if (process.env.NODE_ENV === "production") {
-        static_host = '//cdn.ubibi.cn';
-    }
-    adjustHtmlUrl.doAdjust('/static/assets/' + name + '/index.html', {
-        urlPrefix: static_host,
-        useCache: false
-    }).then(function (d) {
-        d = d.replace(/\n/gm,'');
-        d = d.replace(/\s+/gm,' ');
-        d = d.replace(/<ubibi_server_vars><\/ubibi_server_vars>/,'<script>var server_vars_static_host = "'+static_host+'"</script>');
-        res.send(d);
-    }).catch(function(d){
-        res.send(d);
-    });
-}
-
-
-
+app.get("/kaihe",function(req,res){ sendAssetHtml(res, 'kaihe');});
 
 app.get("/*", function (req, res) {
     var hostname = req.hostname;
     LogUtils.info("hostname:" + hostname);
-    if (hostname.indexOf('kaihe.') === 0) {
-        sendAssetHtml(res, 'kaihe');
-        return;
-    }
     sendAssetHtml(res, 'ubibi');
 });
 

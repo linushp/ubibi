@@ -1,0 +1,1 @@
+rsync -rav --exclude-from=./.gitignore --progress ./* luanhaipeng@47.74.130.99:/home/luanhaipeng/apps/ubibi/
