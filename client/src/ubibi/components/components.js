@@ -4,7 +4,8 @@ var StateLessComponent = require('./StateLessComponent/StateLessComponent.shtml'
 import './StateLessComponent/StateLessComponent.less';
 
 import './Dialog/Dialog';
-import './Pagination/Pagination';
+import './Dialog/Dialog';
+import './PageLoading/PageLoading';
 import './uploader/uploader';
 import './directives/directives';
 

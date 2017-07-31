@@ -55,7 +55,7 @@ router.delete('/topic/:topic_id', handleRequest(function (req, res) {
 
 
 router.get('/topic_category_subject', handleRequest(function (req, res) {
-    var clear_cache = req.params['clear_cache'];
+    var clear_cache = req.query['clear_cache'];
     if (clear_cache === 'true') {
         TopicService.clearCacheCategoryAndSubject();
     }

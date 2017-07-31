@@ -1,0 +1,18 @@
+
+@PAGE_LOADING_HEIGHT:2px;
+
+.bs-page-loading{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: @PAGE_LOADING_HEIGHT;
+  z-index: 1000;
+
+  span{
+    width: 0;
+    height: @PAGE_LOADING_HEIGHT;
+    background: red;
+    display: block;
+  }
+}

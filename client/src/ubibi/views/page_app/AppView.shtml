@@ -1,6 +1,7 @@
 
 <string2-template id="AppRootTemplate">
     <div class="app-root">
+        <page-loading/>
         <app-header />
         <router-view/>
     </div>

@@ -6,6 +6,7 @@ import {UserCreateComponent,UserLoginComponent} from './views/page_user/user';
 import {TopicsView,TopicSingleView,TopicCreateView,TopicUpdateView} from './views/page_topics/TopicsView';
 import './_commons.less';
 
+
 var router = new VueRouter({
     mode: 'hash', //window.history.pushState ? 'history' : 'hash',
     routes: [

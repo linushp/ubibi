@@ -1,3 +1,5 @@
+import {getCacheOrCreatePromise} from './PromiseUtils';
+
 function sendXmlHttpRequest(method, url, data, contentType, responseType) {
     return new Promise(function (resolve, reject) {
         var xhr = new XMLHttpRequest();
@@ -49,27 +51,18 @@ function jsonParseResponseText(responseText) {
 }
 
 
-var GET_REQUEST_CACHE = {};
-function sendGetRequest(url, isUseCache) {
-    if (isUseCache) {
-        if (GET_REQUEST_CACHE[url] && GET_REQUEST_CACHE[url].timeStamp + 1000 * 3600 * 24 < new Date().getTime()) {
-            return Promise.resolve(GET_REQUEST_CACHE[url].data);
-        }
+function sendGetRequest(url, cacheSecond) {
+    if(!cacheSecond){
+        return sendXmlHttpRequest("GET", url);
     }
-    return sendXmlHttpRequest("GET", url).then(function (data) {
-        if (isUseCache) {
-            GET_REQUEST_CACHE[url] = {
-                data: data,
-                timeStamp: new Date().getTime()
-            };
-        }
-        return data;
+    return getCacheOrCreatePromise(url, cacheSecond, function () {
+        return sendXmlHttpRequest("GET", url);
     });
 }
 
 
-function sendGetJSONRequest(url, isUseCache) {
-    return sendGetRequest(url, isUseCache).then(jsonParseResponseText);
+function sendGetJSONRequest(url, cacheSecond) {
+    return sendGetRequest(url, cacheSecond).then(jsonParseResponseText);
 }
 
 
@@ -77,16 +70,45 @@ function sendPostRequest(url, data, contentType) {
     return sendXmlHttpRequest("POST", url, data, contentType);
 }
 
-function sendPostJSONRequest(url, data) {
+
+function sendJsonHttpRequest(method,url,data){
     var dataStr = JSON.stringify(data);
-    return sendPostRequest(url, dataStr, 'json').then(jsonParseResponseText);
+    return sendXmlHttpRequest(method, url, dataStr, 'json').then(jsonParseResponseText);
 }
 
 
-module.exports = {
+function sendPostJSONRequest(url, data) {
+    return sendJsonHttpRequest('post',url,data);
+}
+
+function sendPutJSONRequest(url, data){
+    return sendJsonHttpRequest('put',url,data);
+}
+
+function sendDeleteJSONRequest(url,data){
+    return sendJsonHttpRequest('delete',url,data);
+}
+
+function toQueryString(obj){
+    var arrs = [];
+    for(var key in obj){
+        if(obj.hasOwnProperty(key)){
+            var value = obj[key];
+            if(value){
+                arrs.push(key+"=" + encodeURIComponent(value));
+            }
+        }
+    }
+    return arrs.join("&");
+}
+
+export default {
     sendXmlHttpRequest: sendXmlHttpRequest,
     sendGetRequest: sendGetRequest,
     sendGetJSONRequest: sendGetJSONRequest,
     sendPostRequest: sendPostRequest,
-    sendPostJSONRequest: sendPostJSONRequest
+    sendPostJSONRequest: sendPostJSONRequest,
+    sendPutJSONRequest: sendPutJSONRequest,
+    sendDeleteJSONRequest:sendDeleteJSONRequest,
+    toQueryString:toQueryString
 };

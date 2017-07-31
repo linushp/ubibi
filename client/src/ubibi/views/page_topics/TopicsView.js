@@ -1,5 +1,6 @@
 import {t1,t2,t3,t4,t5,t6} from './TopicsView.shtml';
 import Dialog from '../../components/Dialog/Dialog';
+import TopicApis from '../../apis/TopicApis';
 import './TopicsView.less';
 
 var TopicsItemView = {
@@ -40,6 +41,9 @@ var TopicsView = {
         onPageChange: function (nextCur) {
             this.currentPage = nextCur;
         }
+    },
+    created:function(){
+        TopicApis.getTopicsList();
     },
     data: function () {
         return {

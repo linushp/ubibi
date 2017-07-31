@@ -1,0 +1,4 @@
+<string2-template id="PageLoadingTemplate">
+    <div class="bs-page-loading"><span :style="style1"></span></div>
+</string2-template>
+
