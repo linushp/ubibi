@@ -7,3 +7,5 @@ npm-debug.log
 server_config.json
 package-lock.json
 pki-validation
+deploy_server.sh
+deploy_static.sh
