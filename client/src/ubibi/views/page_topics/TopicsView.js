@@ -1,4 +1,4 @@
-import {t1,t2,t3,t4,t5,t6} from './TopicsView.shtml';
+import {t1,t2,t3,t4,t5} from './TopicsView.shtml';
 import Dialog from '../../components/Dialog/Dialog';
 import TopicApis from '../../apis/TopicApis';
 import './TopicsView.less';
@@ -40,6 +40,7 @@ var TopicsView = {
         },
         onPageChange: function (nextCur) {
             this.topicListCur = nextCur;
+            this.doQueryTopicList();
         },
 
         doQueryTopicList:function(){
@@ -50,7 +51,6 @@ var TopicsView = {
                 that.topicListTotal = d.totalCount.result[0]['total_count'];
             });
         }
-
     },
     created: function () {
         this.doQueryTopicList();
@@ -96,7 +96,7 @@ var TopicCreateView = {
         }
     },
     methods:{
-        handlePublishTopic:function(){
+        handleSubmitTopic:function(){
             var obj = this.topicObject;
             TopicApis.postTopic(obj);
         }
@@ -105,9 +105,28 @@ var TopicCreateView = {
 
 
 var TopicUpdateView = {
-    template: t6,
+    template: t5,
     data: function () {
-        return {}
+        return {
+            topicObject:{}
+        };
+    },
+    methods:{
+        handleSubmitTopic:function(){
+            var that = this;
+            var $route = this.$route;
+            var id = $route.params.id;
+            var obj = this.topicObject;
+            TopicApis.putTopic(id, obj);
+        }
+    },
+    created:function(){
+        var that = this;
+        var $route = this.$route;
+        var id = $route.params.id;
+        TopicApis.getTopicById(id).then((d)=>{
+            that.topicObject  = d.result[0];
+        });
     }
 };
 

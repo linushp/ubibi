@@ -60,7 +60,7 @@
         </bs-card>
         <div class="bs-clear10"></div>
         <bs-card title="回复">
-            <bsv-reply id="topic:1" />
+            <bsv-reply v-if="!!topicObject.id" :fid="topicObject.id" ftype="topic_reply" />
         </bs-card>
 
     </div>
@@ -105,19 +105,8 @@
                 </select>
             </div>
             <div class="box">
-                <bs-button title="发布文章" theme="ok" @click="handlePublishTopic" />
+                <bs-button title="发布文章" theme="ok" @click="handleSubmitTopic" />
             </div>
         </bs-card>
     </div>
 </string2-template>
-
-
-
-<string2-template id="t6">
-    <div class="TopicUpdateView">
-        update
-    </div>
-</string2-template>
-
-
-

@@ -18,7 +18,7 @@ var router = new VueRouter({
                 {path: '/topics', component: TopicsView},
                 {path: '/topic', redirect: '/topics' },
                 {path: '/topic/create', component: TopicCreateView},
-                {path: '/topic/update', component: TopicUpdateView},
+                {path: '/topic/update/:id', component: TopicUpdateView},
                 {path: '/topic/:id', component: TopicSingleView},
                 {path: '/user/create', component: UserCreateComponent},
                 {path: '/user/login', component: UserLoginComponent}

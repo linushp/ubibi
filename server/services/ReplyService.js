@@ -19,7 +19,7 @@ function deleteReply(reply_id) {
 function getReplyList(pageNo, pageSize, topic_id) {
     pageNo = parseInt(pageNo || 1, 10);
     pageSize = parseInt(pageSize || 30, 10);
-    var whereSql = " topic_id=? ";
+    var whereSql = " where topic_id=? ";
 
     var limitStart = (pageNo - 1) * pageSize;
     var promise1 = SqlQueryUtils.doQueryAsync({
