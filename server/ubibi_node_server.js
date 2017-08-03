@@ -3,6 +3,7 @@ var path = require('path');
 var ejs = require('ejs');
 var express = require('express');
 var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 var languageParser = require('./utils/languageParser');
 var LogUtils = require('./utils/LogUtils');
 var sendAssetHtml = require('./utils/sendAssetHtml');
@@ -16,6 +17,8 @@ app.engine('html', ejs.renderFile);
 app.set('x-powered-by', false);
 app.set('views', path.join(__dirname, '../client/src'));
 app.set('view engine', 'html');
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(languageParser('siteLanguage', 'en'));
 

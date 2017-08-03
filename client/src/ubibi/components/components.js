@@ -5,9 +5,12 @@ import './StateLessComponent/StateLessComponent.less';
 
 import './Dialog/Dialog';
 import './Dialog/Dialog';
+import './Pagination/Pagination';
 import './PageLoading/PageLoading';
 import './uploader/uploader';
-import './directives/directives';
+
+import './directivesAndFilters/directives';
+import './directivesAndFilters/filters';
 
 installStateLessComponent(StateLessComponent);
 

@@ -86,9 +86,8 @@ a {
   margin-left: 6px;
 }
 .TopicsItemView .cover {
-  position: absolute;
-  left: 20px;
-  top: 15px;
+  float: left;
+  padding: 5px;
 }
 .TopicsItemView .cover img {
   width: 200px;
@@ -185,8 +184,8 @@ a {
   left: 50%;
   right: 0;
   bottom: 0;
-  margin-left: -150px;
-  margin-top: -150px;
+  margin-left: -174px;
+  margin-top: -174px;
   border-radius: 1px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.32), 0 8px 40px rgba(0, 0, 0, 0.4);
   padding: 24px;
@@ -283,6 +282,20 @@ a {
   z-index: 2;
   position: absolute;
   height: 100%;
+}
+.bs-page-loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 1000;
+}
+.bs-page-loading span {
+  width: 0;
+  height: 2px;
+  background: red;
+  display: block;
 }
 .bs-pagination {
   user-select: none;

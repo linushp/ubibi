@@ -39,16 +39,28 @@ var TopicsView = {
             TopicViewDialog.openDialog();
         },
         onPageChange: function (nextCur) {
-            this.currentPage = nextCur;
+            this.topicListCur = nextCur;
+        },
+
+        doQueryTopicList:function(){
+            var that = this;
+            var {topicListPageSize,topicListCur} = that;
+            TopicApis.getTopicsList(topicListCur,topicListPageSize).then((d)=> {
+                that.topicList = d.dataList.result;
+                that.topicListTotal = d.totalCount.result[0]['total_count'];
+            });
         }
+
     },
-    created:function(){
-        TopicApis.getTopicsList();
+    created: function () {
+        this.doQueryTopicList();
     },
     data: function () {
         return {
-            currentPage: 1,
-            topicList: [{id: 1}, {id: 2, img: true}, {id: 3}, {id: 4, img: true}, {id: 5}]
+            topicListPageSize:10,
+            topicListTotal: 0,
+            topicListCur: 1,
+            topicList: []
         };
     }
 };
@@ -57,7 +69,17 @@ var TopicsView = {
 var TopicSingleView = {
     template: t4,
     data: function () {
-        return {};
+        return {
+            topicObject:{}
+        };
+    },
+    created:function(){
+        var that = this;
+        var $route = this.$route;
+        var id = $route.params.id;
+        TopicApis.getTopicById(id).then((d)=>{
+            that.topicObject  = d.result[0];
+        });
     }
 };
 
@@ -65,7 +87,19 @@ var TopicSingleView = {
 var TopicCreateView = {
     template: t5,
     data: function () {
-        return {}
+        return {
+            topicObject:{
+                title:'',
+                content:'',
+                description:''
+            }
+        }
+    },
+    methods:{
+        handlePublishTopic:function(){
+            var obj = this.topicObject;
+            TopicApis.postTopic(obj);
+        }
     }
 };
 

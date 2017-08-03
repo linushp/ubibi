@@ -38,6 +38,7 @@ router.get('/topic/:topic_id', handleRequest(function (req, res) {
 
 router.post('/topic', handleRequest(function (req, res) {
     var topicObject = req.body;
+    console.log(topicObject);
     return TopicService.createTopic(topicObject);
 }));
 

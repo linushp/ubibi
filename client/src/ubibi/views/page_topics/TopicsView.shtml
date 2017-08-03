@@ -7,9 +7,10 @@
 
     <div class="TopicsView">
         <button @click="openDialog">openDialog</button>
+        <router-link to="/topic/create">创建文章</router-link>
         <bs-card>
             <TopicsItemView v-for="topic in topicList" :topic="topic" key="topic.id"/>
-            <bs-pagination :current='currentPage' pageSize="10" totalCount="13" @page="onPageChange"/>
+            <bs-pagination :current='topicListCur' :pageSize="topicListPageSize" :totalCount="topicListTotal" @page="onPageChange"/>
         </bs-card>
     </div>
 
@@ -24,14 +25,13 @@
             <img v-xsrc="'/static/images/tmpimg/aaaa.png'" />
         </div>
         <div class="content">
-            <router-link :to="'/topic/'+topic.id" class="title bs-nowrap">宝塔管理面安装tipask3.x视频教程（5分钟急速安装）</router-link>
-            <div class="summary">网站的关键词排名优化是每个网站运营者必须的工作，做SEO优化说难也不难，说容易也不容易，如果想把网站关键词排名优化到百度首页，那也要看关键词竞争强度，优化网站的时间，网站权重，SEOer经验与优化技术等因素能否把网站关键词排名优化到百度首页。所以想要把关键词排名优化到百度首页，起码要清楚百度搜索引擎是通过什么数据来判断页面的质量，然而再进一步不断进行完善改进!
-            </div>
+            <router-link :to="'/topic/'+topic.id" class="title bs-nowrap">{{topic.title}}</router-link>
+            <div class="summary">{{topic.description}}</div>
             <div class="infos">
                 <img class="avatar" v-xsrc="'/static/images/tmpimg/aaaa.png'" />
                 <span class="nickname">luanhaipeng</span>
-                <span class="createtime">发布于 2017-06-20 13:57</span>
-                <span class="viewcount"> 阅读 ( 340 ) </span>
+                <span class="createtime">发布于 {{topic.create_time | formatTime}}</span>
+                <span class="viewcount"> 阅读 ( {{topic.view_count}} ) </span>
             </div>
         </div>
         <div class="bs-clear"></div>
@@ -52,35 +52,10 @@
     <div>
 
          <bs-card className="TopicSingleView" title="">
-            <h1 class="topic-title">宝塔管理面安装tipask3.x视频教程（5分钟急速安装）</h1>
-            <div class="topic-summary">最近发现一个非常好用的管理面板，正好有点时间就写了这个快速安装教程，希望能够帮助大家快速来安装和体验tipask社区问答系统。</div>
+            <h1 class="topic-title">{{topicObject.title}}</h1>
+            <div class="topic-summary">{{topicObject.description}}</div>
             <div class="topic-content">
-
-                <p>最近发现一个非常好用的宝塔管理面板，正好有点时间就写了这个快速安装教程，希望能够帮助大家快速来安装和体验tipask社区问答系统。
-                </p>
-                    Tipask3.x安装教程
-                安装步骤如下：
-                1、安装宝塔管理面板，详情教程参见宝塔管理面板官网 www.bt.cn
-
-                2、配置php扩展，需要开启fileinfo、opcache扩展
-
-                3、添加网站，保存数据库账号信息，后面会用到。
-
-                4、上传程序源码，解压并修改bootstrap、storage目录权限为可读写
-
-                5、设置程序目录和程序运行目录
-
-                6、配置网站伪静态规则
-
-                7、重启nginx服务器加载网站伪静态规则
-
-                8、访问网站安装地址进行可视化安装
-
-                9、文件管理中修改网站目录.env文件权限为可读可写
-
-                10、打开网站安装地址继续安装，填写网站相关信息，即可完成安装。
-
-                详细教程见下方视频：
+                {{topicObject.content}}
             </div>
         </bs-card>
         <div class="bs-clear10"></div>
@@ -101,7 +76,7 @@
         <bs-card>
             <div class="box">
                 <h2>文章标题:</h2>
-                <input type="text" placeholder="标题字数10字以上">
+                <input type="text" placeholder="标题字数10字以上"  v-model="topicObject.title" >
             </div>
 
             <div class="box">
@@ -114,14 +89,14 @@
             <div class="box">
                 <h2>文章正文:</h2>
                 <div class="bs-textarea-wrapper">
-                    <textarea placeholder="撰写文章"></textarea>
+                    <textarea placeholder="撰写文章" v-model="topicObject.content"></textarea>
                 </div>
             </div>
 
             <div class="box">
                 <h2>文章摘要:</h2>
                 <div class="bs-textarea-wrapper summary-textarea">
-                    <textarea placeholder="文章摘要"></textarea>
+                    <textarea placeholder="文章摘要" v-model="topicObject.description"></textarea>
                 </div>
             </div>
             <div class="box">
@@ -130,7 +105,7 @@
                 </select>
             </div>
             <div class="box">
-                <bs-button title="发布文章" theme="ok"/>
+                <bs-button title="发布文章" theme="ok" @click="handlePublishTopic" />
             </div>
         </bs-card>
     </div>
