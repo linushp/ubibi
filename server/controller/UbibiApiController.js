@@ -78,8 +78,40 @@ router.get('/reply/:topic_id', handleRequest(function (req) {
 
 
 router.post('/reply', handleRequest(function (req, res) {
+
     var replyObject = req.body;
-    return ReplyService.createReply(replyObject);
+
+    var topic_id = replyObject['topic_id'];
+    var topicObjectPromise = TopicService.getTopicById(topic_id);
+
+
+
+
+    return topicObjectPromise.then(function(obj){
+        var topicObject = obj.result[0];
+        if(!topicObject){
+            return Promise.reject("文章不存在");
+        }
+        var reply_count = topicObject.reply_count;
+        if(reply_count >= 20){
+            return Promise.reject("回复已满");
+        }
+
+        return topicObject;
+
+    }).then(function(topicObject){
+        var reply_count = topicObject.reply_count || 0;
+
+        TopicService.updateTopic(topic_id,{
+            reply_count : reply_count + 1
+        });
+
+        replyObject.floor_num = reply_count + 1;
+        return ReplyService.createReply(replyObject);
+    });
+
+
+
 }));
 
 

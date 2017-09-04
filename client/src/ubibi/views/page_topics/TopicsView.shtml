@@ -42,27 +42,29 @@
 
 <string2-template id="t3">
     <div slot="title" class="title111">新建文件夹</div>
-    <div slot="body">hello world--{{data}}</div>
+    <div slot="body">hello world--{{data}}===={{params_text}}</div>
 </string2-template>
 
 
 
 <string2-template id="t4">
-
-    <div>
-
-         <bs-card className="TopicSingleView" title="">
-            <h1 class="topic-title">{{topicObject.title}}</h1>
-            <div class="topic-summary">{{topicObject.description}}</div>
-            <div class="topic-content">
-                {{topicObject.content}}
-            </div>
-        </bs-card>
+    <div v-if="topicObject">
+        <div v-once>
+            <bs-card className="TopicSingleView" title="">
+                <h1 class="topic-title">{{topicObject.title}}</h1>
+                <div class="topic-summary">{{topicObject.description}}</div>
+                <div v-if="topicObject.cover_img" class="topic_cover_img_div">
+                    <img :src="topicObject.cover_img" class="cover_img">
+                </div>
+                <div class="topic-content">
+                    <div class="bs-marked markdown-body"  v-html="topicObject.contentMarked"></div>
+                </div>
+            </bs-card>
+        </div>
         <div class="bs-clear10"></div>
-        <bs-card title="回复">
-            <bsv-reply v-if="!!topicObject.id" :fid="topicObject.id" ftype="topic_reply" />
+        <bs-card title="评论列表">
+            <bsv-reply v-if="!!topicObject.id" :fid="topicObject.id" ftype="topic_reply"/>
         </bs-card>
-
     </div>
 
 </string2-template>
@@ -75,26 +77,35 @@
     <div class="TopicCreateView">
         <bs-card>
             <div class="box">
-                <h2>文章标题:</h2>
+                <div class="h2">文章标题:</div>
                 <input type="text" placeholder="标题字数10字以上"  v-model="topicObject.title" >
             </div>
 
             <div class="box">
-                <h2>文章封面:</h2>
+                <div class="h2">文章封面:</div>
                 <div>
-                    <bs-upload-button className="upload-cover"/>
+                    <bs-upload-button className="upload-cover" @uploaded="handleUploaded"/>
+                    <div v-if="topicObject.cover_img" class="topic_cover_img_div">
+                        <img :src="topicObject.cover_img" class="cover_img">
+                    </div>
                 </div>
             </div>
 
             <div class="box">
-                <h2>文章正文:</h2>
+                <div class="h2">文章正文:</div>
                 <div class="bs-textarea-wrapper">
-                    <textarea placeholder="撰写文章" v-model="topicObject.content"></textarea>
+                    <div class="content-left">
+                        <textarea placeholder="撰写文章" :value="topicObject.content" @input="updateContent"></textarea>
+                    </div>
+                    <div class="content-right">
+                        <div class="bs-marked" v-html="compiledMarkdown"></div>
+                    </div>
+                    <div class="bs-clear10"></div>
                 </div>
             </div>
 
             <div class="box">
-                <h2>文章摘要:</h2>
+                <div class="h2">文章摘要:</div>
                 <div class="bs-textarea-wrapper summary-textarea">
                     <textarea placeholder="文章摘要" v-model="topicObject.description"></textarea>
                 </div>

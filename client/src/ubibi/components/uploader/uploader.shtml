@@ -2,7 +2,7 @@
 
 <string2-template id="t1">
     <div class="bs-upload bs-upload-button" :class="className">
-        <input type="file" />
+        <input type="file" @change="changeFile"/>
         <bs-button title="文件上传" theme="ok" />
     </div>
 </string2-template>

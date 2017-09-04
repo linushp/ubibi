@@ -8,3 +8,8 @@ Vue.filter("formatTime",function(aa,format){
     var date0 = new Date(number0);
     return formatDateTime(date0,format);
 });
+
+
+Vue.filter("marked",function(ddd){
+    return marked(ddd,{ sanitize: true });
+});

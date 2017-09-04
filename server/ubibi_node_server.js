@@ -23,6 +23,7 @@ app.use(cookieParser());
 app.use(languageParser('siteLanguage', 'en'));
 
 app.use("/api/v1/ubibi", require('./controller/UbibiApiController'));
+app.use("/api/v1/oss-token", require('./controller/OSSController'));
 app.use("/page/v1/ubibi", require('./controller/UbibiPageController'));
 
 app.use("/static", express.static(path.join(__dirname, '../static'), {

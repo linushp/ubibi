@@ -27,3 +27,57 @@
     margin-right: 20px;
   }
 }
+
+
+.app-footer{
+  height: 60px;
+}
+.app-footer-content{
+  display: none;
+  padding: 20px 0;
+  background: #000;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  color: #ffffff;
+}
+
+#mainBody{
+  width: 100%;
+}
+
+.app-wrapper{
+  width: 100%;
+}
+
+.app-bg{
+  background-image: url("/static/images/uis/bg01.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50%;
+  -webkit-filter: blur(65px);
+  filter: blur(65px);
+  opacity: .6;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+}
+
+.app-root{
+  position: relative;
+  z-index: 1;
+}
+
+@media (min-width: 1096px){
+  .bs-pagebody {
+    max-width: 1138px;
+    margin: 0 auto;
+  }
+}

@@ -1,7 +1,7 @@
 <string2-template id="DialogTemplate">
 
-    <div class="bs-dialog-wrapper">
-        <div class="bs-dialog" :class="className" :style='{"z-index":zIndex}'>
+    <div class="bs-dialog-wrapper" :class="className">
+        <div class="bs-dialog"  :style='{"z-index":zIndex}'>
             <div class="bs-dialog-header">
                 <div class="bs-dialog-title"><slot name="title"/></div>
                 <span @click="onCloseDialog(0)"></span>

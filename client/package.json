@@ -2,10 +2,10 @@
   "name": "application-name",
   "version": "0.0.1",
   "scripts": {
-    "dist:ubibi": "rm -rf ../static/assets/ubibi/ && NODE_ENV=production node node_modules/webpack/bin/webpack.js  --config ./webpack.config.js --progress --profile --colors --env client_name_ubibi",
-    "watch:ubibi": "NODE_ENV=development node node_modules/webpack-dev-server/bin/webpack-dev-server  --config ./webpack.config.js  --hot --inline --progress --colors --env client_name_ubibi",
-    "dist:kaihe": "rm -rf ../static/assets/kaihe/ && NODE_ENV=production node node_modules/webpack/bin/webpack.js  --config ./webpack.config.js --progress --profile --colors --env client_name_kaihe",
-    "watch:kaihe": "NODE_ENV=development node node_modules/webpack-dev-server/bin/webpack-dev-server  --config ./webpack.config.js  --hot --inline --progress --colors --env client_name_kaihe"
+    "dist_ubibi": "rm -rf ../static/assets/ubibi/ && NODE_ENV=production node node_modules/webpack/bin/webpack.js  --config ./webpack.config.js --progress --profile --colors --env client_name_ubibi",
+    "watch_ubibi": "NODE_ENV=development node node_modules/webpack-dev-server/bin/webpack-dev-server  --config ./webpack.config.js  --hot --inline --progress --colors --env client_name_ubibi",
+    "dist_kaihe": "rm -rf ../static/assets/kaihe/ && NODE_ENV=production node node_modules/webpack/bin/webpack.js  --config ./webpack.config.js --progress --profile --colors --env client_name_kaihe",
+    "watch_kaihe": "NODE_ENV=development node node_modules/webpack-dev-server/bin/webpack-dev-server  --config ./webpack.config.js  --hot --inline --progress --colors --env client_name_kaihe"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",

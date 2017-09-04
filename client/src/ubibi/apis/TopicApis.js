@@ -6,12 +6,10 @@ function parseDataListTotalCount(d) {
     var y = 0;
     try {
         x = d.dataList.result;
-    } catch (e) {
-    }
+    } catch (e) {}
     try {
         y = d.totalCount.result[0]['total_count'];
-    } catch (e) {
-    }
+    } catch (e) {}
     return {
         total_count: y,
         data_list: x

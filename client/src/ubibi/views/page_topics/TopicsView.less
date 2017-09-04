@@ -33,6 +33,8 @@
       line-height: 1.6;
       overflow: hidden;
       height: 42px;
+      word-break: break-all;
+      word-wrap: break-word;
     }
   }
 
@@ -59,6 +61,111 @@
   }
 }
 
+
+.topic_cover_img_div{
+
+  margin: 20px auto;
+
+  .cover_img{
+    max-width: 100%;
+    display: block;
+  }
+}
+
+
+.TopicSingleView {
+
+  h1.topic-title {
+    font-size: 20px;
+    word-break: break-all;
+    word-wrap: break-word;
+  }
+  .topic-summary {
+    padding: 25px;
+    background: #f3f5f9;
+    line-height: 24px;
+    overflow: hidden;
+    word-break: break-all;
+    word-wrap: break-word;
+  }
+
+  .topic-content {
+    margin: 20px 0;
+    word-break: break-all;
+    word-wrap: break-word;
+    p {
+      margin: 10px 0;
+      word-break: break-all;
+      word-wrap: break-word;
+    }
+  }
+
+}
+
+.TopicCreateView {
+
+  .box {
+
+    padding-bottom: 20px;
+
+    .h2 {
+      font-size: 14px;
+      line-height: 1.5;
+      color: #333;
+    }
+
+    .summary-textarea textarea {
+      height: 60px;
+    }
+
+    .upload-cover {
+      width: 120px;
+    }
+
+    .select-category {
+      max-width: 200px;
+    }
+
+  }
+
+  .bs-textarea-wrapper {
+    border: 1px solid #e0e0e0;
+    width: 100%;
+    //border-radius: 2px;
+  }
+
+  .bs-textarea-wrapper {
+
+    .content-left, .content-right {
+      width: 49%;
+      float: left;
+
+      textarea,.bs-marked{
+        width: 97%;
+        float: right;
+        display: block;
+        margin: 0;
+        padding: 10px 0;
+        height: 500px;
+        overflow: auto;
+      }
+    }
+
+    .content-left{
+      border-right: 1px solid #e0e0e0;
+    }
+    .content-right{
+      float: right;
+    }
+
+
+  }
+
+}
+
+
+
+
 @media screen and (max-width: 750px) {
 
   .TopicsItemView {
@@ -78,58 +185,4 @@
     }
   }
 }
-
-.TopicSingleView {
-
-  h1.topic-title {
-    font-size: 20px;
-  }
-  .topic-summary {
-    padding: 25px;
-    background: #f3f5f9;
-    line-height: 24px;
-    overflow: hidden;
-  }
-
-  .topic-content {
-    margin: 20px 0;
-    p {
-      margin: 10px 0;
-    }
-  }
-
-}
-
-
-
-
-
-
-.TopicCreateView {
-
-  .box {
-
-    padding-bottom: 20px;
-
-    h2 {
-      font-size: 14px;
-      line-height: 1.5;
-      color: #333;
-    }
-
-    .summary-textarea textarea {
-      height: 60px;
-    }
-
-    .upload-cover {
-      width: 120px;
-    }
-
-    .select-category{
-      max-width: 200px;
-    }
-
-  }
-}
-
 

@@ -1,6 +1,7 @@
 import {t1,t2,t3,t4,t5} from './TopicsView.shtml';
-import Dialog from '../../components/Dialog/Dialog';
+import Dialog,{openTips} from '../../components/Dialog/Dialog';
 import TopicApis from '../../apis/TopicApis';
+import compileMarkdown from '../../utils/compileMarkdown';
 import './TopicsView.less';
 
 var TopicsItemView = {
@@ -11,22 +12,25 @@ var TopicsItemView = {
     }
 };
 
-var TopicViewDialog = new Dialog({
-    template: t3,
-    data: function () {
-        return {
-            data: new Date().getTime()
-        }
-    },
-    dialog: {
-        className: 'TopicViewDialog',
-        beforeClose: function () {
-            //debugger;
+var TopicViewDialog = new Dialog(function (params) {
+    return {
+        template: t3,
+        data: function () {
+            return {
+                params_text: params.text,
+                data: new Date().getTime()
+            }
         },
-        afterClose: function () {
-            //debugger;
+        dialog: {
+            className: 'TopicViewDialog',
+            beforeClose: function () {
+                //debugger;
+            },
+            afterClose: function () {
+                //debugger;
+            }
         }
-    }
+    };
 });
 
 var TopicsView = {
@@ -43,10 +47,10 @@ var TopicsView = {
             this.doQueryTopicList();
         },
 
-        doQueryTopicList:function(){
+        doQueryTopicList: function () {
             var that = this;
             var {topicListPageSize,topicListCur} = that;
-            TopicApis.getTopicsList(topicListCur,topicListPageSize).then((d)=> {
+            TopicApis.getTopicsList(topicListCur, topicListPageSize).then((d)=> {
                 that.topicList = d.dataList.result;
                 that.topicListTotal = d.totalCount.result[0]['total_count'];
             });
@@ -57,7 +61,7 @@ var TopicsView = {
     },
     data: function () {
         return {
-            topicListPageSize:10,
+            topicListPageSize: 10,
             topicListTotal: 0,
             topicListCur: 1,
             topicList: []
@@ -70,70 +74,108 @@ var TopicSingleView = {
     template: t4,
     data: function () {
         return {
-            topicObject:{}
+            topicObject: null
         };
     },
-    created:function(){
+    created: function () {
         var that = this;
         var $route = this.$route;
         var id = $route.params.id;
-        TopicApis.getTopicById(id).then((d)=>{
-            that.topicObject  = d.result[0];
+        TopicApis.getTopicById(id).then((d)=> {
+            that.topicObject = d.result[0];
+            that.topicObject.contentMarked = compileMarkdown(that.topicObject.content);
         });
     }
 };
 
 
-var TopicCreateView = {
-    template: t5,
-    data: function () {
-        return {
-            topicObject:{
-                title:'',
-                content:'',
-                description:''
+function createTopicCreateUpdateView(isCreate) {
+
+    return {
+        template: t5,
+        data: function () {
+            return {
+                topicObject: {
+                    title: '',
+                    content: '',
+                    description: '',
+                    cover_img:null
+                },
+
+                isSubmitting: false
             }
-        }
-    },
-    methods:{
-        handleSubmitTopic:function(){
-            var obj = this.topicObject;
-            TopicApis.postTopic(obj);
-        }
-    }
-};
+        },
+        computed: {
+            compiledMarkdown: function () {
+                var topicObject = this.topicObject || {};
+                var mmm = topicObject.content || "";
+                return compileMarkdown(mmm)
+            }
+        },
+        methods: {
 
 
-var TopicUpdateView = {
-    template: t5,
-    data: function () {
-        return {
-            topicObject:{}
-        };
-    },
-    methods:{
-        handleSubmitTopic:function(){
+            handleUploaded:function(obj){
+                this.topicObject.cover_img = obj.url;
+            },
+
+
+            handleSubmitTopic: function () {
+
+                var that = this;
+                var obj = this.topicObject;
+                if (isCreate) {
+                    //创新新文章
+
+                    that.isSubmitting = true;
+                    TopicApis.postTopic(obj).then((res)=> {
+                        that.isSubmitting = false;
+                        var insertId = res.result.insertId;
+                        openTips("发表成功");
+                        that.$router.push(`/topic/${insertId}`)
+                    });
+
+                } else {
+
+                    //更新文章
+
+                    var $route = this.$route;
+                    var id = $route.params.id;
+                    that.isSubmitting = true;
+                    TopicApis.putTopic(id, obj).then((res)=> {
+                        that.isSubmitting = false;
+                        openTips("更新成功");
+                        that.$router.push(`/topic/${id}`)
+                    });
+
+                }
+
+            },
+
+            updateContent: _.debounce(function (e) {
+                this.topicObject.content = e.target.value
+            }, 300)
+
+        },
+        created: function () {
+
             var that = this;
             var $route = this.$route;
-            var id = $route.params.id;
-            var obj = this.topicObject;
-            TopicApis.putTopic(id, obj);
+
+            if (!isCreate) {
+                var id = $route.params.id;
+                TopicApis.getTopicById(id).then((d)=> {
+                    that.topicObject = d.result[0];
+                });
+            }
         }
-    },
-    created:function(){
-        var that = this;
-        var $route = this.$route;
-        var id = $route.params.id;
-        TopicApis.getTopicById(id).then((d)=>{
-            that.topicObject  = d.result[0];
-        });
-    }
-};
+    };
+}
 
 
 module.exports = {
     TopicsView: TopicsView,
     TopicSingleView: TopicSingleView,
-    TopicCreateView: TopicCreateView,
-    TopicUpdateView: TopicUpdateView
+    TopicCreateView: createTopicCreateUpdateView(true),
+    TopicUpdateView: createTopicCreateUpdateView(false)
 };

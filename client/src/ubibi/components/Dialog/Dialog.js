@@ -39,7 +39,7 @@ Vue.component('bs-dialog', {
 });
 
 
-function openDialogComponent(VueComponent) {
+function openDialogComponent(VueComponent,config) {
 
     var vm = new VueComponent().$mount();
 
@@ -52,6 +52,13 @@ function openDialogComponent(VueComponent) {
     };
 
     vm.$on(CONST_CLOSE, doCloseDialog);
+
+    var autoHideTime = config.autoHideTime;
+    if(autoHideTime){
+        setTimeout(function(){
+            doCloseDialog();
+        },autoHideTime);
+    }
 
     document.body.appendChild(vm.$el);
     vm.isDialogOpen = true;
@@ -98,27 +105,47 @@ function createDialog(componentConfig) {
 }
 
 
-function Dialog(componentConfig) {
-    var component = createDialog(componentConfig);
-    this.openDialog = function () {
-        return openDialogComponent(component);
+function Dialog(componentConfigFunction) {
+    this.openDialog = function (params,config) {
+        var componentConfig = componentConfigFunction(params);
+        var component = createDialog(componentConfig);
+        return openDialogComponent(component,config || {});
     }
 }
 
-var AlertDialog = new Dialog({
-    template: AlertDialogTemplate,
-    data: function () {
-        return {
-            title: "",
-            message: ""
+
+
+var AlertDialog = new Dialog(function(params){
+    return {
+        template: AlertDialogTemplate,
+        data: function () {
+            return {
+                title: params.title || '',
+                message: params.message || ''
+            }
+        },
+        dialog: {
+            className: params.className || 'bs-AlertDialogWrapper'
         }
-    }
+    };
 });
 
 export function openAlert(message,title){
-    var vm = AlertDialog.openDialog();
-    vm.message = message;
-    vm.title = title;
+    return AlertDialog.openDialog({
+        message : message,
+        title : title
+    });
 }
+
+
+export function openTips(message , className){
+    return AlertDialog.openDialog({
+        message: message,
+        className:("bs-TipsDialogWrapper " + (className || ""))
+    },{
+        autoHideTime:1000
+    });
+}
+
 
 export default Dialog;

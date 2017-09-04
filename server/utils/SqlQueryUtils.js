@@ -142,6 +142,8 @@ function doUpdateByModelAsync(model, updateObject, object_id) {
     var updateKeyString = updateKeys.join(",");
     var sql = "update `" + model.tableName + "` set " + updateKeyString + " where id = ?";
 
+    console.log("updateValues",updateValues);
+
     return doQueryAsync({
         sql: sql,
         params: updateValues

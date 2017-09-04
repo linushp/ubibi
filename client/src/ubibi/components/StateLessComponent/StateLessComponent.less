@@ -32,23 +32,39 @@
   text-decoration: none;
   font-style: normal;
   display: inline-block;
-  transition: color 200ms cubic-bezier(0.4, 0.0, 0.2, 1), background 200ms cubic-bezier(0.4, 0.0, 0.2, 1), box-shadow 400ms cubic-bezier(0.4, 0.0, 0.2, 1);
-  letter-spacing: 2px;
+  transition: color 1000ms cubic-bezier(0.4, 0.0, 0.2, 1),
+              background 1000ms cubic-bezier(0.4, 0.0, 0.2, 1), box-shadow 400ms cubic-bezier(0.4, 0.0, 0.2, 1);
+
 
   &.bs-button-ok {
     color: #fff;
     background: #4285f4;
-    color: rgba(255, 255, 255, 1);
     &:hover {
       background: #4285f4;
-      color: rgba(255, 255, 255, 1);
     }
   }
+
+
+  &.bs-button-green {
+    color: #fff;
+    background: #19bca1;
+    &:hover {
+      background: fade(#19bca1,80);
+    }
+  }
+
+
 
   &.bs-button-cancel {
     &:hover {
       box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
     }
+  }
+
+  &.bs-button-disabled {
+    color: #fff;
+    background: #666;
+    color: rgba(255, 255, 255, 1);
   }
 
 }

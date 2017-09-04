@@ -4,10 +4,26 @@ import './user.less';
 
 export const UserCreateComponent = {
     template: UserCreateTemplate,
+
     data: function () {
         return {
-            regType: 'email'
+            isShowBox:false,
+            username:"",
+            password:""
         };
+    },
+
+    methods:{
+        doCreateUser:function(){
+            var that = this;
+
+        }
+    },
+    created:function(){
+        var that = this;
+        setTimeout(function(){
+            that.isShowBox = true;
+        },10)
     }
 };
 
@@ -16,10 +32,26 @@ export const UserCreateComponent = {
 export const UserLoginComponent = {
 
     template: UserLoginTemplate,
+
     data: function () {
         return {
-            regType: 'email'
+            isShowBox:false,
+            username:"",
+            password:""
         };
+    },
+
+    methods:{
+        doLogin:function(){
+            var that = this;
+
+        }
+    },
+    created:function(){
+        var that = this;
+        setTimeout(function(){
+            that.isShowBox = true;
+        },10)
     }
 
 };

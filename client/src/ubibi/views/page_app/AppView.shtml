@@ -1,9 +1,13 @@
 
 <string2-template id="AppRootTemplate">
-    <div class="app-root">
-        <page-loading/>
-        <app-header />
-        <router-view/>
+    <div class="app-wrapper">
+        <div class="app-root">
+            <page-loading />
+            <app-header />
+            <div class="bs-pagebody"><router-view/></div>
+            <app-footer />
+        </div>
+        <div class="app-bg"></div>
     </div>
 </string2-template>
 
@@ -22,3 +26,19 @@
     </div>
 
 </string2-template>
+
+
+
+<string2-template id="AppFooterTemplate">
+
+
+    <div class="app-footer">
+        <div class="app-footer-content">
+            Copyright ©2017 www.ubibi.cn
+        </div>
+    </div>
+
+
+</string2-template>
+
+
