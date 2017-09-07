@@ -99,9 +99,10 @@ function createTopicCreateUpdateView(isCreate) {
                     title: '',
                     content: '',
                     description: '',
-                    cover_img:null
+                    cover_img:null,
+                    category_id:0
                 },
-
+                categoryList:[],
                 isSubmitting: false
             }
         },
@@ -162,12 +163,20 @@ function createTopicCreateUpdateView(isCreate) {
             var that = this;
             var $route = this.$route;
 
-            if (!isCreate) {
-                var id = $route.params.id;
-                TopicApis.getTopicById(id).then((d)=> {
-                    that.topicObject = d.result[0];
-                });
-            }
+
+            TopicApis.getTopicCategorySubject().then((d)=>{
+                that.categoryList = d[0].result || [];
+
+                if (!isCreate) {
+                    var id = $route.params.id;
+                    TopicApis.getTopicById(id).then((d)=> {
+                        that.topicObject = d.result[0];
+                    });
+                }
+
+            });
+
+
         }
     };
 }

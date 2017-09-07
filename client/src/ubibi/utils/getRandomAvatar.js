@@ -3,7 +3,7 @@ function getRandomNumber(min, max) {
 }
 
 
-module.exports = function () {
+export default function () {
     var num = getRandomNumber(1, 404);
-    return "http://fs.ubibi.cn/avatars_default/A" + num + ".jpg";
+    return "https://oss.ubibi.cn/avatars_default/A" + num + ".jpg";
 };

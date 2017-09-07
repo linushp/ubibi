@@ -1,13 +1,13 @@
 import {UserCreateTemplate,UserLoginTemplate} from './user.template.shtml';
 import './user.less';
-
+import UserApis from '../../apis/UserApis';
+import {openTips} from '../../components/Dialog/Dialog';
 
 export const UserCreateComponent = {
     template: UserCreateTemplate,
 
     data: function () {
         return {
-            isShowBox:false,
             username:"",
             password:""
         };
@@ -21,9 +21,6 @@ export const UserCreateComponent = {
     },
     created:function(){
         var that = this;
-        setTimeout(function(){
-            that.isShowBox = true;
-        },10)
     }
 };
 
@@ -35,7 +32,6 @@ export const UserLoginComponent = {
 
     data: function () {
         return {
-            isShowBox:false,
             username:"",
             password:""
         };
@@ -44,14 +40,20 @@ export const UserLoginComponent = {
     methods:{
         doLogin:function(){
             var that = this;
-
+            UserApis.userLogin(that.username,that.password).then(function(d){
+                if(d.isLoginOk ){
+                    openTips("登录成功");
+                    setTimeout(function(){
+                        that.$router.push('/')
+                    },500);
+                }else {
+                    openTips("用户名或密码错误");
+                }
+            });
         }
     },
     created:function(){
         var that = this;
-        setTimeout(function(){
-            that.isShowBox = true;
-        },10)
     }
 
 };

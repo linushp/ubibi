@@ -1,5 +1,6 @@
 import './ReplyView.less';
 import TopicApis from '../../../apis/TopicApis';
+import UserStore from '../../../apis/UserStore';
 import {openTips} from '../../../components/Dialog/Dialog';
 import trimString from '../../../../_commons/trimString';
 import {ReplyViewTemplate} from './ReplyView.shtml';

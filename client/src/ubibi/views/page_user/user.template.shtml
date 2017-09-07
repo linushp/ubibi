@@ -4,7 +4,7 @@
     <div class="user-create">
 
 
-        <div class="login-box" v-if="isShowBox">
+        <div class="login-box">
 
             <div class="login-title">注册新用户</div>
 
@@ -34,7 +34,7 @@
 <string2-template id="UserLoginTemplate">
     <div class="user-login">
 
-        <div class="login-box" v-if="isShowBox">
+        <div class="login-box">
 
             <div class="login-title">用户登录</div>
 

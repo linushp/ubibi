@@ -102,6 +102,23 @@ function toQueryString(obj){
     return arrs.join("&");
 }
 
+
+
+function parseDataListTotalCount(d) {
+    var x = null;
+    var y = 0;
+    try {
+        x = d.dataList.result;
+    } catch (e) {}
+    try {
+        y = d.totalCount.result[0]['total_count'];
+    } catch (e) {}
+    return {
+        total_count: y,
+        data_list: x
+    };
+}
+
 export default {
     sendXmlHttpRequest: sendXmlHttpRequest,
     sendGetRequest: sendGetRequest,
@@ -110,5 +127,6 @@ export default {
     sendPostJSONRequest: sendPostJSONRequest,
     sendPutJSONRequest: sendPutJSONRequest,
     sendDeleteJSONRequest:sendDeleteJSONRequest,
-    toQueryString:toQueryString
+    toQueryString:toQueryString,
+    parseDataListTotalCount:parseDataListTotalCount
 };

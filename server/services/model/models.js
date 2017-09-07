@@ -67,6 +67,7 @@ var UserModel = {
     tableName: 't_user',
     tableFields: [
         'id',
+        'username',
         'nickname',
         'mobile',
         'email',

@@ -26,11 +26,12 @@ function isUserExistByEmail(email) {
 }
 
 
-function getUserInfoByPassword(mobileOrEmail, passwd) {
+//用于登录
+function getUserInfoByPassword(username, passwd) {
     return SqlQueryUtils.doQueryAsync({
         sql: 'select '+SqlQueryUtils.joinTableFields(UserModel,['passwd'])+' from ' + UserModel.tableName +
-        " where (`mobile`=? or `email`=?) and `passwd`=?",
-        params: [mobileOrEmail, mobileOrEmail, passwd]
+        " where (`mobile`=? or `email`=? or `username`= ?) and `passwd`=?",
+        params: [username, username, username,passwd]
     });
 }
 

@@ -111,8 +111,9 @@
                 </div>
             </div>
             <div class="box">
-                <select class="select-category">
+                <select class="select-category" v-model="topicObject.category_id">
                     <option value="0">请选择分类</option>
+                    <option :value="c.id" v-for="c in categoryList">{{c.title}}</option>
                 </select>
             </div>
             <div class="box">

@@ -126,7 +126,8 @@ router.delete('/reply/:reply_id', handleRequest(function (req, res) {
 router.post('/user/login',handleRequest(function(req){
     var req_body =  req.body;
     var username = req_body.username;
-    var passwd =  md5.hex_md5('ubibi_' + req_body['passwd']);
+    var passwd = req_body.passwd;
+    //var passwd =  md5.hex_md5('ubibi_' + req_body['passwd']);
     return UserService.getUserInfoByPassword(username,passwd);
 }));
 
@@ -134,7 +135,7 @@ router.post('/user/login',handleRequest(function(req){
 router.post('/user/reg', handleRequest(function (req) {
     //不用检查用户有没有被注册,因为会有数据库unique约束
     var userObject = req.body;
-    userObject['passwd'] = md5.hex_md5('ubibi_' + userObject['passwd']);
+    //userObject['passwd'] = md5.hex_md5('ubibi_' + userObject['passwd']);
     return UserService.createUser(userObject);
 }));
 

@@ -1,20 +1,8 @@
 import AjaxUtils from '../../_commons/AjaxUtils';
 
-
-function parseDataListTotalCount(d) {
-    var x = null;
-    var y = 0;
-    try {
-        x = d.dataList.result;
-    } catch (e) {}
-    try {
-        y = d.totalCount.result[0]['total_count'];
-    } catch (e) {}
-    return {
-        total_count: y,
-        data_list: x
-    };
-}
+var parseDataListTotalCount = function(a,b,c){
+    return AjaxUtils.parseDataListTotalCount(a,b,c);
+};
 
 
 export default {
@@ -54,8 +42,8 @@ export default {
     },
 
 
-    getTopicCategorySubject(clear_cache){
-        return AjaxUtils.sendGetJSONRequest(`/api/v1/ubibi/topic_category_subject?clear_cache=${clear_cache}`)
+    getTopicCategorySubject(){
+        return AjaxUtils.sendGetJSONRequest(`/api/v1/ubibi/topic_category_subject?clear_cache=true`,3600);
     },
 
 
