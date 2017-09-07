@@ -1,0 +1,683 @@
+html,
+body,
+ul,
+ol,
+li,
+div,
+p,
+section,
+footer,
+head {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  font-size: 14px;
+}
+html,
+body {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  height: 100%;
+  background-color: #e9edf0;
+  font-size: 14px;
+  color: #222;
+  font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+}
+input[type=text],
+select {
+  border: 1px solid #e0e0e0;
+  width: 100%;
+  height: 35px;
+  line-height: 35px;
+  border-radius: 2px;
+  text-indent: 1em;
+  background-color: #ffffff;
+}
+textarea {
+  border: none;
+  width: 96%;
+  border-radius: 2px;
+  text-indent: 0em;
+  height: 300px;
+  resize: none;
+  margin: 2%;
+  display: block;
+  outline: none;
+  font-size: 14px;
+  line-height: 25px;
+  padding: 0;
+}
+select {
+  text-indent: 10px;
+}
+a {
+  background: transparent;
+  border: none;
+  outline: none;
+}
+.bs-clear {
+  clear: both;
+  height: 0;
+}
+.bs-clear1 {
+  clear: both;
+  height: 1px;
+}
+.bs-clear10 {
+  clear: both;
+  height: 10px;
+}
+.bs-clear20 {
+  clear: both;
+  height: 20px;
+}
+.bs-nowrap {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.bs-marked {
+  font-size: 14px;
+  font-family: "-apple-system", BlinkMacSystemFont, "\5FAE\8F6F\96C5\9ED1", "PingFang SC", Helvetica, Tahoma, Arial, "Hiragino Sans GB", "Microsoft YaHei", SimSun, "\5B8B\4F53", Heiti, "\9ED1\4F53", sans-serif;
+  color: #24292e;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+.bs-marked li {
+  line-height: 25px;
+}
+.bs-marked ul {
+  margin-left: 30px;
+}
+.bs-marked ul li {
+  list-style: disc outside;
+}
+.bs-marked ol {
+  margin-left: 30px;
+}
+.bs-marked ol li {
+  list-style: decimal outside;
+}
+.bs-marked pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+  color: #0E90D2;
+}
+.bs-marked a {
+  background-color: transparent;
+  -webkit-text-decoration-skip: objects;
+  color: #0366d6;
+  text-decoration: none;
+}
+.bs-marked h1,
+.bs-marked h2 {
+  padding-bottom: .3em;
+  border-bottom: 1px solid #eaecef;
+}
+.bs-marked h1 {
+  font-size: 2em;
+  font-weight: bold;
+  margin: 0.67em 0;
+}
+.bs-marked h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 0.83em 0;
+}
+.bs-marked h3 {
+  font-size: 1.17em;
+  font-weight: bold;
+  margin: 1em 0;
+}
+.bs-marked hr {
+  overflow: hidden;
+  background: #e1e4e8;
+  height: .25em;
+  padding: 0;
+  margin: 24px 0;
+  border: 0;
+  border-bottom-color: #eee;
+  box-sizing: content-box;
+}
+.bs-marked p {
+  margin: 1em 0;
+}
+.bs-marked blockquote {
+  margin: 1em 0;
+  color: #6b7a8c;
+  border-left: 4px solid #cfd8e6;
+  background-color: #EEE;
+  padding: 15px;
+  line-height: 25px;
+}
+.bs-marked blockquote p {
+  margin: 0;
+}
+.bs-marked table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+.bs-marked table td,
+.bs-marked table th {
+  text-align: left;
+  padding: 0 10px;
+  border-collapse: collapse;
+  border: 1px solid #e0e0e0;
+}
+.bs-marked table th {
+  background-color: #eeeeee;
+}
+.bs-marked table tr {
+  line-height: 40px;
+}
+.bs-marked table tr:hover {
+  background-color: #f0f0f0;
+}
+.TopicsItemView {
+  position: relative;
+}
+.TopicsItemView.noCover .cover {
+  display: none;
+}
+.TopicsItemView.noCover .content {
+  margin-left: 6px;
+}
+.TopicsItemView .cover {
+  float: left;
+  padding: 5px;
+}
+.TopicsItemView .cover img {
+  width: 200px;
+  height: 120px;
+}
+.TopicsItemView .content {
+  margin-left: 220px;
+}
+.TopicsItemView .content .title {
+  color: #333;
+  font-size: 16px;
+  line-height: 40px;
+  display: block;
+  text-decoration: none;
+}
+.TopicsItemView .content .summary {
+  color: #777;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow: hidden;
+  height: 42px;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+.TopicsItemView .infos {
+  margin-top: 10px;
+  line-height: 25px;
+  color: #999;
+  font-size: 13px;
+}
+.TopicsItemView .infos .avatar {
+  width: 20px;
+  height: 20px;
+  border-radius: 100px;
+  position: relative;
+  top: 5px;
+}
+.TopicsItemView .infos span {
+  display: inline-block;
+  margin-left: 10px;
+}
+.TopicsItemView .infos span.nickname {
+  margin-left: 5px;
+}
+.topic_cover_img_div {
+  margin: 20px auto;
+}
+.topic_cover_img_div .cover_img {
+  max-width: 100%;
+  display: block;
+}
+.TopicSingleView h1.topic-title {
+  font-size: 20px;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+.TopicSingleView .topic-summary {
+  padding: 25px;
+  background: #f3f5f9;
+  line-height: 24px;
+  overflow: hidden;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+.TopicSingleView .topic-content {
+  margin: 20px 0;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+.TopicSingleView .topic-content p {
+  margin: 10px 0;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+.TopicCreateView .box {
+  padding-bottom: 20px;
+}
+.TopicCreateView .box .h2 {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333;
+}
+.TopicCreateView .box .summary-textarea textarea {
+  height: 60px;
+}
+.TopicCreateView .box .upload-cover {
+  width: 120px;
+}
+.TopicCreateView .box .select-category {
+  max-width: 200px;
+}
+.TopicCreateView .bs-textarea-wrapper {
+  border: 1px solid #e0e0e0;
+  width: 100%;
+}
+.TopicCreateView .bs-textarea-wrapper .content-left,
+.TopicCreateView .bs-textarea-wrapper .content-right {
+  width: 49%;
+  float: left;
+}
+.TopicCreateView .bs-textarea-wrapper .content-left textarea,
+.TopicCreateView .bs-textarea-wrapper .content-right textarea,
+.TopicCreateView .bs-textarea-wrapper .content-left .bs-marked,
+.TopicCreateView .bs-textarea-wrapper .content-right .bs-marked {
+  width: 97%;
+  float: right;
+  display: block;
+  margin: 0;
+  padding: 10px 0;
+  height: 500px;
+  overflow: auto;
+}
+.TopicCreateView .bs-textarea-wrapper .content-left {
+  border-right: 1px solid #e0e0e0;
+}
+.TopicCreateView .bs-textarea-wrapper .content-right {
+  float: right;
+}
+@media screen and (max-width: 750px) {
+  .TopicsItemView .cover {
+    display: none;
+  }
+  .TopicsItemView .content {
+    margin-left: 6px;
+  }
+}
+@media screen and (max-width: 420px) {
+  .TopicsItemView .infos span.createtime {
+    display: none;
+  }
+}
+.bs-dialog {
+  width: 300px;
+  height: 150px;
+  background-color: #ffffff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  right: 0;
+  bottom: 0;
+  margin-left: -174px;
+  margin-top: -174px;
+  border-radius: 1px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.32), 0 8px 40px rgba(0, 0, 0, 0.4);
+  padding: 24px;
+}
+.bs-dialog-title {
+  height: 40px;
+  line-height: 40px;
+  font-size: 20px;
+  color: #222;
+}
+.bs-dialog-title * {
+  font-size: 20px;
+}
+.bs-dialog-header {
+  position: relative;
+}
+.bs-dialog-header span {
+  display: block;
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  top: 12px;
+  right: 10px;
+  background: url("/static/images/uis/close_16px.png") no-repeat;
+  background-size: cover;
+  cursor: pointer;
+}
+.bs-dialog-footer {
+  position: absolute;
+  bottom: 15px;
+  right: 10px;
+}
+.bs-dialog-footer .bs-button {
+  margin: 6px 6px 0 6px;
+}
+.bs-dialog-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.bs-TipsDialogWrapper .bs-dialog-mask {
+  display: none;
+}
+.bs-TipsDialogWrapper .bs-dialog-header {
+  display: none;
+}
+.bs-TipsDialogWrapper .bs-dialog-footer {
+  display: none;
+}
+.bs-TipsDialogWrapper .bs-dialog {
+  margin-left: -60px;
+  margin-top: -42px;
+  width: 120px;
+  height: 45px;
+  line-height: 45px;
+  color: #ffffff;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 0 10px;
+}
+.user-create .regTypeCurrent {
+  color: #1b6d85;
+}
+.user-login {
+  width: 100%;
+  min-height: 500px;
+}
+.login-box {
+  background-color: #ffffff;
+  max-width: 400px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  margin: 50px auto;
+  border-radius: 3px;
+}
+.login-box .login-title {
+  text-align: center;
+  line-height: 40px;
+  padding: 10px 0;
+}
+.login-box .login-line {
+  margin-bottom: 20px;
+}
+.login-box .login-input {
+  width: 90%;
+  margin: 0 auto;
+  height: 40px;
+  line-height: 40px;
+  outline: none;
+  padding: 0;
+  border: 1px solid #f0f0f0;
+  display: block;
+  text-indent: 20px;
+  border-radius: 4px;
+}
+.login-box .login-input:focus {
+  border-color: #19bca1;
+}
+.login-box .login-btn {
+  display: block;
+  width: 90%;
+  padding: 0;
+  height: 40px;
+  line-height: 40px;
+  margin: 0 auto;
+  font-size: 16px;
+  letter-spacing: 5px;
+}
+.login-box .goto {
+  text-align: right;
+  padding: 0 22px;
+}
+.login-box .goto a {
+  color: #19bca1;
+  text-decoration: none;
+}
+.bs-card {
+  background-color: #ffffff;
+  width: 100%;
+  padding: 15px 0;
+  border-bottom: 1px solid #eeeeee;
+}
+.bs-card .bs-card-ms {
+  margin: 0 15px;
+}
+.bs-card .bs-card-title {
+  line-height: 30px;
+}
+.bs-button {
+  text-align: center;
+  height: 30px;
+  line-height: 30px;
+  margin: 6px 6px 0 0;
+  padding: 0 20px;
+  color: #333;
+  border-radius: 2px;
+  font-weight: 100;
+  font-size: 12px;
+  cursor: pointer;
+  text-decoration: none;
+  font-style: normal;
+  display: inline-block;
+  transition: color 1000ms cubic-bezier(0.4, 0, 0.2, 1), background 1000ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.bs-button.bs-button-ok {
+  color: #fff;
+  background: #4285f4;
+}
+.bs-button.bs-button-ok:hover {
+  background: #4285f4;
+}
+.bs-button.bs-button-green {
+  color: #fff;
+  background: #19bca1;
+}
+.bs-button.bs-button-green:hover {
+  background: rgba(25, 188, 161, 0.8);
+}
+.bs-button.bs-button-cancel:hover {
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+}
+.bs-button.bs-button-disabled {
+  color: #fff;
+  background: #666;
+  color: #ffffff;
+}
+.bs-upload {
+  position: relative;
+}
+.bs-upload input[type=file] {
+  opacity: 0;
+  width: 100%;
+  z-index: 2;
+  position: absolute;
+  height: 100%;
+}
+.bs-page-loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 1000;
+}
+.bs-page-loading span {
+  width: 0;
+  height: 2px;
+  background: red;
+  display: block;
+}
+.bs-pagination {
+  user-select: none;
+  position: relative;
+}
+.bs-pagination li {
+  display: inline-block;
+  margin: 0 5px;
+}
+.bs-pagination li span {
+  padding: 0px 10px;
+  line-height: 25px;
+  font-size: 13px;
+  display: inline-block;
+  border: 1px solid #ddd;
+  background: #fff;
+  color: #0E90D2;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 3px;
+}
+.bs-pagination li span:hover {
+  background: #eee;
+}
+.bs-pagination-active span {
+  background: #0E90D2 !important;
+  color: #fff !important;
+  border: 1px solid #0E90D2 !important;
+}
+.ReplyView .ReplyCreate {
+  margin-bottom: 20px;
+}
+.ReplyView .ReplyCreate textarea {
+  width: 90%;
+  height: 80px;
+  margin: 10px 0;
+  border: 1px solid #cccccc;
+  padding: 10px;
+  resize: none;
+}
+.ReplyView .ReplyItem {
+  position: relative;
+}
+.ReplyView .ReplyItem .reply-avatar {
+  position: absolute;
+  left: 0px;
+  top: 30px;
+}
+.ReplyView .ReplyItem .reply-avatar img {
+  width: 40px;
+  height: 40px;
+  border-radius: 1000px;
+}
+.ReplyView .ReplyItem .reply-content {
+  margin-left: 50px;
+  min-height: 60px;
+  font-size: 12px;
+  padding: 20px 0;
+  border-top: 1px dashed #e0e0e0;
+}
+.ReplyView .ReplyItem .reply-content .line1 * {
+  font-size: 12px;
+}
+.ReplyView .ReplyItem .reply-content .line1 {
+  line-height: 30px;
+}
+.ReplyView .ReplyItem .reply-content .line1 span {
+  display: inline-block;
+  margin-right: 10px;
+}
+.ReplyView .ReplyItem .reply-content .nickname {
+  color: #776962;
+}
+.ReplyView .ReplyItem .reply-content .floorNumber {
+  float: right;
+  color: #666;
+}
+.ReplyView .ReplyItem .reply-content .line2 {
+  margin-top: 10px;
+}
+.ReplyView .ReplyLoad {
+  margin-top: 20px;
+  text-align: center;
+  line-height: 40px;
+  color: #715202;
+  background: #e0e0e0;
+}
+.app-header {
+  height: 60px;
+  width: 100%;
+}
+.app-header .nav {
+  width: 100%;
+  height: 60px;
+  background: #19bca1;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+.app-header .nav-right {
+  float: right;
+  height: 60px;
+  margin-right: 20px;
+}
+.app-header .nav-right .login-link {
+  color: #ffffff;
+  text-decoration: none;
+  display: inline-block;
+  line-height: 60px;
+  padding: 0 5px;
+}
+.app-footer {
+  height: 60px;
+}
+.app-footer-content {
+  display: none;
+  padding: 20px 0;
+  background: #000;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  color: #ffffff;
+}
+#mainBody {
+  width: 100%;
+}
+.app-wrapper {
+  width: 100%;
+}
+.app-bg {
+  background-image: url("/static/images/uis/bg01.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50%;
+  -webkit-filter: blur(65px);
+  filter: blur(65px);
+  opacity: .6;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+}
+.app-root {
+  position: relative;
+  z-index: 1;
+}
+@media (min-width: 1096px) {
+  .bs-pagebody {
+    max-width: 1138px;
+    margin: 0 auto;
+  }
+}
