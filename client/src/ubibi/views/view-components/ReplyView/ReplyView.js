@@ -2,12 +2,13 @@ import './ReplyView.less';
 import TopicApis from '../../../apis/TopicApis';
 import UserStore from '../../../apis/UserStore';
 import {openTips} from '../../../components/Dialog/Dialog';
+import parseAuthorInfo from '../../../utils/parseAuthorInfo';
 import trimString from '../../../../_commons/trimString';
 import {ReplyViewTemplate} from './ReplyView.shtml';
 
 
 Vue.component('bsv-reply', {
-    props: ['fid', 'ftype'],
+    props: ['fid', 'ftype',"fMaxReplyCount"],
     template: ReplyViewTemplate,
     data: function () {
         return {
@@ -35,7 +36,7 @@ Vue.component('bsv-reply', {
             if (ftype === 'topic_reply') {
                 var topic_id = fid;
                 TopicApis.getReplyOfTopic(topic_id, page_size, page_no).then((d)=> {
-                    that.replyList = d.data_list;
+                    that.replyList = parseAuthorInfo(d.data_list,{});
                     that.replyListCount = d.total_count;
                     callback && callback(d);
                 });

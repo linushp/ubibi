@@ -23,7 +23,11 @@ function sendPromise (handler) {
                 res.send(d || {errorCode: 1, msg: 'ok'});
             }, function (e) {
                 if (typeof e === 'string') {
-                    res.send({errorCode: 1, msg: e});
+                    if(e==='not_login'){
+                        res.send({errorCode: 2, msg: "用户未登录"});
+                    }else {
+                        res.send({errorCode: 1, msg: e});
+                    }
                 } else {
                     res.send(e || {errorCode: 1, msg: 'error'});
                 }
@@ -47,7 +51,31 @@ function handleRequest(handler){
 }
 
 
+
+
+function getSqlResultObject(d){
+    if(d && d.result && d.result[0]){
+        return d.result[0];
+    }
+    return null;
+}
+
+
+function toAuthorInfo(userInfo) {
+    return {
+        uid: userInfo.id,
+        nickname: userInfo.nickname,
+        avatar: userInfo.avatar,
+        description: userInfo.description
+    };
+}
+
+
 module.exports = {
+    toAuthorInfo:toAuthorInfo,
+    getSqlResultObject:getSqlResultObject,
+
+
     handleRequest:handleRequest,
     sendPromise:sendPromise
 };

@@ -2,19 +2,23 @@
 
 <string2-template id="ReplyViewTemplate">
     <div class="ReplyView">
-        <div class="ReplyCreate" v-if="replyListCount<20 && isInit">
+        <div class="ReplyCreate" v-if="replyListCount<fMaxReplyCount && isInit">
             <textarea v-model="createMsg" placeholder="说些什么..."/>
             <div class="clear"></div>
             <bs-button :title="isReplying?'提交中...':'提交回复'" :theme="isReplying?'disabled':'ok'" @click="onReply()"/>
         </div>
+
+        <div class="ReplyCreateFull" v-if="replyListCount>=fMaxReplyCount && isInit">
+            评论已超过{{fMaxReplyCount}}条, 不能继续评论了.
+        </div>
         
         <div class="ReplyItem" v-for="replyItem in replyList" :data-itemid="replyItem.id">
             <div class="reply-avatar">
-                <img src="/static/images/tmpimg/aaaa.png"/>
+                <img :src="replyItem.author_info.avatar"/>
             </div>
             <div class="reply-content">
                 <div class="line1">
-                    <span class="nickname">栾海鹏</span>
+                    <span class="nickname">{{replyItem.author_info.nickname}}</span>
                     <span class="floorNumber">{{replyItem.floor_num || '-'}} 楼 </span>
                     <span class="createtime">{{replyItem.create_time|formatTime}}</span>
                 </div>

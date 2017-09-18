@@ -1,10 +1,21 @@
 import './AppView.less';
 import UserStore from '../../apis/UserStore';
+import UserApis from '../../apis/UserApis';
+import {openTips} from '../../components/Dialog/Dialog';
 import {AppHeaderTemplate,AppRootTemplate,AppFooterTemplate} from './AppView.shtml';
 
 var AppHeader = {
     template: AppHeaderTemplate,
-    props: ["myUserInfo"]
+    props: ["myUserInfo"],
+    methods: {
+        logout: function () {
+            var that = this;
+            UserApis.userLogout().then(function () {
+                openTips("退出成功");
+                //debugger;
+            });
+        }
+    }
 };
 
 var AppFooter = {
@@ -25,13 +36,8 @@ var AppView = {
         };
     },
     methods: {
-        onUserLoginSuccess: function (obj) {
-            if (obj && obj.isLoginOk) {
-                this.myUserInfo = obj.myUserInfo;
-            }
-        },
-        logout:function(){
-            UserStore.set
+        onUserLoginSuccess: function (myUserInfo) {
+            this.myUserInfo = myUserInfo;
         }
     },
     created: function () {

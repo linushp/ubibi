@@ -100,11 +100,26 @@ var UserMsgModel = {
 };
 
 
+
+var UserTokenModel = {
+    tableName: 't_user_token',
+    tableFields: [
+        'id',
+        'uid',
+        'token',
+        'user_info',
+        'create_time',
+        'update_time'
+    ]
+};
+
+
 module.exports = {
     TopicModel: TopicModel,
     ReplyModel: ReplyModel,
     CategoryModel: CategoryModel,
     SubjectModel: SubjectModel,
     UserModel: UserModel,
-    UserMsgModel: UserMsgModel
+    UserMsgModel: UserMsgModel,
+    UserTokenModel:UserTokenModel
 };

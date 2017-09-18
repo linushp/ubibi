@@ -63,7 +63,7 @@
         </div>
         <div class="bs-clear10"></div>
         <bs-card title="评论列表">
-            <bsv-reply v-if="!!topicObject.id" :fid="topicObject.id" ftype="topic_reply"/>
+            <bsv-reply v-if="!!topicObject.id" :fid="topicObject.id" ftype="topic_reply" fMaxReplyCount="20"/>
         </bs-card>
     </div>
 

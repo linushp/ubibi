@@ -6,6 +6,7 @@ var router = express.Router();
 var TopicService = require('../services/TopicService');
 var UserService = require('../services/UserService');
 var ReplyService = require('../services/ReplyService');
+var ErrorCode = require('../constants/ErrorCode');
 
 
 function handleRequest(handler){
@@ -77,40 +78,48 @@ router.get('/reply/:topic_id', handleRequest(function (req) {
 }));
 
 
-router.post('/reply', handleRequest(function (req, res) {
+router.post('/reply', handleRequest(async function (req, res) {
 
     var replyObject = req.body;
-
     var topic_id = replyObject['topic_id'];
-    var topicObjectPromise = TopicService.getTopicById(topic_id);
+    var cookies = req.cookies || {};
+    var uid = cookies['ubibi_uid'];
+    var token = cookies['ubibi_token'];
 
+    //1.校验用户登录
+    var userTokenResult = await UserService.getUserToken(uid, token);
+    if (!userTokenResult || !userTokenResult.result || !userTokenResult.result[0]) {
+        return Promise.reject(ErrorCode.NOT_LOGIN);
+    }
 
+    //2.用户信息
+    var userInfoAwait = await UserService.getUserInfoByUid(uid);
+    var userInfo = ExpressUtils.getSqlResultObject(userInfoAwait);
 
+    //3. 检验文章
+    var topicObjectAwait = await TopicService.getTopicById(topic_id);
+    var topicObject = ExpressUtils.getSqlResultObject(topicObjectAwait);
 
-    return topicObjectPromise.then(function(obj){
-        var topicObject = obj.result[0];
-        if(!topicObject){
-            return Promise.reject("文章不存在");
-        }
-        var reply_count = topicObject.reply_count;
-        if(reply_count >= 20){
-            return Promise.reject("回复已满");
-        }
+    if (!topicObject) {
+        return Promise.reject("文章不存在");
+    }
 
-        return topicObject;
+    var reply_count = topicObject.reply_count;
+    if (reply_count >= 20) {
+        return Promise.reject("回复已满");
+    }
 
-    }).then(function(topicObject){
-        var reply_count = topicObject.reply_count || 0;
-
-        TopicService.updateTopic(topic_id,{
-            reply_count : reply_count + 1
-        });
-
-        replyObject.floor_num = reply_count + 1;
-        return ReplyService.createReply(replyObject);
+    //4.更新文章回复数量
+    await TopicService.updateTopic(topic_id, {
+        reply_count: reply_count + 1
     });
 
 
+    replyObject.floor_num = reply_count + 1;
+    replyObject.author_id = uid;
+    replyObject.author_info = JSON.stringify(ExpressUtils.toAuthorInfo(userInfo));
+
+    return ReplyService.createReply(replyObject);
 
 }));
 
@@ -123,13 +132,37 @@ router.delete('/reply/:reply_id', handleRequest(function (req, res) {
 
 
 
-router.post('/user/login',handleRequest(function(req){
+router.post('/user/login',handleRequest(function(req,res){
     var req_body =  req.body;
     var username = req_body.username;
     var passwd = req_body.passwd;
     //var passwd =  md5.hex_md5('ubibi_' + req_body['passwd']);
-    return UserService.getUserInfoByPassword(username,passwd);
+    return UserService.getUserInfoByPassword(username,passwd).then(function(d){
+        if(d.result && d.result[0]){
+            var userInfo = d.result[0];
+            var uid = userInfo.id;
+            return UserService.createUserToken(uid,userInfo).then(function(d2){
+                d.token = d2.token;
+                res.cookie("ubibi_token", d.token, {expires: new Date(Date.now() + 1000 * 3600 * 24 * 366)});
+                res.cookie("ubibi_uid", uid, {expires: new Date(Date.now() + 1000 * 3600 * 24 * 366)});
+                return d;
+            });
+        }
+        return d;
+    });
 }));
+
+router.get('/user/logout', handleRequest(function (req,res) {
+    var cookies = req.cookies || {};
+    var uid = cookies['ubibi_uid'];
+    var token = cookies['ubibi_token'];
+    return UserService.deleteUserToken(uid,token).then(function(d){
+        res.cookie("ubibi_token", '');
+        res.cookie("ubibi_uid", '');
+        return d;
+    });
+}));
+
 
 
 router.post('/user/reg', handleRequest(function (req) {

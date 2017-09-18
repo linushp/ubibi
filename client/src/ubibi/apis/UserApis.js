@@ -33,7 +33,13 @@ export default {
 
 
     userLogout(){
-
+        return AjaxUtils.sendGetRequest('/api/v1/ubibi/user/logout').then(function(d){
+            globalEventBus.emit(EVNETS.USER_LOG_OUT, {
+                myUserInfo: null,
+                isLogOutOk: true
+            });
+            return d;
+        });
     },
 
     userReg(username, passwd){
