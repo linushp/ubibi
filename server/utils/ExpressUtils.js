@@ -53,29 +53,7 @@ function handleRequest(handler){
 
 
 
-function getSqlResultObject(d){
-    if(d && d.result && d.result[0]){
-        return d.result[0];
-    }
-    return null;
-}
-
-
-function toAuthorInfo(userInfo) {
-    return {
-        uid: userInfo.id,
-        nickname: userInfo.nickname,
-        avatar: userInfo.avatar,
-        description: userInfo.description
-    };
-}
-
-
 module.exports = {
-    toAuthorInfo:toAuthorInfo,
-    getSqlResultObject:getSqlResultObject,
-
-
     handleRequest:handleRequest,
     sendPromise:sendPromise
 };

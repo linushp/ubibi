@@ -237,6 +237,16 @@ function joinTableFields(model,excepts){
 }
 
 
+
+function getSqlResultObject(d){
+    if(d && d.result && d.result[0]){
+        return d.result[0];
+    }
+    return null;
+}
+
+
+
 module.exports = {
     configMySQL: configMySQL,
     configSqlMap: configSqlMap,
@@ -245,5 +255,6 @@ module.exports = {
     doClearCacheByKey: doClearCacheByKey,
     doInsertByModelAsync:doInsertByModelAsync,
     doUpdateByModelAsync:doUpdateByModelAsync,
-    joinTableFields:joinTableFields
+    joinTableFields:joinTableFields,
+    getSqlResultObject:getSqlResultObject
 };

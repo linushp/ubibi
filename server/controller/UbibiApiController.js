@@ -2,6 +2,7 @@ var express = require('express');
 var md5 = require('rebix-utils/addon_nopack/md5');
 var SqlQueryUtils = require('../utils/SqlQueryUtils');
 var ExpressUtils = require('../utils/ExpressUtils');
+var UserUtils = require('../utils/UserUtils');
 var router = express.Router();
 var TopicService = require('../services/TopicService');
 var UserService = require('../services/UserService');
@@ -94,11 +95,11 @@ router.post('/reply', handleRequest(async function (req, res) {
 
     //2.用户信息
     var userInfoAwait = await UserService.getUserInfoByUid(uid);
-    var userInfo = ExpressUtils.getSqlResultObject(userInfoAwait);
+    var userInfo = SqlQueryUtils.getSqlResultObject(userInfoAwait);
 
     //3. 检验文章
     var topicObjectAwait = await TopicService.getTopicById(topic_id);
-    var topicObject = ExpressUtils.getSqlResultObject(topicObjectAwait);
+    var topicObject = SqlQueryUtils.getSqlResultObject(topicObjectAwait);
 
     if (!topicObject) {
         return Promise.reject("文章不存在");
@@ -117,7 +118,7 @@ router.post('/reply', handleRequest(async function (req, res) {
 
     replyObject.floor_num = reply_count + 1;
     replyObject.author_id = uid;
-    replyObject.author_info = JSON.stringify(ExpressUtils.toAuthorInfo(userInfo));
+    replyObject.author_info = JSON.stringify(UserUtils.toAuthorInfo(userInfo));
 
     return ReplyService.createReply(replyObject);
 
