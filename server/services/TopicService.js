@@ -1,6 +1,19 @@
-var _ = require('underscore');
 var SqlQueryUtils = require('../utils/SqlQueryUtils');
 var models = require('./model/models');
+
+
+function isNumberLike(obj){
+    if(typeof obj==='number'){
+        return true;
+    }
+    if(obj){
+        if(typeof obj ==="string"){
+            var x = /^\d+$/;
+            return x.test(obj);
+        }
+    }
+    return false;
+}
 
 
 function getTopicById(topic_id) {
@@ -54,19 +67,19 @@ function getTopicListByCategory(pageNo, pageSize, category_id, is_top, topic_typ
 
     orderBy = orderBy || "id";
     var whereCondition = [];
-    if (_.isNumber(category_id)) {
-        category_id = parseInt(category_id, 10);
+    if (isNumberLike(category_id)) {
         whereCondition.push('category_id=' + category_id);
     }
 
-    if (_.isNumber(is_top)) {
+    if (isNumberLike(is_top)) {
         whereCondition.push('is_top=' + is_top);
     }
 
-    if (_.isNumber(topic_type)) {
+    if (isNumberLike(topic_type)) {
         whereCondition.push('topic_type=' + topic_type);
     }
 
+    console.log("whereCondition",whereCondition);
     var whereSql = "";
     if (whereCondition.length > 0) {
         var whereConditionAnd = whereCondition.join(" and ");

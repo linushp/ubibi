@@ -22,7 +22,7 @@ function isPromise(obj) {
 
 var zIndex = 1000;
 Vue.component('bs-dialog', {
-    props: ['className'],
+    props: ['className','title'],
     template: DialogTemplate,
     methods: {
         onCloseDialog: function (type) {
@@ -93,9 +93,19 @@ function createDialog(componentConfig) {
 
     };
 
-    var className = dialog.className || '';
+
+    var className = dialog.className;
+    var title = dialog.title;
+    var propsList = [];
+    if(className){
+         propsList.push('className="'+ className+'"');
+    }
+    if(title){
+        propsList.push('title="'+ title+'"');
+    }
+
     var template = ''
-        + '<bs-dialog @close="onCloseDialog" className="' + className + '" >'
+        + '<bs-dialog @close="onCloseDialog" '+ propsList.join(" ") +'>'
         + componentConfig.template
         + '</bs-dialog>';
 
@@ -130,6 +140,8 @@ var AlertDialog = new Dialog(function(params){
     };
 });
 
+
+
 export function openAlert(message,title){
     return AlertDialog.openDialog({
         message : message,
@@ -138,7 +150,7 @@ export function openAlert(message,title){
 }
 
 
-export function openTips(message , className){
+export function openTips(message,className){
     return AlertDialog.openDialog({
         message: message,
         className:("bs-TipsDialogWrapper " + (className || ""))

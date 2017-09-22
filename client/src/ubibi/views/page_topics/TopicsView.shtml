@@ -1,84 +1,93 @@
-
-
-
-
-
-<string2-template id="t1">
+<string2-template id="TopicsView">
 
     <div class="TopicsView">
-        <button @click="openDialog">openDialog</button>
-        <router-link to="/topic/create">创建文章</router-link>
-        <bs-card>
-            <TopicsItemView v-for="topic in topicList" :topic="topic" key="topic.id"/>
-            <bs-pagination :current='topicListCur' :pageSize="topicListPageSize" :totalCount="topicListTotal" @page="onPageChange"/>
-        </bs-card>
-    </div>
 
-</string2-template>
-
-
-
-
-<string2-template id="t2">
-    <div :class="topic.img?'TopicsItemView':' TopicsItemView noCover'">
-        <div class="cover">
-            <img v-xsrc="'/static/images/tmpimg/aaaa.png'" />
+        <div class="bs-operations" v-if="myUserInfo">
+            <router-link class="bs-button bs-button-ok oper" to="/topic/create">创建文章</router-link>
+            <div class="bs-clear1"></div>
         </div>
-        <div class="content">
-            <router-link :to="'/topic/'+topic.id" class="title bs-nowrap">{{topic.title}}</router-link>
-            <div class="summary">{{topic.description}}</div>
-            <div class="infos">
-                <img class="avatar" v-xsrc="'/static/images/tmpimg/aaaa.png'" />
-                <span class="nickname">luanhaipeng</span>
-                <span class="createtime">发布于 {{topic.create_time | formatTime}}</span>
-                <span class="viewcount"> 阅读 ( {{topic.view_count}} ) </span>
+
+        <bs-card className="bs-card-radius TopicsViewCard">
+
+
+            <div class="categoryList">
+                <router-link class="category" :to="'/topics/'+category.id" v-for="category in categoryList" :key="category.id">
+                    <span>{{category.title}}</span>
+                </router-link>
             </div>
-        </div>
-        <div class="bs-clear"></div>
+
+            <div class="topic-empty" v-if="isInited && (!topicList || topicList.length===0)">暂无文章</div>
+
+            <div v-for="topic in topicList" :key="topic.id">
+                <div :class="topic.img?'TopicsItemView':' TopicsItemView noCover'">
+                    <div class="cover">
+                        <img v-cdn src="/static/images/tmpimg/aaaa.png"/>
+                    </div>
+                    <div class="content">
+                        <router-link :to="'/topic/'+topic.id" class="title bs-nowrap">{{topic.title}}</router-link>
+                        <div class="summary">{{topic.description}}</div>
+                        <div class="infos">
+                            <img class="avatar" :src="topic.author_info.avatar"/>
+                            <span class="nickname">{{topic.author_info.nickname}}</span>
+                            <span class="createtime">发布于 {{topic.create_time | formatTime}}</span>
+                            <span class="viewcount"> 阅读 ( {{topic.view_count}} ) </span>
+                            <div class="item_oper"  v-if="myUserInfo">
+                                <span @click="onDelete(topic)">删除</span>
+                                <span @click="onUpdate(topic)">修改</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bs-clear"></div>
+                </div>
+            </div>
+            <div class="bs-clear20"></div>
+            <bs-pagination :current='topicListCur'
+                           :pageSize="topicListPageSize"
+                           :totalCount="topicListTotal"
+                           @page="onPageChange"/>
+        </bs-card>
+
+
+
     </div>
+
 </string2-template>
 
 
 
-<string2-template id="t3">
-    <div slot="title" class="title111">新建文件夹</div>
-    <div slot="body">hello world--{{data}}===={{params_text}}</div>
-</string2-template>
 
 
-
-<string2-template id="t4">
-    <div v-if="topicObject">
-        <div v-once>
-            <bs-card className="TopicSingleView" title="">
-                <h1 class="topic-title">{{topicObject.title}}</h1>
-                <div class="topic-summary">{{topicObject.description}}</div>
-                <div v-if="topicObject.cover_img" class="topic_cover_img_div">
-                    <img :src="topicObject.cover_img" class="cover_img">
-                </div>
-                <div class="topic-content">
-                    <div class="bs-marked markdown-body"  v-html="topicObject.contentMarked"></div>
-                </div>
+<string2-template id="TopicSingleView">
+    <div class="TopicSingleView">
+        <div v-if="topicObject">
+            <div v-once>
+                <bs-card className="bs-card-radius" >
+                    <h1 class="topic-title">{{topicObject.title}}</h1>
+                    <div class="topic-summary">{{topicObject.description}}</div>
+                    <div v-if="topicObject.cover_img" class="topic_cover_img_div">
+                        <img :src="topicObject.cover_img" class="cover_img">
+                    </div>
+                    <div class="topic-content">
+                        <div class="bs-marked markdown-body" v-html="topicObject.contentMarked"></div>
+                    </div>
+                </bs-card>
+            </div>
+            <div class="bs-clear10"></div>
+            <bs-card title="评论列表" className="bs-card-radius">
+                <bsv-reply v-if="!!topicObject.id" :fid="topicObject.id" ftype="topic_reply" fMaxReplyCount="20"/>
             </bs-card>
         </div>
-        <div class="bs-clear10"></div>
-        <bs-card title="评论列表">
-            <bsv-reply v-if="!!topicObject.id" :fid="topicObject.id" ftype="topic_reply" fMaxReplyCount="20"/>
-        </bs-card>
     </div>
-
 </string2-template>
 
 
+<string2-template id="TopicCreateView">
 
-
-
-<string2-template id="t5">
     <div class="TopicCreateView">
-        <bs-card>
+        <bs-card className="bs-card-radius">
             <div class="box">
                 <div class="h2">文章标题:</div>
-                <input type="text" placeholder="标题字数10字以上"  v-model="topicObject.title" >
+                <input type="text" placeholder="标题字数10字以上" v-model="topicObject.title">
             </div>
 
             <div class="box">
@@ -117,8 +126,9 @@
                 </select>
             </div>
             <div class="box">
-                <bs-button title="发布文章" theme="ok" @click="handleSubmitTopic" />
+                <bs-button title="发布文章" theme="ok" @click="handleSubmitTopic"/>
             </div>
         </bs-card>
     </div>
+
 </string2-template>

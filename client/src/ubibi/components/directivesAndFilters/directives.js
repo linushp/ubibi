@@ -1,9 +1,6 @@
-
-
-Vue.directive('xsrc', {
-
-    bind: function (el, binding, vnode) {
-        var src = binding.value;
+Vue.directive("cdn",{
+    bind: function (el) {
+        var src = el.getAttribute('src');
         var server_vars_static_host = window.server_vars_static_host;
         if(src.indexOf('/static/')===0 && server_vars_static_host){
             src = server_vars_static_host + src;

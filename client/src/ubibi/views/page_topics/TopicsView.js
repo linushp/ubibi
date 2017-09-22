@@ -1,77 +1,108 @@
-import {t1,t2,t3,t4,t5} from './TopicsView.shtml';
+import * as tpl from './TopicsView.shtml';
 import Dialog,{openTips} from '../../components/Dialog/Dialog';
 import TopicApis from '../../apis/TopicApis';
+import connectMyUserInfo from '../helpers/connectMyUserInfo';
 import compileMarkdown from '../../utils/compileMarkdown';
+import parseAuthorInfo from '../../utils/parseAuthorInfo';
 import './TopicsView.less';
 
-var TopicsItemView = {
-    template: t2,
-    props: ['topic'],
-    data: function () {
-        return {};
-    }
-};
 
-var TopicViewDialog = new Dialog(function (params) {
-    return {
-        template: t3,
-        data: function () {
-            return {
-                params_text: params.text,
-                data: new Date().getTime()
-            }
-        },
-        dialog: {
-            className: 'TopicViewDialog',
-            beforeClose: function () {
-                //debugger;
-            },
-            afterClose: function () {
-                //debugger;
-            }
-        }
-    };
-});
-
-var TopicsView = {
-    template: t1,
-    components: {
-        TopicsItemView: TopicsItemView
+/**
+ * 1.列表页面
+ * @type {*}
+ */
+var TopicsView = connectMyUserInfo({
+    template: tpl.TopicsView,
+    beforeRouteUpdate: function (to, from, next) {
+        next();
+        var that = this;
+        setTimeout(function () {
+            that.initPage();
+        }, 10);
     },
     methods: {
-        openDialog: function () {
-            TopicViewDialog.openDialog();
-        },
-        onPageChange: function (nextCur) {
-            this.topicListCur = nextCur;
-            this.doQueryTopicList();
+
+        onDelete: function (topic) {
+
         },
 
+        onUpdate: function (topic) {
+
+        },
+
+        onPageChange: function (nextCur) {
+            var path = this.$route.path;
+            var topicListPageSize = this.topicListPageSize;
+            this.$router.push(path + "?page_size=" + topicListPageSize + "&page_no=" + nextCur);
+        },
         doQueryTopicList: function () {
             var that = this;
             var {topicListPageSize,topicListCur} = that;
-            TopicApis.getTopicsList(topicListCur, topicListPageSize).then((d)=> {
-                that.topicList = d.dataList.result;
+            if (!topicListCur || parseInt(topicListCur) <= 0) {
+                topicListCur = 1;
+            }
+            var categoryCid = that.categoryCid;
+
+            if(parseInt(categoryCid)===0){
+                categoryCid = undefined;
+            }
+
+            TopicApis.getTopicsList(topicListCur, topicListPageSize,categoryCid).then((d)=> {
+                that.topicList = parseAuthorInfo(d.dataList.result || [], {
+                    nickname: '未知',
+                    avatar: "/static/images/tmpimg/aaaa.png"
+                });
                 that.topicListTotal = d.totalCount.result[0]['total_count'];
+                that.isInited = true;
             });
+        },
+        doQueryTopicCategorySubject: function () {
+            var that = this;
+            TopicApis.getTopicCategorySubject().then((d)=> {
+                that.categoryList = [{
+                    id: "0",
+                    title: "全部"
+                }].concat(d[0].result || []);
+            });
+        },
+
+        initPage(){
+            var that = this;
+            var params = that.$route.params;
+            var query = that.$route.query;
+            that.isInited = false;
+            that.categoryCid = params.cid || 0;
+            that.topicListCur = query.page_no || 1;
+            that.topicListPageSize = query.page_size || 20;
+            that.doQueryTopicList();
+            that.doQueryTopicCategorySubject();
         }
     },
     created: function () {
-        this.doQueryTopicList();
+        this.initPage();
     },
     data: function () {
         return {
-            topicListPageSize: 10,
+            isInited:false,
+            categoryCid: 0,
+            categoryList: [],
+            topicListPageSize: 20,
             topicListTotal: 0,
             topicListCur: 1,
             topicList: []
         };
     }
-};
+});
 
 
-var TopicSingleView = {
-    template: t4,
+/**
+ *
+ *
+ * 2.文章内容查看页面
+ * @type {*}
+ */
+var TopicSingleView = connectMyUserInfo({
+    template: tpl.TopicSingleView,
     data: function () {
         return {
             topicObject: null
@@ -86,23 +117,34 @@ var TopicSingleView = {
             that.topicObject.contentMarked = compileMarkdown(that.topicObject.content);
         });
     }
-};
+});
 
 
+/**
+ *
+ *
+ *
+ * 3. 新建或修改页面
+ * @param isCreate
+ * @returns {*}
+ *
+ *
+ *
+ */
 function createTopicCreateUpdateView(isCreate) {
 
-    return {
-        template: t5,
+    return connectMyUserInfo({
+        template: tpl.TopicCreateView,
         data: function () {
             return {
                 topicObject: {
                     title: '',
                     content: '',
                     description: '',
-                    cover_img:null,
-                    category_id:0
+                    cover_img: null,
+                    category_id: 0
                 },
-                categoryList:[],
+                categoryList: [],
                 isSubmitting: false
             }
         },
@@ -116,7 +158,7 @@ function createTopicCreateUpdateView(isCreate) {
         methods: {
 
 
-            handleUploaded:function(obj){
+            handleUploaded: function (obj) {
                 this.topicObject.cover_img = obj.url;
             },
 
@@ -164,21 +206,17 @@ function createTopicCreateUpdateView(isCreate) {
             var $route = this.$route;
 
 
-            TopicApis.getTopicCategorySubject().then((d)=>{
+            TopicApis.getTopicCategorySubject().then((d)=> {
                 that.categoryList = d[0].result || [];
-
                 if (!isCreate) {
                     var id = $route.params.id;
                     TopicApis.getTopicById(id).then((d)=> {
                         that.topicObject = d.result[0];
                     });
                 }
-
             });
-
-
         }
-    };
+    });
 }
 
 

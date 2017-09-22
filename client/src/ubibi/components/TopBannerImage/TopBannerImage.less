@@ -1,0 +1,97 @@
+.TopBannerImage {
+  .top_banner {
+    width: 100%;
+    height: 550px;
+    min-width: 1200px;
+    position: relative;
+    z-index: 0;
+  }
+
+  .top_banner .banner_list {
+    position: relative;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .top_banner .banner_list > li {
+    -webkit-transition: opacity .4s;
+    -moz-transition: opacity .4s;
+    -ms-transition: opacity .4s;
+    transition: opacity .4s;
+    zoom: 1;
+    position: absolute;
+    left: -3%;
+    top: 0;
+    z-index: 0;
+    width: 106%;
+    height: 106%;
+    opacity: 0;
+  }
+
+  .top_banner .banner_list>li:before, .top_banner .banner_list>li:after {
+    content: "";
+    display: table;
+  }
+
+
+  .top_banner .banner_list>li:after {
+    clear: both;
+  }
+
+  .top_banner .banner_list>li.focus{
+    z-index:1;
+    opacity:1;
+    animation:bigger 5s linear;
+  }
+
+  .top_banner .layer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,.2);
+  }
+
+  img{
+    width:1920px;
+    height:550px;
+  }
+
+  @keyframes bigger {
+    from {
+      width: 100%;
+      height: 100%;
+      left: 0
+    }
+
+    to {
+      width: 106%;
+      height: 106%;
+      left: -3%
+    }
+  }
+
+  /*!index/modules/exposure-person/main.less*/
+  @keyframes followCircle {
+    from {
+      transform: rotate(0)
+    }
+
+    to {
+      transform: rotate(360deg)
+    }
+  }
+
+  @media screen and (max-width: 1920px){
+    .top_banner .banner_list>li img {
+      width: auto;
+      height: 100%;
+    }
+  }
+
+
+}

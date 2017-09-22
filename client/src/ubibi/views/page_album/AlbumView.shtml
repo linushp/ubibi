@@ -1,0 +1,7 @@
+<string2-template id="AlbumViewTemplate">
+    <div class="bs-pagebody AlbumView">
+        <bs-card>
+            AlbumView
+        </bs-card>
+    </div>
+</string2-template>

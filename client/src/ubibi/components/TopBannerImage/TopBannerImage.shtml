@@ -1,0 +1,13 @@
+<string2-template id="TopBannerImageTemplate">
+    <div class="TopBannerImage" :class="className">
+        <div class="top_banner">
+            <ul class="banner_list">
+                <li :class="topBannerIndex===index?'focus':''" v-for="(img,index) in imgArray" :key="index">
+                    <img v-cdn :src="img" />
+                </li>
+            </ul>
+            <div class="layer"></div>
+            <slot />
+        </div>
+    </div>
+</string2-template>

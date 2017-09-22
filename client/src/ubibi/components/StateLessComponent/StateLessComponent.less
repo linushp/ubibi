@@ -2,13 +2,18 @@
   background-color: #ffffff;
   width: 100%;
   padding: 15px 0;
-  border-bottom: 1px solid #eeeeee;
+  //border-bottom: 1px solid #eeeeee;
+  box-shadow: 3px 3px 8px rgba(136,136,136,.2);
   .bs-card-ms {
     margin: 0 15px;
   }
 
   .bs-card-title {
     line-height: 30px;
+  }
+
+  &.bs-card-radius{
+    border-radius: 8px;
   }
 }
 
@@ -35,6 +40,8 @@
   transition: color 1000ms cubic-bezier(0.4, 0.0, 0.2, 1),
               background 1000ms cubic-bezier(0.4, 0.0, 0.2, 1), box-shadow 400ms cubic-bezier(0.4, 0.0, 0.2, 1);
 
+  outline: none;
+  border: none;
 
   &.bs-button-ok {
     color: #fff;
@@ -67,4 +74,53 @@
     color: rgba(255, 255, 255, 1);
   }
 
+}
+
+
+
+
+
+
+
+.bs-pagetitle{
+  margin-bottom: 20px;
+  color: #3d4b66;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 40px;
+  clear: both;
+  font-weight: 400;
+  width: 100%;
+
+  i{
+    height: 60px;
+    width: 45%;
+    display: block;
+    float: left;
+    background: url(/static/images/uis/home/linebg.png) repeat-x 50%;
+  }
+
+  span {
+    height: 60px;
+    display: block;
+    width: 10%;
+    padding: 0;
+    float: left;
+  }
+
+
+}
+
+
+
+
+.bs-blocktitle{
+  margin: 20px 0;
+  padding: 20px;
+  width: auto;
+  border-left: 4px solid #acbfe5;
+  background: #f7f9fc;
+  color: #626773;
+  font-size: 16px;
+  line-height: 2;
 }

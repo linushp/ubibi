@@ -94,7 +94,7 @@ function toQueryString(obj){
     for(var key in obj){
         if(obj.hasOwnProperty(key)){
             var value = obj[key];
-            if(value){
+            if(value!==undefined){
                 arrs.push(key+"=" + encodeURIComponent(value));
             }
         }

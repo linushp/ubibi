@@ -1,0 +1,51 @@
+<string2-template id="HomeViewTemplate">
+    <div class="HomeView">
+        <bs-topbannerimage>
+            <div class="top_banner_user">
+                <img src="https://oss.ubibi.cn/avatars_default/A32.jpg" alt="">
+                <div class="slogan">这一世风雪路途遥 相濡以沫是骄傲</div>
+                <div class="slogan_supply">我只是一个前端码农 想要翻身的咸鱼</div>
+            </div>
+        </bs-topbannerimage>
+
+        <div class="section" style="background: #ffffff">
+            <div class="container">
+
+                <div class="block">
+                    <h2 class="block-heading">推荐话题</h2>
+
+                    <div class="block-body clearfix">
+                        <div class="col-sm-3 gallery-item-col" v-for="hotTopicCol in hotTopics">
+                            <div class="gallery-item" v-for="hotTopic in hotTopicCol">
+                                <a class="gallery-item-inner" href="#">
+                                    <img v-cdn :src="hotTopic.img" />
+                                    <div class="gallery-item-title">{{hotTopic.text}}</div>
+                                    <div class="gallery-item-info"> 89篇文章</div>
+                                    <div class="gallery-item-mask"></div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bs-clear"></div>
+
+            </div>
+        </div>
+
+
+        <div class="section" style="background: #F9FBFC">
+            <div class="container">
+                <div class="block">
+                    <h2 class="block-heading">开源项目</h2>
+                    <div class="block-body">
+                        <div class="col-sm-3">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</string2-template>

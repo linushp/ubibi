@@ -1,15 +1,12 @@
-
 <string2-template id="AppRootTemplate">
     <div class="app-wrapper">
         <div class="app-root">
-            <page-loading />
+            <page-loading/>
             <app-header :myUserInfo="myUserInfo"/>
-            <div class="bs-pagebody">
-                <transition name="bs-router-fade" >
-                    <router-view />
-                </transition>
-            </div>
-            <app-footer />
+            <transition name="bs-router-fade">
+                <router-view/>
+            </transition>
+            <app-footer/>
         </div>
         <div class="app-bg"></div>
     </div>
@@ -20,24 +17,31 @@
 
     <div class="app-header">
         <div class="nav">
+            <div class="nav-container">
+                <div class="nav-left">
+                    <router-link class="nav-left-link" to="/">首页</router-link>
+                    <router-link class="nav-left-link" to="/topics">文章</router-link>
+                    <router-link class="nav-left-link" to="/album">图集</router-link>
+                    <router-link class="nav-left-link" to="/nav">导航</router-link>
+                    <router-link class="nav-left-link" to="/about">关于</router-link>
+                </div>
 
-            <div class="nav-right" v-if="!myUserInfo">
-                <router-link class="login-link" to="/user/login">登录</router-link>
-                <router-link class="login-link" to="/user/create">注册</router-link>
-            </div>
-            <div class="nav-right login_ok" v-if="myUserInfo">
+                <div class="nav-right" v-if="!myUserInfo">
+                    <router-link class="login-link" to="/user/login">登录</router-link>
+                    <router-link class="login-link" to="/user/create">注册</router-link>
+                </div>
+                <div class="nav-right login_ok" v-if="myUserInfo">
                 <span class="nickname">
                    欢迎您: {{myUserInfo.nickname}}
                 </span>
-                <img :src="myUserInfo.avatar" class="avatar">
-                <span class="exit" @click="logout">退出</span>
+                    <img :src="myUserInfo.avatar" class="avatar">
+                    <span class="exit" @click="logout">退出</span>
+                </div>
             </div>
-
         </div>
     </div>
 
 </string2-template>
-
 
 
 <string2-template id="AppFooterTemplate">

@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var SqlQueryUtils = require('../utils/SqlQueryUtils');
 var models = require('./model/models');
 var reply_table_name = models.ReplyModel.tableName;

@@ -30,9 +30,9 @@ app.use("/static", express.static(path.join(__dirname, '../static'), {
     maxAge: 1000 * 60 * 60 * 24 * 365
 }));
 
-app.use("/.well-known/pki-validation", express.static(path.join(__dirname, '../pki-validation'), {
-    maxAge: 1000 * 60 * 60 * 24 * 365
-}));
+//app.use("/.well-known/pki-validation", express.static(path.join(__dirname, '../pki-validation'), {
+//    maxAge: 1000 * 60 * 60 * 24 * 365
+//}));
 
 app.get('/favicon.ico', function (req, res) {
     res.sendFile(path.join(__dirname, '../static/favicon.ico'));

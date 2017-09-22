@@ -1,5 +1,8 @@
 import globalEventBus,{EVNETS} from '../utils/globalEventBus';
 
+
+
+//将LogIn和LogOut事件转换成StoreChange事件
 var cache_myUserInfo = null;
 var USER_STORE_CHANGE = "UserStoreChange";
 globalEventBus.on(EVNETS.USER_LOGIN_SUCCESS, function (d) {
@@ -17,6 +20,9 @@ globalEventBus.on(EVNETS.USER_LOG_OUT, function (d) {
     localStorage.setItem("myUserInfo", ss);
     globalEventBus.emit(USER_STORE_CHANGE, null);
 });
+
+
+
 
 
 export default {

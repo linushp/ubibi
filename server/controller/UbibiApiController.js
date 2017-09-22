@@ -7,6 +7,7 @@ var router = express.Router();
 var TopicService = require('../services/TopicService');
 var UserService = require('../services/UserService');
 var ReplyService = require('../services/ReplyService');
+var NavService = require('../services/NavService');
 var ErrorCode = require('../constants/ErrorCode');
 
 
@@ -18,12 +19,43 @@ function handleRequest(handler){
 }
 
 
+async function checkUserLogin(req){
+    var cookies = req.cookies || {};
+    var uid = cookies['ubibi_uid'];
+    var token = cookies['ubibi_token'];
+
+    //1.校验用户登录
+    var userTokenResult = await UserService.getUserToken(uid, token);
+    if (!userTokenResult || !userTokenResult.result || !userTokenResult.result[0]) {
+        return ErrorCode.NOT_LOGIN;
+    }
+    return ErrorCode.SUCCESS;
+}
+
+
+
+
+async function wrapperAuthorInfo(replyObject,req){
+
+    var cookies = req.cookies || {};
+    var uid = cookies['ubibi_uid'];
+
+    var userInfoAwait = await UserService.getUserInfoByUid(uid);
+    var userInfo = SqlQueryUtils.getSqlResultObject(userInfoAwait);
+
+    replyObject.author_id = uid;
+    replyObject.author_info = JSON.stringify(UserUtils.toAuthorInfo(userInfo));
+    return replyObject;
+}
+
+
 
 router.get("/topics", handleRequest(function (req, res) {
     var req_query = req.query;
     var page_size = req_query.page_size || 20;
     var page_no = req_query.page_no || 1;
     var category_id = req_query.category_id || null;
+    console.log("category_id:",category_id);
     var is_top = req_query.is_top || null;
     var topic_type = req_query.topic_type || null;
     var order_by = req_query.order_by || 'update_time';
@@ -38,20 +70,42 @@ router.get('/topic/:topic_id', handleRequest(function (req, res) {
 }));
 
 
-router.post('/topic', handleRequest(function (req, res) {
+router.post('/topic', handleRequest(async function (req, res) {
     var topicObject = req.body;
     console.log(topicObject);
+
+    var isLogin = await checkUserLogin(req);
+    if (isLogin === ErrorCode.NOT_LOGIN) {
+        return Promise.reject(ErrorCode.NOT_LOGIN);
+    }
+
+    topicObject = await wrapperAuthorInfo(topicObject,req);
+
     return TopicService.createTopic(topicObject);
 }));
 
 
-router.put('/topic/:topic_id', handleRequest(function (req, res) {
+router.put('/topic/:topic_id', handleRequest(async function (req, res) {
+
+    var isLogin = await checkUserLogin(req);
+    if (isLogin === ErrorCode.NOT_LOGIN) {
+        return Promise.reject(ErrorCode.NOT_LOGIN);
+    }
+
     var topicObject = req.body;
     var topic_id = req.params['topic_id'];
     return TopicService.updateTopic(topic_id, topicObject);
+
 }));
 
-router.delete('/topic/:topic_id', handleRequest(function (req, res) {
+router.delete('/topic/:topic_id', handleRequest(async function (req, res) {
+
+    var isLogin = await checkUserLogin(req);
+    if (isLogin === ErrorCode.NOT_LOGIN) {
+        return Promise.reject(ErrorCode.NOT_LOGIN);
+    }
+
+
     var topic_id = req.params['topic_id'];
     return TopicService.deleteTopic(topic_id);
 }));
@@ -85,17 +139,12 @@ router.post('/reply', handleRequest(async function (req, res) {
     var topic_id = replyObject['topic_id'];
     var cookies = req.cookies || {};
     var uid = cookies['ubibi_uid'];
-    var token = cookies['ubibi_token'];
 
     //1.校验用户登录
-    var userTokenResult = await UserService.getUserToken(uid, token);
-    if (!userTokenResult || !userTokenResult.result || !userTokenResult.result[0]) {
+    var isLogin = await checkUserLogin(req);
+    if (isLogin === ErrorCode.NOT_LOGIN) {
         return Promise.reject(ErrorCode.NOT_LOGIN);
     }
-
-    //2.用户信息
-    var userInfoAwait = await UserService.getUserInfoByUid(uid);
-    var userInfo = SqlQueryUtils.getSqlResultObject(userInfoAwait);
 
     //3. 检验文章
     var topicObjectAwait = await TopicService.getTopicById(topic_id);
@@ -117,8 +166,8 @@ router.post('/reply', handleRequest(async function (req, res) {
 
 
     replyObject.floor_num = reply_count + 1;
-    replyObject.author_id = uid;
-    replyObject.author_info = JSON.stringify(UserUtils.toAuthorInfo(userInfo));
+
+    replyObject = await wrapperAuthorInfo(replyObject,req);
 
     return ReplyService.createReply(replyObject);
 
@@ -177,6 +226,17 @@ router.post('/user/reg', handleRequest(function (req) {
 router.post('/user/info/:uid', handleRequest(function (req) {
     var uid = req.params.uid;
     return UserService.getUserInfoByUid(uid);
+}));
+
+
+//导航页面
+router.get('/nav/getNavList', handleRequest(function (req,res) {
+    return NavService.getNavList();
+}));
+
+router.post('/nav/createNavItem', handleRequest(function (req,res) {
+    var navItemObject = req.body;
+    return NavService.createNavItem(navItemObject);
 }));
 
 

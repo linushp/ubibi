@@ -4,15 +4,40 @@
 .app-header{
   height: @PAGE_HEADER_HEIGHT;
   width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 5;
+  background: rgba(0,0,0,0.2);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
+
   .nav{
     width: 100%;
     height: @PAGE_HEADER_HEIGHT;
-    background: #19bca1;
+    //background: #19bca1;
     //position: fixed;
     top:0;
     left: 0;
     z-index: 10;
   }
+
+  .nav-container{
+    margin: 0 20px;
+  }
+
+  .nav-left{
+    float: left;
+    height: @PAGE_HEADER_HEIGHT;
+  }
+
+  .nav-left-link{
+    color: #ffffff;
+    text-decoration: none;
+    display:inline-block;
+    line-height:  @PAGE_HEADER_HEIGHT;
+    padding: 0 5px;
+  }
+
+
 
   .nav-right{
     float: right;
@@ -25,7 +50,6 @@
       padding: 0 5px;
     }
     margin-right: 20px;
-
   }
 
 
@@ -53,8 +77,18 @@
   }
 
 
-
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 .app-footer{
@@ -71,6 +105,12 @@
   text-align: center;
   color: #ffffff;
 }
+
+
+
+
+
+
 
 #mainBody{
   width: 100%;
@@ -90,7 +130,7 @@
   opacity: .6;
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -102,14 +142,6 @@
   position: relative;
   z-index: 1;
 }
-
-@media (min-width: 1096px){
-  .bs-pagebody {
-    max-width: 1138px;
-    margin: 0 auto;
-  }
-}
-
 
 
 .bs-router-fade-enter-active{

@@ -2,6 +2,7 @@ import './AppView.less';
 import UserStore from '../../apis/UserStore';
 import UserApis from '../../apis/UserApis';
 import {openTips} from '../../components/Dialog/Dialog';
+import connectMyUserInfo from '../helpers/connectMyUserInfo';
 import {AppHeaderTemplate,AppRootTemplate,AppFooterTemplate} from './AppView.shtml';
 
 var AppHeader = {
@@ -24,7 +25,7 @@ var AppFooter = {
 };
 
 
-var AppView = {
+var AppView = connectMyUserInfo({
     template: AppRootTemplate,
     components: {
         'app-header': AppHeader,
@@ -32,20 +33,8 @@ var AppView = {
     },
     data: function () {
         return {
-            myUserInfo: UserStore.getMyUserInfo()
         };
-    },
-    methods: {
-        onUserLoginSuccess: function (myUserInfo) {
-            this.myUserInfo = myUserInfo;
-        }
-    },
-    created: function () {
-        UserStore.onChange(this.onUserLoginSuccess);
-    },
-    beforeDestroy: function () {
-        UserStore.offChange(this.onUserLoginSuccess);
     }
-};
+});
 
 export default AppView;

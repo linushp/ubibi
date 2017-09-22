@@ -14,3 +14,23 @@
 <string2-template id="bs-button" props="className,title,theme">
     <div @click="onClick()" class="bs-button" :class="(className||'') + ' bs-button-'+theme ">{{title}}</div>
 </string2-template>
+
+
+
+
+
+<string2-template id="bs-pagetitle" props="text">
+    <h1 class="bs-pagetitle">
+        <i>&nbsp;</i>
+        <span>{{text}}</span>
+        <i>&nbsp;</i>
+        <div class="bs-clear"></div>
+    </h1>
+</string2-template>
+
+
+<string2-template id="bs-blocktitle" props="text">
+    <div class="bs-blocktitle">
+        <span style="color: #339966;">{{text}}</span>
+    </div>
+</string2-template>

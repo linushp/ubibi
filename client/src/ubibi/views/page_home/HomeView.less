@@ -1,0 +1,129 @@
+.HomeView {
+
+  .top_banner_user {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    img {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      border: 3px solid #fff;
+      border-radius: 100%;
+      display: block;
+      margin: 100px auto 0 auto;
+    }
+
+    .slogan {
+      font-size: 50px;
+      color: #fff;
+      letter-spacing: 6px;
+      text-align: center;
+      line-height: 50px;
+      margin-top: 60px;
+    }
+
+    .slogan_supply {
+      font-size: 26px;
+      line-height: 24px;
+      color: #fff;
+      text-align: center;
+      margin-top: 50px;
+    }
+  }
+
+  .block {
+
+  }
+
+  .block .block-heading {
+    position: relative;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 400;
+    text-align: center;
+  }
+
+  .gallery-item-col {
+    padding-right: 5px;
+    padding-left: 5px;
+  }
+
+  .gallery-item {
+    position: relative;
+    margin: 10px 0;
+    overflow: hidden;
+  }
+  .gallery-item-inner {
+    display: block;
+  }
+  .gallery-item img {
+    width: 100%;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    -ms-transition: all .5s ease;
+    transition: all .5s ease;
+  }
+
+  .gallery-item-title {
+    position: absolute;
+    bottom: 50%;
+    z-index: 3;
+    width: 100%;
+    color: #fff;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .gallery-item-info {
+    position: relative;
+    z-index: 3;
+    text-align: right;
+    margin-top: -30px;
+    height: 30px;
+    line-height: 30px;
+    padding-right: 15px;
+    padding-left: 15px;
+    color: #fff;
+    font-size: 12px;
+    text-decoration: none;
+    border-bottom: none;
+  }
+
+  .gallery-item-mask {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: fade(#000, 0);
+    z-index: 1;
+    transition: all .5s ease;
+  }
+
+  .gallery-item:hover .gallery-item-mask {
+    background: fade(#000, 60);
+  }
+
+  .gallery-item:hover img {
+    -webkit-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    transform: scale(1.2);
+  }
+
+  .gallery-item img {
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    -ms-transition: all .5s ease;
+    transition: all .5s ease;
+  }
+
+
+  .block .block-body {
+    padding: 0;
+  }
+
+}

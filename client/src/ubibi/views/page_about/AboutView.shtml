@@ -1,0 +1,213 @@
+<string2-template id="AboutViewTemplate">
+    <div class="AboutView">
+
+
+        <div class="bs-section">
+            <div class="bs-container" >
+                <bs-pagetitle text="关于"/>
+                <img src="/static/images/uis/home/about.jpg" v-cdn style="max-width: 100%" alt="about" />
+            </div>
+        </div>
+
+
+        <div class="bs-section">
+            <div class="bs-container">
+
+                <bs-blocktitle text="我是谁?"/>
+
+                <p>
+                    ubibi.cn是前端程序员Luan的个人网站,于2017年9月上线，主要用于个人原创或转载有价值文章、网站界面设计、logo等Web网站相关素材或技术点。
+                    也会记录一些个人生活或家人的相关信息。
+                </p>
+                <p>
+                    2012年毕业于山东大学计算机科学与技术专业,背上行囊成为了一名"漂",先是在南京华为漂泊了三年,然后又加入了上海一家创业公司成为了一名沪漂.
+                    在此期间很幸运的认识我现在的妻子,她是一个超级聪明的程序员。现在我们一起搬到了<strong>杭州</strong>有了自己的小家。
+                    2017年05月02日我的宝贝儿子降生了,是一个超级可爱的小宝宝。为了个宝宝挣奶粉钱,要好好努力工作,努力挣钱。
+                </p>
+
+            </div>
+        </div>
+
+
+
+        <div class="bs-section">
+            <div class="bs-container">
+
+                <bs-blocktitle text="我会什么?"/>
+
+                <ul class="contact-me" style="line-height: 30px">
+                    <li><span>Web端:</span>
+                        JavaScript、NodeJS、ES6、Webpack、管理系统、移动端页面、Cordova、React、VueJS
+                    </li>
+
+                    <li><span>服务端:</span>
+                        Java、SpringMVC、Spring Boot、ProtoBuf、Grpc
+                    </li>
+
+                    <li><span>架构:</span>
+                        前后端分离、服务端渲染、消息队列、微服务
+                    </li>
+
+                </ul>
+
+
+            </div>
+        </div>
+
+
+
+
+
+        <div class="bs-section">
+
+            <div class="bs-container">
+
+                <bs-blocktitle text="我工作的项目"/>
+
+                <div class="my_work_content_left">
+                    <img src="/static/images/uis/home/my_work_soma.jpg" v-cdn class="my_work_img" />
+                </div>
+                <div class="my_work_content_right">
+                    <h3> SOMA Web </h3>
+
+                    <div class="my_work_item_d">
+                        <h4> 前端技术栈</h4>
+                        <ol>
+                            <li>Webpack</li>
+                            <li>React、React-outer</li>
+                            <li>Flux架构</li>
+                            <li>JSON-Schema</li>
+                            <li>ImmutableJS</li>
+                            <li>ES6</li>
+                            <li>WebSocket</li>
+                            <li>Protobuf</li>
+                        </ol>
+                    </div>
+
+                    <div class="my_work_item_d">
+                        <h4> 技术难点 </h4>
+                        <ol>
+                            <li>解码ProtoBuf</li>
+                            <li>ECC/AES实现P2P消息<br>点对点非对称加密解密</li>
+                            <li>编码解码emoji字符</li>
+                            <li>解码AMR语音文件</li>
+                            <li>文字转图片实现默认头像</li>
+                        </ol>
+                    </div>
+
+                    <div class="my_work_item_d">
+                        <h4> 总结输出</h4>
+                        <ol>
+                            <li>Flux架构框架 <br> <a href="https://www.npmjs.com/package/react-rebix">ReactRebix</a></li>
+                            <li>Emoji解码编码库<br> <a href="https://www.npmjs.com/package/rebix-emoji">RebixEmoji</a></li>
+                            <li>一些工具函数 <br> <a href="https://www.npmjs.com/package/rebix-utils">RebixUtils</a></li>
+                        </ol>
+                    </div>
+
+                    <div class="bs-clear"></div>
+                </div>
+
+                <div class="my_work_item_desc">
+                    <h4> 项目介绍</h4>
+                    <p>
+                        <a href="https://soma.im/" target="_blank">SOMA</a>是一款国际化的即时通讯应用(支持IOS/Android平台)，
+                        上线第一个月全球下载用户即突破千万，多次登上沙特、埃及、摩洛哥，哥伦比亚，巴西等国家APP应用下载榜第一，成为新兴地区人数最多的IM。
+                        如今SOMA的用户主要集中在新兴世界国家，是新兴国家和地区的第一im。SOMA是当今最快的集高清视频、语音及文字于一体的手机通讯应用。
+                        以独有的分布式技术，高度安全的加密服务确保免费环球畅聊，轻松实现无延迟、高质量的语音/视频通话，能够满足500人同时在线群聊。
+                    </p>
+                    <p>
+                        <a href="https://web.isoma.im/" target="_blank">SOMA Web</a>是SOMA的Web版本,可以跟手机版本的SOMA保持消息的同步。
+                        Web端和App通过扫描二维码直接传输私钥,私钥永不在网络中传输,实现了消息的安全性.Web端实现了App端中除了VOIP语音和视频通话的所有功能.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="bs-section">
+            <div class="bs-container">
+                <div class="my_work_content_left">
+                    <img v-cdn src="/static/images/uis/home/my_work_yunyi.jpg" class="my_work_img" />
+                </div>
+
+                <div class="my_work_content_right">
+                    <h3>云诣事业窗</h3>
+
+                    <div class="my_work_item_d">
+                        <h4>前端技术栈</h4>
+                        <ol>
+                            <li>AngularJS</li>
+                            <li>ECharts</li>
+                            <li>KityMinder</li>
+                        </ol>
+                    </div>
+                    <div class="my_work_item_d">
+                        <h4>技术难点</h4>
+                        <ol>
+                            <li>自定义表单拖动式编辑布局</li>
+                            <li>使用KityMinder实现组织<br>架构图的展现和编辑</li>
+                            <li>公共组件高级查询组件的实<br>现(条件表达式的编辑)</li>
+                        </ol>
+                    </div>
+                    <div class="my_work_item_d">
+                        <h4>总结输出</h4>
+                        <ol>
+                            <li>公共对话框组件</li>
+                            <li>表格组件.支持<br>行锁定/表头锁定/表头排序/分页等</li>
+                            <li>一些工具函数</li>
+                        </ol>
+                    </div>
+                    <div class="bs-clear"></div>
+                </div>
+
+
+
+                <div class="my_work_item_desc">
+                    <h4> 项目介绍</h4>
+                    <p>
+                        <a href="http://www.winployee.com/" target="_blank">"云诣事业窗"</a>以云计算和移动互联网技术为基础，
+                        为中小企业度身定制覆盖员工全任职周期的一站式人力资源管理工具。
+                        “事业窗”通过人事信息管理、人才效能提升两大功能模块，
+                        帮助中小企业在实现人事信息管理规范性的同时，提高管理效率，
+                        并通过高效评估、直观展现，达成员工的最佳激励效果，
+                        不断提高组织的核心效能，为企业的人才管理奠定坚实基础。
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <div class="bs-section">
+            <div class="bs-container">
+
+                <bs-blocktitle text="联系我"/>
+
+                <p>
+                <ul class="contact-me">
+                    <li><span>QQ:</span> 910010653</li>
+                    <li><span>Email:</span> master@ubibi.cn</li>
+                    <li>
+                        <span>GitHub:</span>
+                        <a href="https://github.com/luanhaipeng" target="_blank">github链接</a>
+                    </li>
+                    <li> 
+                        <span>知乎:</span>
+                        <a href="https://www.zhihu.com/people/luan-hai-peng/activities">知乎链接</a>
+                    </li>
+                    <li><span>微信:</span>
+                        <img src="/static/images/uis/home/qrcode_weixin.jpg" alt="" style="width: 200px">
+                    </li>
+                </ul>
+                </p>
+            </div>
+        </div>
+
+
+    </div>
+</string2-template>

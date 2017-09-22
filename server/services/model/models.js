@@ -100,7 +100,6 @@ var UserMsgModel = {
 };
 
 
-
 var UserTokenModel = {
     tableName: 't_user_token',
     tableFields: [
@@ -114,6 +113,32 @@ var UserTokenModel = {
 };
 
 
+var NavCategoryModel = {
+    tableName: 't_nav_category',
+    tableFields: [
+        'id',
+        'title',
+        'description',
+        'create_time',
+        'update_time'
+    ]
+};
+
+var NavItemModel = {
+    tableName: 't_nav_item',
+    tableFields: [
+        'id',
+        'title',
+        'description',
+        'url',
+        'cid',
+
+        'create_time',
+        'update_time'
+    ]
+};
+
+
 module.exports = {
     TopicModel: TopicModel,
     ReplyModel: ReplyModel,
@@ -121,5 +146,7 @@ module.exports = {
     SubjectModel: SubjectModel,
     UserModel: UserModel,
     UserMsgModel: UserMsgModel,
-    UserTokenModel:UserTokenModel
+    UserTokenModel: UserTokenModel,
+    NavCategoryModel: NavCategoryModel,
+    NavItemModel: NavItemModel
 };

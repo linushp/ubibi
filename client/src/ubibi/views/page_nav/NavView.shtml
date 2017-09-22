@@ -1,0 +1,50 @@
+<string2-template id="NavViewTemplate">
+    <div class="NavView">
+
+        <div class="bs-operations" v-if="myUserInfo">
+            <button class="bs-button bs-button-ok oper" @click="onCreateNavItem()">添加</button>
+            <div class="bs-clear"></div>
+        </div>
+
+
+        <bs-card className="bs-card-radius">
+            <div v-for="nav_cc in navList" :key="nav_cc.id">
+                <div style="height: 20px"></div>
+
+                <div class="nav_title1">
+                    {{nav_cc.title}}
+                </div>
+                <div class="nav_items">
+                    <a class="nav_item" v-for="nav_item in nav_cc.children" :href="nav_item.url" :key="nav_item.id"
+                       target="_blank">
+                        {{nav_item.title}}
+                    </a>
+                </div>
+            </div>
+        </bs-card>
+    </div>
+</string2-template>
+
+
+<string2-template id="NavViewCreateDialogTemplate">
+    <div>
+        <div class="">
+            <select class="bs-select" v-model="new_category">
+                <option :value="nav.id" v-for="nav in navList">{{nav.title}}</option>
+            </select>
+        </div>
+
+
+        <div>
+            <span>标题:</span>
+            <input type="text" v-model="new_title">
+        </div>
+
+        <div>
+            <span>链接:</span>
+            <input type="text" v-model="new_url">
+        </div>
+
+
+    </div>
+</string2-template>

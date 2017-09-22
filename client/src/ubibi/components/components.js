@@ -9,6 +9,7 @@ import './Dialog/Dialog';
 import './Pagination/Pagination';
 import './PageLoading/PageLoading';
 import './uploader/uploader';
+import './TopBannerImage/TopBannerImage';
 
 import './directivesAndFilters/directives';
 import './directivesAndFilters/filters';
