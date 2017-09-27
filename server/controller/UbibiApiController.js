@@ -1,9 +1,10 @@
 var express = require('express');
+var router = express.Router();
+
 var md5 = require('rebix-utils/addon_nopack/md5');
 var SqlQueryUtils = require('../utils/SqlQueryUtils');
 var ExpressUtils = require('../utils/ExpressUtils');
 var UserUtils = require('../utils/UserUtils');
-var router = express.Router();
 var TopicService = require('../services/TopicService');
 var UserService = require('../services/UserService');
 var ReplyService = require('../services/ReplyService');
