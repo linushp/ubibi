@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>玩客猴投食计算器</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ededef;;
+            font-size: 14px;
+            color: #222;
+            font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+        }
+
+        .page_title {
+            text-align: center;
+            margin: 30px;
+            font-size: 20px;
+        }
+
+        .input_number {
+            -webkit-appearance: none;
+            background-color: #fff;
+            background-image: none;
+            border-radius: 4px;
+            border: 1px solid #dcdfe6;
+            box-sizing: border-box;
+            color: #606266;
+            font-size: 13px;
+            height: 35px;
+            line-height: 1;
+            outline: none;
+            padding: 0 15px;
+            transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+            width: 200px;
+            display: block;
+            float: left;
+        }
+
+        .calc_button {
+            display: block;
+            white-space: nowrap;
+            cursor: pointer;
+            -webkit-appearance: none;
+            text-align: center;
+            box-sizing: border-box;
+            outline: none;
+            margin: 0;
+            transition: .1s;
+            font-weight: 500;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            padding: 0px 0px;
+            font-size: 12px;
+            color: #fff;
+            background-color: #409eff;
+            border-color: #409eff;
+            border-radius: 3px;
+            height: 35px;
+            float: left;
+            line-height: 35px;
+            margin-left: 15px;
+            width: 66px;
+            text-align: center;
+        }
+
+        .wrapper_input {
+            width: 300px;
+            margin: 0 auto;
+        }
+
+        .feed_template {
+            margin: 0 15px;
+            width: 100%;
+        }
+
+        .feed_plan {
+            width: 100%;
+            max-width: 320px;
+            margin: 0 auto;
+        }
+
+        .feed_template {
+            margin-top: 10px;
+        }
+
+        .plan_title {
+            font-size: 20px;
+            color: #409eff;
+        }
+
+        .plan_summary {
+            font-size: 12px;
+            color: #666666;
+            display: inline-block;
+        }
+
+        .plan_item {
+            margin: 5px 0 5px 20px;
+        }
+
+        .color_num {
+            color: orange;
+        }
+
+        .page_footer {
+            height: 60px;
+            color: #000000;
+            text-align: center;
+            font-size: 12px;
+            line-height: 60px;
+            margin-top: 0px;
+            color: #409eff;
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="mainBody">
+    <div class="page_title">玩客猴投食计算器</div>
+    <div class="wrapper_input">
+        <input type="text" v-model="input_number" placeholder="请输入猴子编号" class="input_number">
+        <button @click="doStartCalc()" class="calc_button">计算</button>
+        <div style="clear: both"></div>
+    </div>
+    <div class="page_footer">
+        联系作者 开心农场产能提高QQ群：255350670
+    </div>
+
+    <div class="feed_plan" v-if="display_plan">
+        <feed_template :data="max_feed" title="最大量"></feed_template>
+        <feed_template :data="min_count" title="最少次"></feed_template>
+        <feed_template :data="max_count" title="最多次"></feed_template>
+    </div>
+</div>
+
+<div id="feed_template" style="display: none">
+    <div class="feed_template">
+        <div class="plan_title">
+            {{title}}
+            <div class="plan_summary">
+                喂
+                <span class="color_num">{{data.length}}</span>
+                次，共
+                <span class="color_num">{{data|getSumFilter|formatFloat}} </span>
+                WKB
+            </div>
+        </div>
+        <div v-for="(m,index) in data" class="plan_item">
+            <span>第{{index + 1}} 次: </span>
+            <span>{{m | formatFloat}}</span>
+        </div>
+    </div>
+</div>
+
+<script src="http://www.ubibi.cn/static/lib/vue-2.3.0/vue.min.js"></script>
+<script>
+
+    var MAX_FEED = 5;
+    var FORMAT_FLOAT_FIXED = 3;
+
+    var feed_template = document.getElementById('feed_template').innerHTML;
+    Vue.component("feed_template", {
+        template: feed_template,
+        props: ['data', 'title']
+    });
+
+
+    Vue.filter('formatFloat', function (obj) {
+        return obj.toFixed(FORMAT_FLOAT_FIXED);
+    });
+
+    Vue.filter('getSumFilter', function (num_array) {
+        var sum = 0;
+        for (var i = 0; i < num_array.length; i++) {
+            var obj = num_array[i];
+            sum += obj;
+        }
+        return sum;
+    });
+
+
+    var app2 = new Vue({
+        el: '#mainBody',
+        data: {
+            input_number: "",
+            min_count: [],
+            max_count: [],
+            max_feed: [],
+            display_plan: false
+        },
+
+        methods: {
+            doStartCalc: function () {
+                var that = this;
+                var input_number = parseInt(that.input_number || 0, 10);
+                if (!input_number) {
+                    return;
+                }
+
+                FORMAT_FLOAT_FIXED = that.input_number.length;
+                var min = "0." + input_number;
+                var min_feed_f = parseFloat(min);
+
+
+                //1.getMinCount
+                that.min_count = that.getMinCount(min_feed_f);
+                //2.getMaxCount
+                that.max_count = that.getMaxCount(min_feed_f);
+                //3.getMaxFeed
+                that.max_feed = that.getMaxFeed(min_feed_f);
+
+                that.display_plan = true;
+            },
+
+            getMaxFeed: function (min_feed_f) {
+
+                var createFeed = function (n, minFeed) {
+                    var sum = 0;
+                    var count = 0;
+                    for (var i = 0; i < n; i++) {
+                        sum += minFeed;
+                        count++;
+                    }
+                    return {
+                        sum: sum.toFixed(FORMAT_FLOAT_FIXED),
+                        count: count
+                    };
+                };
+
+
+                var that = this;
+                var maxCount = that.getMaxCount(min_feed_f).length;
+                var allPath = [];
+                for (var i = 0; i < maxCount; i++) {
+                    allPath.push(createFeed(i + 1, min_feed_f));
+                }
+
+
+                allPath = allPath.sort(function (o1, o2) {
+                    var s1 = o1.sum;
+                    var s2 = o2.sum;
+
+                    var y1 = s1.substring(s1.indexOf(".") + 1, s1.indexOf(".") + 1 + FORMAT_FLOAT_FIXED);
+                    var y2 = s2.substring(s2.indexOf(".") + 1, s2.indexOf(".") + 1 + FORMAT_FLOAT_FIXED);
+
+                    var y1_f = parseFloat(y1);
+                    var y2_f = parseFloat(y2);
+
+
+                    if (y1_f === 0 && y2_f ===0){
+                        return o1.count - o2.count;
+                    }
+
+                    if(y1_f === 0){
+                        return -1;
+                    }
+
+                    if(y2_f === 0){
+                        return 1;
+                    }
+
+                    if (y1_f !== y2_f) {
+                        return y2.localeCompare(y1);
+                    }
+                    return o1.count - o2.count;
+                });
+
+
+                var sss = [];
+                for (var i = 0; i < maxCount; i++) {
+                    var feed = allPath[i];
+                    sss.push("总：" + feed.sum + "  次数:" + feed.count);
+                }
+                //show
+
+                var feed = allPath[0];
+                var sum = 0;
+                var feeded = [];
+                for (var i = 0; i < feed.count - 1; i++) {
+                    feeded.push(min_feed_f);
+                    sum += min_feed_f;
+                }
+
+                var maxLast = (MAX_FEED - sum - min_feed_f).toFixed(FORMAT_FLOAT_FIXED);
+                feeded.push(parseInt(maxLast, 10) + min_feed_f);
+                return feeded;
+            },
+
+            getMaxCount: function (min_feed_f) {
+                var max_count_feeded = [];
+                var max_feeded_total = 0;
+                while (max_feeded_total + min_feed_f <= MAX_FEED) {
+                    max_feeded_total += min_feed_f;
+                    max_count_feeded.push(min_feed_f);
+                }
+                return max_count_feeded;
+            },
+
+            getMinCount: function (min_feed_f) {
+                var feed = MAX_FEED - 1 + min_feed_f;
+                var min_count_feeded = [];
+                min_count_feeded.push(feed);
+                if (min_feed_f <= 0.5) {
+                    min_count_feeded.push(min_feed_f);
+                }
+                return min_count_feeded;
+            }
+
+        }
+    })
+
+</script>
+</body>
+</html>

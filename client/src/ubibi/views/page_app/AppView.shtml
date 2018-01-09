@@ -31,9 +31,9 @@
                     <router-link class="login-link" to="/user/create">注册</router-link>
                 </div>
                 <div class="nav-right login_ok" v-if="myUserInfo">
-                <span class="nickname">
-                   欢迎您: {{myUserInfo.nickname}}
-                </span>
+                    <span class="nickname">
+                       欢迎您: {{myUserInfo.nickname}}
+                    </span>
                     <img :src="myUserInfo.avatar" class="avatar">
                     <span class="exit" @click="logout">退出</span>
                 </div>
