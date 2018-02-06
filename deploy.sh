@@ -1,4 +1,4 @@
-rsync -rave 'ssh -p 10087' --exclude-from=./.gitignore --progress ./* luanhaipeng@47.74.130.99:/home/luanhaipeng/apps/ubibi/
+rsync -rave 'ssh -p 10087' --exclude-from=./rsync_exclude.txt --progress ./* luanhaipeng@47.74.130.99:/home/luanhaipeng/apps/ubibi/
 
 
 #  deply nginx
