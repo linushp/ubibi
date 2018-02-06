@@ -8,6 +8,7 @@ var UserUtils = require('../utils/UserUtils');
 var TopicService = require('../services/TopicService');
 var UserService = require('../services/UserService');
 var ReplyService = require('../services/ReplyService');
+var SpiderShopInfoService = require('../services/SpiderShopInfoService');
 var NavService = require('../services/NavService');
 var ErrorCode = require('../constants/ErrorCode');
 
@@ -239,6 +240,37 @@ router.post('/nav/createNavItem', handleRequest(function (req,res) {
     var navItemObject = req.body;
     return NavService.createNavItem(navItemObject);
 }));
+
+
+
+
+router.get("/spider_shop_info",handleRequest(function (req, res) {
+
+
+    var req_query = req.query;
+    var shopid = req_query.shopid;
+    var shoptel = req_query.shoptel;
+    var shopname = req_query.shopname;
+
+    if(!shopid){
+        return Promise.resolve("shopid is null")
+    }
+
+    if(!shoptel){
+        return Promise.resolve("shoptel id is null")
+    }
+
+    var shopInfoModel = {
+        'shopid':shopid,
+        'shoptel':shoptel,
+        'shopname':shopname,
+    };
+
+    return SpiderShopInfoService.createSpiderShopInfo(shopInfoModel);
+
+}));
+
+
 
 
 module.exports = router;

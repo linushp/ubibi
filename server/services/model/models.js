@@ -138,6 +138,35 @@ var NavItemModel = {
     ]
 };
 
+//
+// create table tmp_splider_shop_info
+// (
+//     id int auto_increment
+// primary key,
+//     shopid varchar(100) null,
+//     shoptel varchar(100) null,
+//     shopname varchar(200) null,
+//     create_time varchar(20) null,
+//     update_time varchar(20) null,
+//     constraint tmp_splider_shop_info_id_uindex
+// unique (id)
+// )
+// ;
+
+
+var SpiderShopInfoModel = {
+    tableName: 'tmp_splider_shop_info',
+    tableFields: [
+        'id',
+        'shopid',
+        'shoptel',
+        'shopname',
+        'create_time',
+        'update_time'
+    ]
+};
+
+
 
 module.exports = {
     TopicModel: TopicModel,
@@ -148,5 +177,6 @@ module.exports = {
     UserMsgModel: UserMsgModel,
     UserTokenModel: UserTokenModel,
     NavCategoryModel: NavCategoryModel,
-    NavItemModel: NavItemModel
+    NavItemModel: NavItemModel,
+    SpiderShopInfoModel:SpiderShopInfoModel
 };
