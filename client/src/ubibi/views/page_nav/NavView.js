@@ -68,9 +68,10 @@ var NavView = connectMyUserInfo({
             NavApis.getNavList().then(function (d) {
                 var navList = [];
                 navList = navList.concat(d);
-                navList = navList.concat(d);
-                navList = navList.concat(d);
-                navList = navList.concat(d);
+                // navList = navList.concat(d);
+                // navList = navList.concat(d);
+                // navList = navList.concat(d);
+                //
                 that.isInited = true;
                 that.navList = navList;
             });
