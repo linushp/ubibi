@@ -275,6 +275,20 @@
 
 <script>
 
+    //     var geneType = {
+    //         <div class="title31">攻击 +{{m | genisIncome(2,m.attack,m.attack_up)}}</div>
+    //     <div class="title31">防御 +{{m | genisIncome(3,m.defense,m.defense_up)}}</div>
+    //     <div class="title31">体力 +{{m | genisIncome(1,m.strength,m.strength_up)}}</div>
+    //     <div class="title31">速度 +{{m | genisIncome(4,m.speed,m.speed_up)}}</div>
+    // }
+
+    var GENE_TYPE_attack = 2;
+    var GENE_TYPE_defense = 3;
+    var GENE_TYPE_strength = 1;
+    var GENE_TYPE_speed = 4;
+
+
+    //总属性值
     function getTotalGenis(m) {
         var total = 0;
 
@@ -288,6 +302,7 @@
         return total;
     }
 
+    //代衰减系数
     function getGenerateP(generation) {
         var x = 1;
         for(var i = 0 ;i < generation;i++){
@@ -296,7 +311,7 @@
         return x;
     }
 
-    
+    //解析单个基因
     function parseGeneId(obj) {
         var obj = ""+obj;
         var mm = obj.split("0"); // [3,1,1]
@@ -309,7 +324,6 @@
         };
     }
 
-    
     function parseGeneIdList(geneIdList) {
         var result = [];
         for (var i = 0; i < geneIdList.length; i++) {
@@ -330,6 +344,8 @@
     }
 
 
+
+    //基因加成
     function getGenePoint(geneLevel) {
         if(geneLevel === 1){return 0.2;}
         if(geneLevel === 2){return 0.4;}
@@ -339,13 +355,31 @@
     }
 
 
+    function getTalentPoint(talent) {
+
+        var m = {
+            "1": {name:"速度100%",type:GENE_TYPE_speed,point:1},
+            "2": {name:"体力50%",type:GENE_TYPE_strength,point:0.5},
+            "3": {name:"攻击50%",type:GENE_TYPE_attack,point:0.5},
+            "4": {name:"防御50%",type:GENE_TYPE_defense,point:0.5},
+            "5": {name:"防御50%",type:GENE_TYPE_defense,point:0.5},
+            "6": {name:"速度50%",type:GENE_TYPE_speed,point:0.5},
+            "7": {name:"体力50%",type:GENE_TYPE_strength,point:0.5},
+            "8": {name:"攻击50%",type:GENE_TYPE_attack,point:0.5},
+            "9": {name:"速度50%",type:GENE_TYPE_speed,point:0.5},
+        };
+
+        return m[""+talent];
+    }
+
+
     Vue.filter("geneNameDisplay",function (g) {
         var geneObj = parseGeneId(g);
         var type = geneObj.type;
-        if(type === 1){return "体力";}
-        if(type === 2){return "攻击";}
-        if(type === 3){return "防御";}
-        if(type === 4){return "速度";}
+        if(type === GENE_TYPE_strength ){return "体力";}
+        if(type === GENE_TYPE_attack){return "攻击";}
+        if(type === GENE_TYPE_defense){return "防御";}
+        if(type === GENE_TYPE_speed){return "速度";}
         return "";
     });
 
@@ -362,21 +396,31 @@
             return 0;
         }
 
-        // 公式：(基础10* (1+20%基因)* (1+20%天赋) )
-        var talent = m.talent;
-        var geneIdList = m.geneIdList || [];
+        var result = base_up;
 
-        var geneList = parseGeneIdList(geneIdList) || [];
+
+        //基因引起的增加
+        var geneIdList = m.geneIdList || [];
         if (geneIdList.length > 0) {
-            var geneMap = toMap(geneList, "type");
-            var gene = geneMap["" + type] || 0;
-            if (gene) {
-                var genePoint = getGenePoint(gene.level);
-                return (base_up * (1 + 0.2 * genePoint) * (1 + 0.2 * talent)).toFixed(2)
+            // debugger
+            var geneList = parseGeneIdList(geneIdList) || [];
+            for (var i = 0; i < geneList.length; i++) {
+                var obj = geneList[i];
+                if(obj.type===type){
+                    var geneLevel = obj.level;
+                    var genePoint = getGenePoint(geneLevel);
+                    result = result * (1+genePoint);
+                }
             }
         }
 
-        return (base_up * (1 + 0.2 * talent)).toFixed(2);
+
+        //天赋引起的增加
+        var talent = m.talent;
+
+
+
+        return result;
 
     });
 
@@ -407,19 +451,11 @@
 
 
     Vue.filter("talent",function (d) {
-        var m = {
-            "1": "速度100%",
-            "2": "体力50%",
-            "3": "攻击50%",
-            "4": "防御50%",
-            "5": "防御50%",
-            "6": "速度50%",
-            "7": "体力50%",
-            "8": "攻击50%",
-            "9": "速度50%",
-            "10": "...",
-        };
-        return m[""+d] || d;
+        var x = getTalentPoint(d);
+        if(x){
+            return x.name;
+        }
+        return "";
     });
 
 
