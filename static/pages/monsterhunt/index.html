@@ -123,6 +123,25 @@
         #mainBody{
             display: none;
         }
+
+        .title3{
+            text-align: center;
+            line-height: 30px;
+            color: olive;
+        }
+        .title31{
+            line-height: 25px;
+        }
+
+        .page_footer {
+            height: 60px;
+            color: #000000;
+            text-align: center;
+            font-size: 12px;
+            line-height: 60px;
+            margin-top: 0px;
+            color: #409eff;
+        }
     </style>
 </head>
 <body>
@@ -184,7 +203,7 @@
                 <div class="title21">
                     <div>防御:{{m.defense||0}}   <span class="title211">+{{m.defense_up||0}}   </span></div>
                     <div>速度:{{m.speed||0}}     <span class="title211">+{{m.speed_up || 0}}   </span></div>
-                    <div>力量:{{m.strength||0}}  <span class="title211">+{{m.strength_up || 0}}</span></div>
+                    <div>体力:{{m.strength||0}}  <span class="title211">+{{m.strength_up || 0}}</span></div>
                     <div>攻击:{{m.attack||0}}    <span class="title211">+{{m.attack_up || 0}}  </span></div>
                 </div>
                 <div class="clear"></div>
@@ -198,9 +217,31 @@
         <div class="section_title">探险预测</div>
         <div class="section_content">
 
+            <div class="title3">-----妖币收益------</div>
+
+            <div class="title31"> 废墟(1.05) :收益{{m|incomeCalc(1.05)}}币</div>
+            <div class="title31"> 洞六(1.95) :收益{{m|incomeCalc(1.95)}}币</div>
+            <div class="title31"> 山丘(3.2) :收益{{m|incomeCalc(3.2)}}币</div>
+            <div class="title31"> 古堡(10) :收益{{m|incomeCalc(10)}}币</div>
+            <div class="title31"> 宝塔(115) :收益{{m|incomeCalc(115)}}币</div>
+            <div class="title31"> 旧城(1500) :收益{{m|incomeCalc(1500)}}币</div>
+
+            <div class="title3">-----属性加成(4选1)--------</div>
+
+            <div class="title31" style="font-size: 12px;display: none">公式：(基础10* (1+20%基因)* (1+20%天赋) )</div>
+            <div class="title31">攻击 +{{m | genisIncome(2,m.attack,m.attack_up)}}</div>
+            <div class="title31">防御 +{{m | genisIncome(3,m.defense,m.defense_up)}}</div>
+            <div class="title31">体力 +{{m | genisIncome(1,m.strength,m.strength_up)}}</div>
+            <div class="title31">速度 +{{m | genisIncome(4,m.speed,m.speed_up)}}</div>
+
+
         </div>
     </div>
 
+
+    <div class="page_footer">
+        联系作者 BeeChat捉妖记交流群：萌犬骑士
+    </div>
 
 </div>
 
@@ -209,23 +250,115 @@
 
 <script>
 
+    function getTotalGenis(m) {
+        var total = 0;
+
+        if(m){
+            total += (m.defense || 0);
+            total += (m.speed || 0);
+            total += (m.strength || 0);
+            total += (m.attack || 0);
+        }
+
+        return total;
+    }
+
+    function getGenerateP(generation) {
+        var x = 1;
+        for(var i = 0 ;i < generation;i++){
+            x = x * 0.95;
+        }
+        return x;
+    }
+
+    function parseGeneIdList(geneIdList) {
+        var result = [];
+        for (var i = 0; i < geneIdList.length; i++) {
+            var obj = ""+geneIdList[i];
+            var mm = obj.split("0"); // [3,1,1]
+            // 30101
+            var type = parseInt(mm[1]);
+            var level = parseInt(mm[2]);
+            result.push({
+                type:type,
+                level:level
+            });
+        }
+
+        return result;
+    }
+
+    function toMap(geneIdList,fieldName) {
+        var map = {};
+        for (var i = 0; i < geneIdList.length; i++) {
+            var obj = geneIdList[i];
+            var field = "" + obj[fieldName];
+            map[field] = obj;
+        }
+        return map;
+    }
+
+
+    function getGenePoint(gene) {
+        var geneLevel = gene.level;
+        if(geneLevel === 1){return 0.2;}
+        if(geneLevel === 2){return 0.4;}
+        if(geneLevel === 3){return 1;}
+        if(geneLevel === 4){return 2;}
+        return 0;
+    }
+
+
+
+    Vue.filter('genisIncome',function (m,type,base,base_up) {
+        if(!m || !base){
+            return 0;
+        }
+
+        // 公式：(基础10* (1+20%基因)* (1+20%天赋) )
+        var talent = m.talent;
+        var geneIdList = m.geneIdList || [];
+
+        var geneList = parseGeneIdList(geneIdList) || [];
+        if (geneIdList.length > 0) {
+            var geneMap = toMap(geneList, "type");
+            var gene = geneMap["" + type] || 0;
+            if (gene) {
+                var genePoint = getGenePoint(gene);
+                return base_up * (1 + 0.2 * genePoint) * (1 + 0.2 * talent)
+            }
+        }
+
+        return base_up * (1 + 0.2 * talent);
+
+    });
+
+    Vue.filter("incomeCalc",function (m,b) {
+        //单倍: 总属性*倍数*0.95代数
+        var totalGenis = getTotalGenis(m);
+        var xxx = totalGenis * b * getGenerateP(m.generation);
+        return parseInt(xxx,10);
+    });
+
+
     Vue.filter("race_display",function (d) {
-        if(!d){
+        if (!d) {
             return "";
         }
 
         var race = d.race;
         var m = {
-            "4":"鱼妖",
-            "9":"竹妖",
+            "4": "鱼妖",
+            "9": "竹妖",
         };
+
         var nickname = d.nickname || "";
+        nickname = nickname.replace(/\d+/, "");
 
-        nickname = nickname.replace(/\d+/,"");
-
-        return m[""+race] || nickname;
+        return m["" + race] || nickname;
     });
-    
+
+
     Vue.filter("talent",function (d) {
         var m = {
             "1": "速度100%",
@@ -242,17 +375,11 @@
         return m[""+d] || d;
     });
 
+
+
+
     Vue.filter("totalGenis",function (m) {
-        var total = 0;
-
-        if(m){
-            total += (m.defense || 0);
-            total += (m.speed || 0);
-            total += (m.strength || 0);
-            total += (m.attack || 0);
-        }
-
-        return total;
+        return getTotalGenis(m);
     });
 
 

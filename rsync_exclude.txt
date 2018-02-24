@@ -1,8 +1,8 @@
-node_modules/
 .idea/
 tmp/
 .DS_Store
 client_spa/node_modules/
+client/node_modules/
 npm-debug.log
 server_config.json
 package-lock.json
