@@ -181,14 +181,6 @@
 
 
             <div class="title0">
-                <div class="title2">属性值</div>
-                <div class="title21">
-                    {{m | totalGenis}}
-                </div>
-                <div class="clear"></div>
-            </div>
-
-            <div class="title0">
                 <div class="title2">天赋</div>
                 <div class="title21">
                     {{m.talent | talent}}
@@ -197,9 +189,16 @@
             </div>
 
 
+            <div class="title0">
+                <div class="title2">总属性</div>
+                <div class="title21">
+                    {{m | totalGenis}}
+                </div>
+                <div class="clear"></div>
+            </div>
 
             <div class="title0">
-                <div class="title2">基因</div>
+                <div class="title2">属性</div>
                 <div class="title21">
                     <div>防御:{{m.defense||0}}   <span class="title211">+{{m.defense_up||0}}   </span></div>
                     <div>速度:{{m.speed||0}}     <span class="title211">+{{m.speed_up || 0}}   </span></div>
@@ -208,6 +207,21 @@
                 </div>
                 <div class="clear"></div>
             </div>
+
+            <div class="title0">
+                <div class="title2">基因</div>
+                <div class="title21">
+                    <div v-for="g in m.geneIdList">
+                        {{g | geneNameDisplay}}
+                        <span class="title211">
+                            {{g | geneLevelDisplay}}
+                        </span>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+
+
 
         </div>
     </div>
@@ -271,20 +285,26 @@
         return x;
     }
 
+    
+    function parseGeneId(obj) {
+        var obj = ""+obj;
+        var mm = obj.split("0"); // [3,1,1]
+        // 30101
+        var type = parseInt(mm[1]);
+        var level = parseInt(mm[2]);
+        return {
+            type:type,
+            level:level
+        };
+    }
+
+    
     function parseGeneIdList(geneIdList) {
         var result = [];
         for (var i = 0; i < geneIdList.length; i++) {
-            var obj = ""+geneIdList[i];
-            var mm = obj.split("0"); // [3,1,1]
-            // 30101
-            var type = parseInt(mm[1]);
-            var level = parseInt(mm[2]);
-            result.push({
-                type:type,
-                level:level
-            });
+            var geneObj = parseGeneId(geneIdList[i]);
+            result.push(geneObj);
         }
-
         return result;
     }
 
@@ -299,8 +319,7 @@
     }
 
 
-    function getGenePoint(gene) {
-        var geneLevel = gene.level;
+    function getGenePoint(geneLevel) {
         if(geneLevel === 1){return 0.2;}
         if(geneLevel === 2){return 0.4;}
         if(geneLevel === 3){return 1;}
@@ -308,6 +327,23 @@
         return 0;
     }
 
+
+    Vue.filter("geneNameDisplay",function (g) {
+        var geneObj = parseGeneId(g);
+        var type = geneObj.type;
+        if(type === 1){return "体力";}
+        if(type === 2){return "攻击";}
+        if(type === 3){return "防御";}
+        if(type === 4){return "速度";}
+        return "";
+    });
+
+    Vue.filter("geneLevelDisplay",function (g) {
+        var geneObj = parseGeneId(g);
+        var level = geneObj.level;
+        var xx = getGenePoint(level);
+        return "+" +(xx * 100 ) + " %";
+    });
 
 
     Vue.filter('genisIncome',function (m,type,base,base_up) {
@@ -324,7 +360,7 @@
             var geneMap = toMap(geneList, "type");
             var gene = geneMap["" + type] || 0;
             if (gene) {
-                var genePoint = getGenePoint(gene);
+                var genePoint = getGenePoint(gene.level);
                 return (base_up * (1 + 0.2 * genePoint) * (1 + 0.2 * talent)).toFixed(2)
             }
         }
