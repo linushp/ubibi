@@ -325,11 +325,11 @@
             var gene = geneMap["" + type] || 0;
             if (gene) {
                 var genePoint = getGenePoint(gene);
-                return base_up * (1 + 0.2 * genePoint) * (1 + 0.2 * talent)
+                return (base_up * (1 + 0.2 * genePoint) * (1 + 0.2 * talent)).toFixed(2)
             }
         }
 
-        return base_up * (1 + 0.2 * talent);
+        return (base_up * (1 + 0.2 * talent)).toFixed(2);
 
     });
 
