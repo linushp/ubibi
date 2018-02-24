@@ -396,7 +396,7 @@
             return 0;
         }
 
-        var result = base_up;
+        var xxxxx = 1;
 
 
         //基因引起的增加
@@ -409,18 +409,24 @@
                 if(obj.type===type){
                     var geneLevel = obj.level;
                     var genePoint = getGenePoint(geneLevel);
-                    result = result * (1+genePoint);
+                    xxxxx = xxxxx + genePoint;
                 }
             }
         }
 
 
+
         //天赋引起的增加
         var talent = m.talent;
+        if(talent){
+            var talentObj = getTalentPoint(talent);
+            if(talentObj && talentObj.type === type){
+                xxxxx = xxxxx + talentObj.point;
+            }
+        }
 
 
-
-        return result;
+        return parseInt(base_up * xxxxx,10);
 
     });
 
