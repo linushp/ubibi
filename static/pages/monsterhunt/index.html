@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>妖精计算器</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ededef;;
+            font-size: 14px;
+            color: #222;
+            font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+        }
+
+        .page_title {
+            text-align: center;
+            margin: 30px;
+            font-size: 20px;
+        }
+
+        .input_number {
+            -webkit-appearance: none;
+            background-color: #fff;
+            background-image: none;
+            border-radius: 4px;
+            border: 1px solid #dcdfe6;
+            box-sizing: border-box;
+            color: #606266;
+            font-size: 13px;
+            height: 35px;
+            line-height: 1;
+            outline: none;
+            padding: 0 15px;
+            transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+            width: 200px;
+            display: block;
+            float: left;
+        }
+
+        .calc_button {
+            display: block;
+            white-space: nowrap;
+            cursor: pointer;
+            -webkit-appearance: none;
+            text-align: center;
+            box-sizing: border-box;
+            outline: none;
+            margin: 0;
+            transition: .1s;
+            font-weight: 500;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            padding: 0px 0px;
+            font-size: 12px;
+            color: #fff;
+            background-color: #409eff;
+            border-color: #409eff;
+            border-radius: 3px;
+            height: 35px;
+            float: left;
+            line-height: 35px;
+            margin-left: 15px;
+            width: 66px;
+            text-align: center;
+        }
+
+        .wrapper_input {
+            width: 300px;
+            margin: 0 auto;
+        }
+
+
+        .title0{
+            margin: 5px 0;
+        }
+
+        .title2{
+            float: left;
+            padding-right: 10px;
+            color: #0E90D2;
+        }
+
+        .title21{
+            float: left;
+        }
+
+        .title211{
+            color: orange;
+            display: inline-block;
+            padding-left: 10px;
+        }
+
+        .clear{
+            clear: both;
+        }
+
+
+        .section{
+            width: 95%;
+            max-width: 500px;
+            padding: 20px;
+            border-radius: 3px;
+            background-color: #ffffff;
+            margin: 20px auto;
+        }
+
+        .section_title{
+            border-bottom: 1px solid #dddddd;
+            padding-bottom: 10px;
+        }
+
+        .section_content{
+            padding: 20px 0;
+        }
+
+        #mainBody{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="mainBody">
+    <div class="page_title">妖精计算器</div>
+
+
+    <div class="wrapper_input">
+        <input type="text" v-model="input_number" placeholder="请输入要查看的妖精ID" class="input_number">
+        <button @click="doStartCalc()" class="calc_button">计算</button>
+        <div class="clear"></div>
+    </div>
+
+
+
+
+    <div class="section">
+        <div class="section_title">
+            基本信息
+        </div>
+        <div class="section_content">
+            <div class="title0">
+                <div class="title2">种类</div>
+                <div class="title21">
+                    {{m | race_display}}
+                </div>
+                <div class="clear"></div>
+            </div>
+
+            <div class="title0">
+                <div class="title2">代数</div>
+                <div class="title21">
+                    {{m.generation}}
+                </div>
+                <div class="clear"></div>
+            </div>
+
+
+            <div class="title0">
+                <div class="title2">属性值</div>
+                <div class="title21">
+                    {{m | totalGenis}}
+                </div>
+                <div class="clear"></div>
+            </div>
+
+            <div class="title0">
+                <div class="title2">天赋</div>
+                <div class="title21">
+                    {{m.talent | talent}}
+                </div>
+                <div class="clear"></div>
+            </div>
+
+
+
+            <div class="title0">
+                <div class="title2">基因</div>
+                <div class="title21">
+                    <div>防御:{{m.defense||0}}   <span class="title211">+{{m.defense_up||0}}   </span></div>
+                    <div>速度:{{m.speed||0}}     <span class="title211">+{{m.speed_up || 0}}   </span></div>
+                    <div>力量:{{m.strength||0}}  <span class="title211">+{{m.strength_up || 0}}</span></div>
+                    <div>攻击:{{m.attack||0}}    <span class="title211">+{{m.attack_up || 0}}  </span></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="section">
+        <div class="section_title">探险预测</div>
+        <div class="section_content">
+
+        </div>
+    </div>
+
+
+</div>
+
+<script src="/static/lib/vue-2.3.0/vue.min.js"></script>
+<script src="/static/lib/rebix/RebixUtils.min.js"></script>
+
+<script>
+
+    Vue.filter("race_display",function (d) {
+        if(!d){
+            return "";
+        }
+
+        var race = d.race;
+        var m = {
+            "4":"鱼妖",
+            "9":"竹妖",
+        };
+        var nickname = d.nickname || "";
+
+        nickname = nickname.replace(/\d+/,"");
+
+        return m[""+race] || nickname;
+    });
+    
+    Vue.filter("talent",function (d) {
+        var m = {
+            "1": "速度100%",
+            "2": "体力50%",
+            "3": "攻击50%",
+            "4": "防御50%",
+            "5": "防御50%",
+            "6": "速度50%",
+            "7": "体力50%",
+            "8": "攻击50%",
+            "9": "速度50%",
+            "10": "...",
+        };
+        return m[""+d] || d;
+    });
+
+    Vue.filter("totalGenis",function (m) {
+        var total = 0;
+
+        if(m){
+            total += (m.defense || 0);
+            total += (m.speed || 0);
+            total += (m.strength || 0);
+            total += (m.attack || 0);
+        }
+
+        return total;
+    });
+
+
+    var app2 = new Vue({
+        el: '#mainBody',
+        data: {
+            input_number: "",
+            m:{}
+        },
+
+        methods: {
+            doStartCalc: function () {
+                var that = this;
+                var input_number = that.input_number;
+                var url = "/monsterhunt/getmonster?id=" + input_number;
+                RebixUtils.sendGetJSONRequest(url).then(function (d) {
+                    if(d.code == -2){
+                        alert(d.msg);
+                        return;
+                    }
+                    that.m = d.obj || {};
+                });
+            },
+        }
+    });
+
+
+    setTimeout(function () {
+        document.getElementById("mainBody").style.display = "block";
+    },1);
+
+
+</script>
+
+</body>
+</html>

@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var languageParser = require('./utils/languageParser');
 var LogUtils = require('./utils/LogUtils');
 var sendAssetHtml = require('./utils/sendAssetHtml');
+var sendPageIndex = require('./utils/sendPageIndex');
 var config = require('./config/config');
 
 
@@ -24,7 +25,7 @@ app.use(languageParser('siteLanguage', 'en'));
 
 app.use("/api/v1/ubibi", require('./controller/UbibiApiController'));
 app.use("/api/v1/oss-token", require('./controller/OSSController'));
-app.use("/page/v1/ubibi", require('./controller/UbibiPageController'));
+app.use("/monsterhunt", require('./controller/MonsterhuntController'));
 
 app.use("/static", express.static(path.join(__dirname, '../static'), {
     maxAge: 1000 * 60 * 60 * 24 * 365
@@ -43,7 +44,27 @@ app.get("/kaihe",function(req,res){ sendAssetHtml(res, 'kaihe');});
 app.get("/*", function (req, res) {
     var hostname = req.hostname;
     LogUtils.info("hostname:" + hostname);
-    sendAssetHtml(res, 'ubibi');
+
+    //捉妖记
+    if(hostname.indexOf("monsterhunt") >=0){
+        sendPageIndex(res,"monsterhunt");
+        return;
+    }
+
+    //小凯凯
+    if(hostname.indexOf("keaikai") >=0){
+        sendAssetHtml(res, 'kaihe');
+        return;
+    }
+
+    //ubibi.cn
+    if(hostname.indexOf("ubibi") >=0){
+        sendAssetHtml(res, 'ubibi');
+        return;
+    }
+
+    res.send("welcome");
+
 });
 
 http.createServer(app).listen(2701, '127.0.0.1');
