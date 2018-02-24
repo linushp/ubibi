@@ -417,16 +417,17 @@
 
 
         //天赋引起的增加
+        var yyyy = 1;
         var talent = m.talent;
         if(talent){
             var talentObj = getTalentPoint(talent);
             if(talentObj && talentObj.type === type){
-                xxxxx = xxxxx + talentObj.point;
+                yyyy = yyyy +  (talentObj.point );
             }
         }
 
 
-        return parseInt(base_up * xxxxx,10);
+        return parseInt(base_up * xxxxx * yyyy,10);
 
     });
 
