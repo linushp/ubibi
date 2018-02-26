@@ -275,13 +275,6 @@
 
 <script>
 
-    //     var geneType = {
-    //         <div class="title31">攻击 +{{m | genisIncome(2,m.attack,m.attack_up)}}</div>
-    //     <div class="title31">防御 +{{m | genisIncome(3,m.defense,m.defense_up)}}</div>
-    //     <div class="title31">体力 +{{m | genisIncome(1,m.strength,m.strength_up)}}</div>
-    //     <div class="title31">速度 +{{m | genisIncome(4,m.speed,m.speed_up)}}</div>
-    // }
-
     var GENE_TYPE_attack = 2;
     var GENE_TYPE_defense = 3;
     var GENE_TYPE_strength = 1;
@@ -367,6 +360,9 @@
             "7": {name:"体力50%",type:GENE_TYPE_strength,point:0.5},
             "8": {name:"攻击50%",type:GENE_TYPE_attack,point:0.5},
             "9": {name:"速度50%",type:GENE_TYPE_speed,point:0.5},
+            "10": {name:"防御50%",type:GENE_TYPE_defense,point:0.5},
+            "11": {name:"速度50%",type:GENE_TYPE_speed,point:0.5},
+            "12": {name:"体力100%",type:GENE_TYPE_strength,point:1},
         };
 
         return m[""+talent];
