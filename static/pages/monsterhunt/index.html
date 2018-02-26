@@ -101,7 +101,8 @@
         .title211{
             color: orange;
             display: inline-block;
-            padding-left: 10px;
+            padding-left: 5px;
+            padding-right: 10px;
         }
 
         .clear{
@@ -138,7 +139,15 @@
             color: olive;
         }
         .title31{
-            line-height: 25px;
+            line-height: 22px;
+            font-size: 12px;
+        }
+        .title313{
+            float: left;
+            margin-right: 10px;
+        }
+        .title3133{
+            color: orange;
         }
 
         .page_footer {
@@ -150,6 +159,11 @@
             margin-top: 0px;
             color: #409eff;
         }
+
+        .geneIdListItem{
+            float: left;
+        }
+
     </style>
 </head>
 <body>
@@ -169,9 +183,12 @@
     <div class="section">
         <div class="section_title">
             基本信息
+            <div style="float: right;color: orange;font-size: 12px;" v-if="!!m.nickname">
+                {{m | race_display}} / {{m.generation}}代
+            </div>
         </div>
         <div class="section_content">
-            <div class="title0">
+            <div class="title0" style="display: none">
                 <div class="title2">种类</div>
                 <div class="title21 title212" >
                     {{m | race_display}}
@@ -209,18 +226,24 @@
             <div class="title0">
                 <div class="title2">属性</div>
                 <div class="title21">
-                    <div>防御:{{m.defense||0}}   <span class="title211">+{{m.defense_up||0}}   </span></div>
-                    <div>速度:{{m.speed||0}}     <span class="title211">+{{m.speed_up || 0}}   </span></div>
-                    <div>体力:{{m.strength||0}}  <span class="title211">+{{m.strength_up || 0}}</span></div>
-                    <div>攻击:{{m.attack||0}}    <span class="title211">+{{m.attack_up || 0}}  </span></div>
+                    <div>
+                        防御:{{m.defense||0}}   <span class="title211">+{{m.defense_up||0}}   </span>
+                        速度:{{m.speed||0}}     <span class="title211">+{{m.speed_up || 0}}   </span>
+                    </div>
+
+                    <div>
+                        体力:{{m.strength||0}}  <span class="title211">+{{m.strength_up || 0}}</span>
+                        攻击:{{m.attack||0}}    <span class="title211">+{{m.attack_up || 0}}  </span>
+                    </div>
+
                 </div>
                 <div class="clear"></div>
             </div>
 
             <div class="title0">
                 <div class="title2">基因</div>
-                <div class="title21">
-                    <div v-for="g in m.geneIdList">
+                <div class="title21" style="width: 84%;">
+                    <div v-for="g in m.geneIdList" class="geneIdListItem">
                         {{g | geneNameDisplay}}
                         <span class="title211">
                             {{g | geneLevelDisplay}}
@@ -242,21 +265,22 @@
 
             <div class="title3">-----妖币收益------</div>
 
-            <div class="title31"> 废墟(1.05) :收益{{m|incomeCalc(1.05)}}币</div>
-            <div class="title31"> 洞六(1.95) :收益{{m|incomeCalc(1.95)}}币</div>
-            <div class="title31"> 山丘(3.2) :收益{{m|incomeCalc(3.2)}}币</div>
-            <div class="title31"> 古堡(10) :收益{{m|incomeCalc(10)}}币</div>
-            <div class="title31"> 宝塔(115) :收益{{m|incomeCalc(115)}}币</div>
-            <div class="title31"> 旧城(1500) :收益{{m|incomeCalc(1500)}}币</div>
+            <div class="title31"> 废墟(1.05) :收益 <span class="title3133">{{m|incomeCalc(1.05)}} </span> 币</div>
+            <div class="title31"> 洞六(1.95) :收益 <span class="title3133">{{m|incomeCalc(1.95)}} </span> 币</div>
+            <div class="title31"> 山丘(3.2) :收益  <span class="title3133">{{m|incomeCalc(3.2)}}  </span> 币</div>
+            <div class="title31"> 古堡(10) :收益   <span class="title3133">{{m|incomeCalc(10)}}   </span> 币</div>
+            <div class="title31"> 宝塔(115) :收益  <span class="title3133">{{m|incomeCalc(115)}}  </span> 币</div>
+            <div class="title31"> 旧城(1500) :收益 <span class="title3133">{{m|incomeCalc(1500)}} </span> 币</div>
 
             <div class="title3">-----属性加成(4选1)--------</div>
 
             <div class="title31" style="font-size: 12px;display: none">公式：(基础10* (1+20%基因)* (1+20%天赋) )</div>
-            <div class="title31">攻击 +{{m | genisIncome(2,m.attack,m.attack_up)}}</div>
-            <div class="title31">防御 +{{m | genisIncome(3,m.defense,m.defense_up)}}</div>
-            <div class="title31">体力 +{{m | genisIncome(1,m.strength,m.strength_up)}}</div>
-            <div class="title31">速度 +{{m | genisIncome(4,m.speed,m.speed_up)}}</div>
+            <div class="title31 title313">攻击 <span class="title3133">+{{m | genisIncome(2,m.attack,m.attack_up)}}     </span></div>
+            <div class="title31 title313">防御 <span class="title3133">+{{m | genisIncome(3,m.defense,m.defense_up)}}   </span></div>
+            <div class="title31 title313">体力 <span class="title3133">+{{m | genisIncome(1,m.strength,m.strength_up)}} </span></div>
+            <div class="title31 title313">速度 <span class="title3133">+{{m | genisIncome(4,m.speed,m.speed_up)}}       </span></div>
 
+            <div class="clear"></div>
 
         </div>
     </div>
