@@ -101,7 +101,7 @@
         }
 
         .title211{
-            color: orange;
+            color: #bb7900;
             display: inline-block;
             padding-left: 5px;
             padding-right: 10px;
@@ -149,7 +149,7 @@
             margin-right: 10px;
         }
         .title3133{
-            color: orange;
+            color: #bb7900;
         }
 
         .page_footer {
@@ -185,7 +185,7 @@
     <div class="section">
         <div class="section_title">
             基本信息
-            <div style="float: right;color: orange;font-size: 12px;" v-if="!!m.nickname">
+            <div style="float: right;color: #bb7900;font-size: 12px;" v-if="!!m.nickname">
                 {{m.nickname}} / {{m.generation}}代
             </div>
         </div>
@@ -199,8 +199,8 @@
                 <div class="title21 title212">
                     {{m | totalGenis}}
                 </div>
-                <div class="title2">妖力</div>
-                <div class="title21 title212">
+                <a class="title2"  style="font-weight: bold;display: block;color: red" href="#yaoliDesc">妖力</a>
+                <div class="title21 title212" style="font-weight: bold;color: red">
                     {{m | totalYaoLi}}
                 </div>
                 <div class="clear"></div>
@@ -268,13 +268,14 @@
             <div class="title31 title313">防御 <span class="title3133">+{{m | genisIncome(3,m.defense,m.defense_up)}}   </span></div>
             <div class="title31 title313">体力 <span class="title3133">+{{m | genisIncome(1,m.strength,m.strength_up)}} </span></div>
             <div class="title31 title313">速度 <span class="title3133">+{{m | genisIncome(4,m.speed,m.speed_up)}}       </span></div>
+            <div class="title31 title313">(总加成 <span class="title3133">+{{m | genisTotalIncome}}       </span> )</div>
 
             <div class="clear"></div>
 
         </div>
     </div>
 
-    <div style="width: 95%; max-width: 500px;padding: 0 10px;font-size: 12px">
+    <div style="width: 95%; max-width: 500px;padding: 0 10px;font-size: 12px" id="yaoliDesc">
         注：妖力计算为4属性加成的和*0 95^代系数。 能够直观表达妖成长的能力。
     </div>
 
@@ -465,6 +466,20 @@
         return (totalXXX * p).toFixed(1);
     });
 
+
+    Vue.filter('genisTotalIncome',function (m) {
+        if(!m.nickname){
+            return 0;
+        }
+
+        var totalXXX= 0;
+        totalXXX+=genisIncome(m,2,m.attack,m.attack_up);
+        totalXXX+=genisIncome(m,3,m.defense,m.defense_up);
+        totalXXX+=genisIncome(m,1,m.strength,m.strength_up);
+        totalXXX+=genisIncome(m,4,m.speed,m.speed_up);
+
+        return totalXXX;
+    });
 
 
     //预测属性加成
