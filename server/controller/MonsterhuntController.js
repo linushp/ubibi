@@ -72,10 +72,12 @@ function sendHttpRequest(options,data){
 
 var login_token = "2f78e98cb8a86d0c292cb5111f112519";
 
-var login_code = "dafMEt37HsBBzDNh8yrDXEXxbUbVPfPHcbBaX7rJuNNZJ3m1vno2HNmQufikQGnTBFD9eRDsb1EZD8yC2C17Vmf";
+var login_code = "5BnZVh5xmhpJHthdXeyDMomTpPB17hgoEaT2ykYPoapksEeej9JuD5uKxWcxVFcc8g2A3oV44ZHdmYbmKvZkd1Pf";
 
 function get_getmonster_url(id) {
-    return "http://47.75.37.131:8396/monster-hunt/monster/getmonster?token="+login_token+"&needtoken=true&commandid=2&monsterid=" + id;
+    // return "http://47.75.37.131:8396/monster-hunt/monster/getmonster?token="+login_token+"&needtoken=true&commandid=2&monsterid=" + id;
+    return "/monster-hunt/monster/getmonster?token="+login_token+"&needtoken=true&commandid=2&monsterid=" + id;
+
 }
 
 
@@ -101,14 +103,37 @@ router.get("/getmonster",async function (req, res) {
         return;
     }
 
-    var url = get_getmonster_url(id);
-    var x = await FileCacheReader.sendGetJsonRequest(url);
-    if(x.code === -2){
-        await doLogin();
-        var url = get_getmonster_url(id);
-        x = await FileCacheReader.sendGetJsonRequest(url);
+    try {
+        //http://47.75.37.131:8396
+        var url = {
+            hostname: '47.75.37.131',
+            port: 8396,
+            path:get_getmonster_url(id),
+            headers:{
+                'User-Agent': 'Mozilla/5.0 (Linux; Android 7.1.1; MI 6 Build/NMF26X; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/61.0.3163.98 Mobile Safari/537.36 BeeChat',
+                'X-Requested-With': 'com.beeplabs.beechat'
+            }
+        };
+        var x = await FileCacheReader.sendGetJsonRequest(url);
+        if(!x || x.code === -2){
+            await doLogin();
+            // var url = get_getmonster_url(id);
+            var url = {
+                hostname: '47.75.37.131',
+                port: 8396,
+                path:get_getmonster_url(id),
+                headers:{
+                    'User-Agent': 'Mozilla/5.0 (Linux; Android 7.1.1; MI 6 Build/NMF26X; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/61.0.3163.98 Mobile Safari/537.36 BeeChat',
+                    'X-Requested-With': 'com.beeplabs.beechat'
+                }
+            };
+            x = await FileCacheReader.sendGetJsonRequest(url);
+        }
+        res.send(x);
+    }catch (e){
+        res.send(e);
     }
-    res.send(x);
+
 });
 
 

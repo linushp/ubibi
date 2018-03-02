@@ -20,7 +20,7 @@
     "express-kit": "^1.0.17",
     "marked": "^0.3.6",
     "mysql": "^2.13.0",
-    "rebix-utils": "0.0.8",
+    "rebix-utils": "0.0.11",
     "underscore": "^1.8.3",
     "vue": "^2.4.2"
   },
