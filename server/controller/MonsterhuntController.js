@@ -72,7 +72,7 @@ function sendHttpRequest(options,data){
 
 var login_token = "2f78e98cb8a86d0c292cb5111f112519";
 
-var login_code = "5BnZVh5xmhpJHthdXeyDMomTpPB17hgoEaT2ykYPoapksEeej9JuD5uKxWcxVFcc8g2A3oV44ZHdmYbmKvZkd1Pf";
+var login_code = "Jv4W43DCwEDTQWQpqcWUvhrd9Lfy4PQxv4tfNnrAEDZBXNdQqMw422EBPZmX2uDENgYLXDNGHs4yDdXeud7WHka";
 
 function get_getmonster_url(id) {
     // return "http://47.75.37.131:8396/monster-hunt/monster/getmonster?token="+login_token+"&needtoken=true&commandid=2&monsterid=" + id;
