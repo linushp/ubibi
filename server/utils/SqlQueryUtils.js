@@ -44,6 +44,31 @@ function configMySQL(config) {
     _mysql_config = config;
 }
 
+function doQueryByIdAsync(model, id) {
+    return doQueryByConditionAsync(model,{"id":id});
+}
+
+
+function doQueryByConditionAsync(model,condition) {
+
+    var keys = Object.keys(condition);
+    var values = [];
+    var whereSql = " 1=1 ";
+    for (var i = 0; i < keys.length; i++) {
+        var k = keys[i];
+        var v = condition[k];
+        values.push(v);
+        whereSql +=(" and `"+k+"` = ? ");
+    }
+
+
+    var tableName = model.tableName;
+    return doQueryAsync({
+        sql: "select * from " + tableName + " where "+ whereSql,
+        params: values
+    });
+}
+
 
 function doQueryAsync(requestModel) {
     var sqlId = requestModel['sqlId'];
@@ -117,6 +142,10 @@ function doClearCacheByKey(cacheKey){
 
 
 function doUpdateByModelAsync(model, updateObject, object_id) {
+
+    //不能更新id
+    delete updateObject["id"];
+
     updateObject['update_time'] = new Date().getTime();
 
 
@@ -251,6 +280,8 @@ module.exports = {
     configMySQL: configMySQL,
     configSqlMap: configSqlMap,
     doQueryAsync: doQueryAsync,
+    doQueryByIdAsync:doQueryByIdAsync,
+    doQueryByConditionAsync:doQueryByConditionAsync,
     doQueryCacheAsync: doQueryCacheAsync,
     doClearCacheByKey: doClearCacheByKey,
     doInsertByModelAsync:doInsertByModelAsync,

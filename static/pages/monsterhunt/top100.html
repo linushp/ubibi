@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>妖力排行榜</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ededef;;
+            font-size: 14px;
+            color: #222;
+            font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+        }
+
+        .page_title {
+            text-align: center;
+            margin: 10px;
+            font-size: 20px;
+        }
+
+        .input_number {
+            -webkit-appearance: none;
+            background-color: #fff;
+            background-image: none;
+            border-radius: 4px;
+            border: 1px solid #dcdfe6;
+            box-sizing: border-box;
+            color: #606266;
+            font-size: 13px;
+            height: 35px;
+            line-height: 1;
+            outline: none;
+            padding: 0 15px;
+            transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+            width: 200px;
+            display: block;
+            float: left;
+        }
+
+        .calc_button {
+            display: block;
+            white-space: nowrap;
+            cursor: pointer;
+            -webkit-appearance: none;
+            text-align: center;
+            box-sizing: border-box;
+            outline: none;
+            margin: 0;
+            transition: .1s;
+            font-weight: 500;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            padding: 0px 0px;
+            font-size: 12px;
+            color: #fff;
+            background-color: #409eff;
+            border-color: #409eff;
+            border-radius: 3px;
+            height: 35px;
+            float: left;
+            line-height: 35px;
+            margin-left: 15px;
+            width: 66px;
+            text-align: center;
+        }
+
+        .wrapper_input {
+            width: 300px;
+            margin: 0 auto;
+        }
+
+
+        .title0{
+            margin: 5px 0;
+        }
+
+        .title2{
+            float: left;
+            padding-right: 3px;
+            color: #0E90D2;
+        }
+
+        .title21{
+            float: left;
+            min-height: 22px;
+            line-height: 22px;
+        }
+        .title212{
+            min-height: 22px;
+            line-height: 22px;
+            max-width: 80px;
+            min-width: 20px;
+            padding-right: 15px;
+        }
+
+        .title211{
+            color: #bb7900;
+            display: inline-block;
+            padding-left: 5px;
+            padding-right: 10px;
+        }
+
+        .clear{
+            clear: both;
+        }
+
+
+        .section{
+            width: 95%;
+            max-width: 500px;
+            padding: 10px;
+            border-radius: 3px;
+            background-color: #ffffff;
+            margin: 10px auto;
+        }
+
+        .section_title{
+            border-bottom: 1px solid #dddddd;
+            padding-bottom: 10px;
+        }
+
+        .section_content{
+            padding-top: 10px;
+            /*padding: 20px 0;*/
+        }
+
+        #mainBody{
+            /*display: none;*/
+        }
+
+        .title3{
+            text-align: center;
+            line-height: 30px;
+            color: olive;
+        }
+        .title31{
+            line-height: 22px;
+            font-size: 12px;
+        }
+        .title313{
+            float: left;
+            margin-right: 10px;
+        }
+        .title3133{
+            color: #bb7900;
+        }
+
+        .page_footer {
+            height: 60px;
+            color: #000000;
+            text-align: center;
+            font-size: 12px;
+            line-height: 60px;
+            margin-top: 0px;
+            color: #409eff;
+        }
+
+        .geneIdListItem{
+            float: left;
+        }
+
+        .mmm{
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .mmm tr{
+            line-height: 30px;
+            border-bottom: 1px solid #000000;
+        }
+
+        .mmm th,.mmm td{
+            font-size: 12px;
+            text-align: left;
+            padding: 0 5px ;
+            border: 1px solid #ddd;
+        }
+
+    </style>
+</head>
+<body>
+<div id="mainBody">
+    <div class="page_title">妖力排行榜</div>
+
+
+    <div class="section">
+        <div class="section_content">
+
+            <table class="mmm">
+                <tr>
+                    <th>名称</th>
+                    <th>代</th>
+                    <th>妖力</th>
+                    <th>父</th>
+                    <th>母</th>
+                </tr>
+                <% top100List.forEach(function(m,i){ %>
+                <tr>
+                    <td><%-m.name %></td>
+                    <td><%-m.dai %></td>
+                    <td><%-m.yaoli%></td>
+                    <td><%-m.fid %></td>
+                    <td><%-m.mid %></td>
+                </tr>
+                <% }) %>
+            </table>
+
+
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+    <div class="page_footer">
+        联系作者 BeeChat捉妖记交流群：萌犬骑士
+    </div>
+
+    <img src="/static/images/uis/qishi.jpg" alt="" style="display: block;margin:  0 auto">
+
+</div>
+
+
+
+</body>
+</html>

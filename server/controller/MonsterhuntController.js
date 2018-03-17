@@ -2,9 +2,11 @@ var express = require('express');
 var ExpressKit = require('express-kit');
 var https = require('https');
 var http = require('http');
+var path = require('path');
 
 var router = express.Router();
 var sendPageIndex = require('../utils/sendPageIndex');
+var MonsterService = require('../services/MonsterService');
 var FileCacheReader = ExpressKit.FileCacheReader;
 
 router.get("/", function (req, res) {
@@ -134,6 +136,16 @@ router.get("/getmonster",async function (req, res) {
         res.send(e);
     }
 
+});
+
+
+router.get("/top100",async function (req, res) {
+    var top100List = await MonsterService.getTop100RankList();
+    var p = path.join(__dirname,"../../static/pages/monsterhunt/top100.html");
+    top100List = top100List.result;
+    res.render(p,{
+        top100List:top100List
+    })
 });
 
 
