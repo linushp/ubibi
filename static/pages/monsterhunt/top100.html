@@ -194,17 +194,19 @@
 
             <table class="mmm">
                 <tr>
+                    <th>排名</th>
+                    <th>妖力</th>
                     <th>名称</th>
                     <th>代</th>
-                    <th>妖力</th>
                     <th>父</th>
                     <th>母</th>
                 </tr>
                 <% top100List.forEach(function(m,i){ %>
                 <tr>
+                    <td><%-(i+1) %></td>
+                    <td><%-m.yaoli%></td>
                     <td><%-m.name %></td>
                     <td><%-m.dai %></td>
-                    <td><%-m.yaoli%></td>
                     <td><%-m.fid %></td>
                     <td><%-m.mid %></td>
                 </tr>
