@@ -7,6 +7,7 @@ var path = require('path');
 var router = express.Router();
 var sendPageIndex = require('../utils/sendPageIndex');
 var MonsterService = require('../services/MonsterService');
+var SysConfigService = require('../services/SysConfigService');
 var FileCacheReader = ExpressKit.FileCacheReader;
 
 router.get("/", function (req, res) {
@@ -73,8 +74,21 @@ function sendHttpRequest(options,data){
 
 
 var login_token = "2f78e98cb8a86d0c292cb5111f112519";
+var login_code = null;
 
-var login_code = "Jv4W43DCwEDTQWQpqcWUvhrd9Lfy4PQxv4tfNnrAEDZBXNdQqMw422EBPZmX2uDENgYLXDNGHs4yDdXeud7WHka";
+async function getLoginCode() {
+    if(login_code){
+        return login_code;
+    }
+    var login_code_query = await SysConfigService.getConfigByName("monsterhunt_login_code").result;
+    var login_code_query0 = login_code_query[0];
+    if(login_code_query0){
+        login_code = login_code_query0.config_value;
+        return login_code;
+    }
+    return "";
+}
+
 
 function get_getmonster_url(id) {
     // return "http://47.75.37.131:8396/monster-hunt/monster/getmonster?token="+login_token+"&needtoken=true&commandid=2&monsterid=" + id;
@@ -83,8 +97,10 @@ function get_getmonster_url(id) {
 }
 
 
-function doLogin() {
-    var LOGIN_URL = "http://47.75.37.131:8396/monster-hunt/user/login?token=default%20TOKEN&needtoken=true&commandid=11&code=" + login_code;
+async function doLogin() {
+    var myLoginCode = await getLoginCode();
+    console.log("myLoginCode:"+myLoginCode);
+    var LOGIN_URL = "http://47.75.37.131:8396/monster-hunt/user/login?token=default%20TOKEN&needtoken=true&commandid=11&code=" + myLoginCode;
     return  FileCacheReader.sendGetJsonRequest(LOGIN_URL).then(function (d) {
         if(d && d.obj){
             var token = d.obj.token;
@@ -152,14 +168,17 @@ router.get("/top100",async function (req, res) {
 router.get("/update_login_token",function (req, res) {
     var req_query = req.query;
     login_token = req_query.token || "";
-    res.send("ok")
+    res.send("ok");
 });
 
 
-router.get("/update_login_code",function (req, res) {
+router.get("/update_login_code",async function (req, res) {
     var req_query = req.query;
     login_code = req_query.code || "";
-    res.send("ok")
+
+    await SysConfigService.insertOrUpdate("monsterhunt_login_code",login_code);
+
+    res.send("ok");
 });
 
 

@@ -1,5 +1,6 @@
 var mysql = require('mysql');
 var LogUtils  = require('./LogUtils');
+var MySQLWrapper  = require('./MySQLWrapper');
 // "mysql": "^2.13.0",
 
 var _mysql_config = {
@@ -274,9 +275,12 @@ function getSqlResultObject(d){
     return null;
 }
 
-
+function createDAO(db_model) {
+    return new MySQLWrapper(db_model,getConnectionPool());
+}
 
 module.exports = {
+    createDAO:createDAO,
     configMySQL: configMySQL,
     configSqlMap: configSqlMap,
     doQueryAsync: doQueryAsync,
