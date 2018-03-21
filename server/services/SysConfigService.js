@@ -12,7 +12,7 @@ var SysConfigItemModel = {
     ]
 };
 
-
+// var SysConfigItemModelDAO = SqlQueryUtils.createSimpleDAO(SysConfigItemModel);
 
 async function insertOrUpdate(config_name,config_value) {
 
