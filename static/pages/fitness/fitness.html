@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>减肥日志</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ededef;;
+            font-size: 14px;
+            color: #222;
+            font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+        }
+
+        .title{
+            text-align: center;
+            font-size: 20px;
+            line-height: 40px;
+            margin-top: 30px;
+        }
+        .form{
+            width: 90%;
+            margin: 20px auto 0 auto;
+            max-width: 350px;
+        }
+        input,button{
+            width: 100%;
+            height: 40px;
+            font-size: 15px;
+            display: block;
+            margin-bottom: 20px;
+            border-radius: 3px;
+            outline: none;
+            border: 1px solid #EEEEEE;
+            text-indent: 10px;
+        }
+
+        button{
+            text-align: center;
+            display: block;
+            /*background: blue;*/
+            background-color: #409eff;
+            border-color: #409eff;
+            border-radius: 3px;
+            height: 35px;
+            color: #ffffff;
+        }
+        .nickname{
+            font-size: 12px;
+            color: #0E90D2;
+            padding-bottom: 3px;
+            text-indent: 5px;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="title">
+        减肥签到
+    </div>
+
+    <div class="form">
+        <div class="nickname">昵称</div>
+        <input type="text" id="uname" placeholder="昵称">
+        <div class="nickname">今日体重</div>
+        <input type="text" id="uweight" placeholder="今日体重">
+        <button id="submit_button">提交</button>
+        <div style="font-size: 12px;color: rebeccapurple">
+            本页面没有做任何校验，请不要恶意访问。谢谢
+        </div>
+    </div>
+
+
+    <script src="/static/lib/rebix/RebixUtils.min.js"></script>
+    <script src="/static/lib/jquery/jquery-3.3.1.min.js"></script>
+    <script src="/static/lib/layer.mobile-v2.0/layer_mobile/layer.js"></script>
+    <script>
+
+        
+        function showMessage(msg) {
+            //提示
+            layer.open({
+                content: msg
+                ,skin: 'msg'
+                ,time: 3 //2秒后自动关闭
+            });
+        }
+
+        $(function () {
+            var uname = RebixUtils.CookieUtils.get("uname");
+            $("#uname").val(uname || "");
+        });
+
+
+
+        $("#submit_button").click(function () {
+            var uname = $("#uname").val();
+            RebixUtils.CookieUtils.set("uname",uname);
+            var uweight = $("#uweight").val();
+            $.get("/fitness/new_data?uname="+uname+"&uweight="+uweight,function (d) {
+                if(d && d.errorCode > 0){
+                    showMessage(d.errorMsg);
+                }
+                else if(d&& d.result && d.result.affectedRows === 1){
+                    showMessage("今天签到成功了")
+                }else{
+                    showMessage("签到失败，请检查输入")
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>

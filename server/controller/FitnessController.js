@@ -2,10 +2,12 @@ var express = require('express');
 var ExpressKit = require('express-kit');
 var https = require('https');
 var http = require('http');
+var path = require('path');
 
 var router = express.Router();
 var sendPage = require('../utils/sendPage');
 var FileCacheReader = ExpressKit.FileCacheReader;
+var FitnessService = require('../services/FitnessService');
 
 //
 // async function getWxAccessToken() {
@@ -25,8 +27,40 @@ var FileCacheReader = ExpressKit.FileCacheReader;
 
 
 
+router.get("/new_data",async function (req, res) {
+    var req_query = req.query;
+    var uname = req_query.uname;
+    var uweight = parseFloat(req_query.uweight);
+
+
+    if(!uname){
+        res.send({
+            errorCode:1,
+            errorMsg:"请输入昵称"
+        });
+        return;
+    }
+
+    var isCheckUserOk = await FitnessService.checkUserName(uname);
+
+    if(!isCheckUserOk){
+        res.send({
+            errorCode:1,
+            errorMsg:"您输入到昵称不在白名单里面"
+        });
+        return;
+    }
+
+
+
+    var mm = await FitnessService.createSignLog(uname,uweight);
+    res.send(mm);
+});
+
+
 router.get("/", function (req, res) {
-    res.send("OK")
+    var p = path.join(__dirname,"../../static/pages/fitness/fitness.html");
+    res.sendFile(p);
 });
 
 
