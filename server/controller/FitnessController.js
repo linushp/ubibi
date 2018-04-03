@@ -99,13 +99,31 @@ function getPeriodRowData(user, ddd, columns) {
     var rowData = {
         uname:user.uname
     };
+
+    var uweightList = [];
     var uid = user.id;
     for (var i = 0; i < columns.length; i++) {
         var obj = columns[i];
         if(obj.type === 'uweight'){
-            rowData[obj.key] = getPeriodCellData(uid,ddd,obj.key);
+            var uweight = getPeriodCellData(uid,ddd,obj.key);
+            rowData[obj.key] = uweight;
+            if(uweight){
+                uweightList.push(uweight);
+            }
         }
     }
+
+
+    var loseWeight = 0;
+    //计算减轻的体重
+    if(uweightList.length >= 2){
+        var beginWeight = uweightList[0];
+        var endWeight = uweightList[uweightList.length - 1];
+        loseWeight = beginWeight-endWeight;
+    }
+
+
+    rowData['loseWeight'] = loseWeight.toFixed(2);
 
     return rowData;
 }
@@ -132,7 +150,7 @@ router.get("/period/:pid",async function (req, res) {
 
 
 
-    var columns = [{text:"昵称",key:"uname",type:"uname"}];
+    var columns = [{text:"昵称(减重)",key:"uname",type:"uname"}];
 
 
     var x = from_date1;
@@ -159,6 +177,10 @@ router.get("/period/:pid",async function (req, res) {
         rows.push(rowData);
     }
 
+
+    rows = rows.sort(function (a,b) {
+        return b.loseWeight - a.loseWeight;
+    });
 
     var p = path.join(__dirname,"../../static/pages/fitness/period.html");
     res.render(p,{

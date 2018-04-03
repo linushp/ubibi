@@ -368,7 +368,7 @@ SimpleDAO.prototype._createFindByFunction = function (modelKey) {
         }
 
         else if(word === "Between"){
-            sql +=" between (?,?) ";
+            sql +=" between ? and ? ";
             beginIndex  += word.length;
         }
 

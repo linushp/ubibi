@@ -51,6 +51,10 @@
             /*color: #F2F2F2;*/
         }
 
+        .loseWeight{
+            color: #1b6d85;
+        }
+
     </style>
 </head>
 <body>
@@ -73,15 +77,16 @@
 
 
             <% rows.forEach(function(row){ %>
-        <tr>
-
-
-            <% columns.forEach(function(column){ %>
-            <td class="<%-column.type%>"><%-row[column.key]%></td>
+                <tr>
+                    <% columns.forEach(function(column){ %>
+                        <% if(column.type==='uname'){ %>
+                            <td class="<%-column.type%>"><%-row[column.key]%> <span class="loseWeight"> ( <%-row['loseWeight']%> ) </span>  </td>
+                        <% } else { %>
+                            <td class="<%-column.type%>"><%-row[column.key]%></td>
+                        <% } %>
+                    <% }) %>
+                </tr>
             <% }) %>
-
-        </tr>
-        <% }) %>
 
 
         </tr>
