@@ -57,6 +57,17 @@
             padding-bottom: 3px;
             text-indent: 5px;
         }
+
+        .log_link{
+            /*display: block;*/
+            line-height: 30px;
+            font-size: 13px;
+            color: orange;
+            /*padding-left: 10px;*/
+            text-decoration: none;
+            display: inline-block;
+            width: 80px;
+        }
     </style>
 </head>
 <body>
@@ -77,10 +88,21 @@
         </div>
     </div>
 
+    <div class="form">
+        <div class="nickname">今日签到记录  (<%-todayDate%>)</div>
+        <ul style="margin-top: 5px;">
+            <% logs.forEach(function(u){ %>
+            <li>
+                <a href="/fitness/logs/<%-u.uid%>" class="log_link"><%-u.uname%>  </a>
+                <span style="color: cadetblue;font-size: 12px;"><%-u.uweight%></span>
+            </li>
+            <% }) %>
+        </ul>
+    </div>
 
-    <script src="/static/lib/rebix/RebixUtils.min.js"></script>
-    <script src="/static/lib/jquery/jquery-3.3.1.min.js"></script>
-    <script src="/static/lib/layer.mobile-v2.0/layer_mobile/layer.js"></script>
+    <script src="https://cdn.ubibi.cn/static/lib/rebix/RebixUtils.min.js"></script>
+    <script src="https://cdn.ubibi.cn/static/lib/jquery/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.ubibi.cn/static/lib/layer.mobile-v2.0/layer_mobile/layer.js"></script>
     <script>
 
         
@@ -109,7 +131,10 @@
                     showMessage(d.errorMsg);
                 }
                 else if(d&& d.result && d.result.affectedRows === 1){
-                    showMessage("今天签到成功了")
+                    showMessage("今天签到成功了");
+                    setTimeout(function () {
+                        window.location.href= "/fitness/logs/" + d.uid
+                    },1000);
                 }else{
                     showMessage("签到失败，请检查输入")
                 }

@@ -108,6 +108,13 @@ SimpleDAO.prototype.doCount = function (queryCondition) {
     });
 };
 
+SimpleDAO.prototype.doQueryAll = function () {
+    var tableName = this.dbModel.tableName;
+    return this.doExecuteSql({
+        sql: "select * from `" + tableName + "`",
+        params: []
+    });
+};
 
 SimpleDAO.prototype.doQueryById = function (id) {
     return this.doQuery({"id": id});
@@ -222,11 +229,12 @@ SimpleDAO.prototype.doUpdateById = function (updateObject, id) {
 
 SimpleDAO.prototype.saveOrUpdate = function (updateObject, whereCondition) {
     var query_result = this.doQuery(whereCondition);
+    var that = this;
     return query_result.then(function (result) {
         if (result && result.length > 0) {
-            return this.doUpdate(updateObject, whereCondition);
+            return that.doUpdate(updateObject, whereCondition);
         } else {
-            return this.doInsert(updateObject);
+            return that.doInsert(updateObject);
         }
     });
 };
