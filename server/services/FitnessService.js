@@ -1,8 +1,6 @@
 var SqlQueryUtils = require('../utils/SqlQueryUtils');
 
 
-
-
 var FitnessSignLogModel = {
     tableName: 'f_sign_log',
     tableFields: [
@@ -18,9 +16,6 @@ var FitnessSignLogModel = {
 };
 
 
-
-
-
 var FitnessSignUserModel = {
     tableName: 'f_sign_user',
     tableFields: [
@@ -31,6 +26,18 @@ var FitnessSignUserModel = {
     ]
 };
 
+
+var FitnessSignPeriodModel = {
+    tableName: "f_sign_period",
+    tableFields: [
+        'id',
+        'from_date',
+        'to_date',
+        'total_money',
+        'create_time',
+        'update_time'
+    ]
+};
 
 
 function formatDateTime(date, formatString) {
@@ -60,41 +67,38 @@ function formatDateTime(date, formatString) {
 };
 
 
-
-function createSignLog1(uid,uname,uweight,date) {
-    var format_time = formatDateTime(date,"YYYY-MM-DD hh:mm:ss");
-    var format_date = formatDateTime(date,"YYYY-MM-DD");
+function createSignLog1(uid, uname, uweight, date) {
+    var format_time = formatDateTime(date, "YYYY-MM-DD hh:mm:ss");
+    var format_date = formatDateTime(date, "YYYY-MM-DD");
 
     var signLogDAO = SqlQueryUtils.createSimpleDAO(FitnessSignLogModel);
 
     return signLogDAO.saveOrUpdate({
-        format_date:format_date,
-        format_time:format_time,
-        "uid":uid,
-        'uname':uname,
-        'uweight':uweight
-    },{
-        uid:uid,
-        format_date:format_date
+        format_date: format_date,
+        format_time: format_time,
+        "uid": uid,
+        'uname': uname,
+        'uweight': uweight
+    }, {
+        uid: uid,
+        format_date: format_date
     });
 
 }
 
 
-
-function createSignLog(uid,uname,uweight) {
+function createSignLog(uid, uname, uweight) {
     var date = new Date();
-    return createSignLog1(uid,uname,uweight,date);
+    return createSignLog1(uid, uname, uweight, date);
 }
-
 
 
 async function getUserByName(uname) {
-    var mm = await SqlQueryUtils.doQueryByConditionAsync(FitnessSignUserModel,{
-        uname:uname
+    var mm = await SqlQueryUtils.doQueryByConditionAsync(FitnessSignUserModel, {
+        uname: uname
     });
 
-    if(mm && mm.result && mm.result.length > 0){
+    if (mm && mm.result && mm.result.length > 0) {
         return mm.result[0];
     }
 
@@ -103,11 +107,11 @@ async function getUserByName(uname) {
 
 
 async function getUserById(uid) {
-    var mm = await SqlQueryUtils.doQueryByConditionAsync(FitnessSignUserModel,{
-        id:uid
+    var mm = await SqlQueryUtils.doQueryByConditionAsync(FitnessSignUserModel, {
+        id: uid
     });
 
-    if(mm && mm.result && mm.result.length > 0){
+    if (mm && mm.result && mm.result.length > 0) {
         return mm.result[0];
     }
 
@@ -115,12 +119,10 @@ async function getUserById(uid) {
 }
 
 
-
-
-
 var userListCache = null;
-async function  getUserList() {
-    if(userListCache){
+
+async function getUserList() {
+    if (userListCache) {
         return userListCache;
     }
     var userDAO = SqlQueryUtils.createSimpleDAO(FitnessSignUserModel);
@@ -130,6 +132,7 @@ async function  getUserList() {
 
 function clearGetUserList() {
     userListCache = null;
+    getPeriodListCache = null;
 }
 
 function getSignLogListByUid(uid) {
@@ -139,18 +142,53 @@ function getSignLogListByUid(uid) {
 
 
 function getTodayLogList() {
-    var format_date = formatDateTime(new Date(),"YYYY-MM-DD");
+    var format_date = formatDateTime(new Date(), "YYYY-MM-DD");
     var signLogDAO = SqlQueryUtils.createSimpleDAO(FitnessSignLogModel);
     return signLogDAO.doQueryByWhereSql("format_date = ? order by id desc", [format_date]);
 }
 
+
+
+var getPeriodListCache = null;
+async function getPeriodList() {
+    if(getPeriodListCache){
+        return getPeriodListCache;
+    }
+
+    var periodDao = SqlQueryUtils.createSimpleDAO(FitnessSignPeriodModel);
+    getPeriodListCache = await periodDao.doQueryByWhereSql("1=1 order by `id` desc");
+    return getPeriodListCache;
+}
+
+async function getPeriodById(pid) {
+    var list = await getPeriodList();
+    for (var i = 0; i < list.length; i++) {
+        var obj = list[i];
+        if(obj.id == pid){
+            return obj;
+        }
+    }
+    return null;
+}
+
+
+async function getSignLogListBetweenFromDateAndToDate(from_date, to_date) {
+    var signLogDao = SqlQueryUtils.createSimpleDAO(FitnessSignLogModel);
+    var x = await signLogDao.doQueryByWhereSql("format_date >= ? and format_date <= ?",[from_date, to_date]);
+    return x;
+}
+
+
 module.exports = {
-    getSignLogListByUid:getSignLogListByUid,
-    getUserList:getUserList,
-    clearGetUserList:clearGetUserList,
-    getTodayLogList:getTodayLogList,
-    createSignLog1:createSignLog1,
-    createSignLog:createSignLog,
-    getUserByName:getUserByName,
-    getUserById:getUserById
+    getSignLogListByUid: getSignLogListByUid,
+    getUserList: getUserList,
+    clearGetUserList: clearGetUserList,
+    getTodayLogList: getTodayLogList,
+    createSignLog1: createSignLog1,
+    createSignLog: createSignLog,
+    getUserByName: getUserByName,
+    getUserById: getUserById,
+    getPeriodList: getPeriodList,
+    getPeriodById:getPeriodById,
+    getSignLogListBetweenFromDateAndToDate:getSignLogListBetweenFromDateAndToDate
 };

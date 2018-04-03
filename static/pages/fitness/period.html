@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=600, initial-scale=0.5, maximum-scale=1, user-scalable=yes"/>
+
+    <title>签到统计</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            /*min-width: 600px;*/
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(110, 101, 71, 0.05);
+        }
+
+        th {
+            background: #8aadab;
+            color: #FFF;
+        }
+
+        td, th {
+            line-height: 30px;
+            text-align: left;
+            padding: 2px 5px;
+            font-size: 12px;
+            border-collapse: collapse;
+            border: 1px solid rgba(204, 204, 204, 0.54);
+        }
+
+
+        .title{
+            text-align: center;
+            font-size: 20px;
+            line-height: 40px;
+            margin-top: 30px;
+        }
+
+
+        td.uname{
+            background: #EEEEEE;
+            /*color: #F2F2F2;*/
+        }
+
+    </style>
+</head>
+<body>
+
+
+
+<div class="title">
+    签到统计
+</div>
+
+<div style="width: 600px;margin: 30px auto">
+
+
+    <table>
+        <tr>
+
+            <% columns.forEach(function(column){ %>
+            <th><%-column.text%></th>
+            <% }) %>
+
+
+            <% rows.forEach(function(row){ %>
+        <tr>
+
+
+            <% columns.forEach(function(column){ %>
+            <td class="<%-column.type%>"><%-row[column.key]%></td>
+            <% }) %>
+
+        </tr>
+        <% }) %>
+
+
+        </tr>
+    </table>
+
+</div>
+
+
+</body>
+</html>

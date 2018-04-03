@@ -82,6 +82,99 @@ router.get("/new_data",async function (req, res) {
     });
 });
 
+
+function getPeriodCellData(uid,ddd,format_date) {
+    for (var i = 0; i < ddd.length; i++) {
+        var obj = ddd[i];
+        if(obj.uid === uid && obj.format_date === format_date){
+            return obj.uweight;
+        }
+    }
+    return null;
+}
+
+
+
+function getPeriodRowData(user, ddd, columns) {
+    var rowData = {
+        uname:user.uname
+    };
+    var uid = user.id;
+    for (var i = 0; i < columns.length; i++) {
+        var obj = columns[i];
+        if(obj.type === 'uweight'){
+            rowData[obj.key] = getPeriodCellData(uid,ddd,obj.key);
+        }
+    }
+
+    return rowData;
+}
+
+router.get("/period/:pid",async function (req, res) {
+
+    var pid = req.params.pid;
+
+    var periodData = await FitnessService.getPeriodById(pid);
+
+    if(!periodData){
+        res.send("period is not exist");
+        return;
+    }
+
+
+    var from_date = periodData.from_date;
+    var to_date = periodData.to_date;
+
+
+    var from_date1 = new Date(periodData.from_date);
+    var to_date1 = new Date(periodData.to_date);
+
+
+
+
+    var columns = [{text:"昵称",key:"uname",type:"uname"}];
+
+
+    var x = from_date1;
+    while(x.getTime()<=to_date1.getTime()){
+        var date_str = formatDateTime(x,"YYYY-MM-DD");
+        var date_str1 = formatDateTime(x,"MM-DD");
+        columns.push({
+            type:"uweight",
+            text:date_str1,
+            key:date_str
+        });
+        x = new Date(x.getTime() + 24 * 3600 * 1000);
+    }
+
+
+
+    var ddd = await FitnessService.getSignLogListBetweenFromDateAndToDate(from_date,to_date);
+
+    var userList = await FitnessService.getUserList();
+    var rows = [];
+    for (var i = 0; i < userList.length; i++) {
+        var user = userList[i];
+        var rowData = getPeriodRowData(user,ddd,columns);
+        rows.push(rowData);
+    }
+
+
+    var p = path.join(__dirname,"../../static/pages/fitness/period.html");
+    res.render(p,{
+        periodData:periodData,
+        columns:columns || [],
+        rows:rows ||[]
+    });
+
+    //
+    //
+    //
+    // res.send("OK");
+});
+
+
+
 //
 // router.get("/nkjsdafnkjsdnfkjsa",async function (req,res) {
 //     var dataList = [
@@ -138,6 +231,8 @@ router.get("/", async function (req, res) {
 
     var users = await FitnessService.getUserList();
     var logs = await FitnessService.getTodayLogList();
+    var periodList = await FitnessService.getPeriodList();
+
     var logsMap = {};
     for (var i = 0; i < logs.length; i++) {
         var obj1 = logs[i];
@@ -161,10 +256,11 @@ router.get("/", async function (req, res) {
 
     var p = path.join(__dirname,"../../static/pages/fitness/fitness.html");
     res.render(p,{
+        periods:periodList||[],
         logs:logs2,
         users:users,
         todayDate:todayDate
-    })
+    });
 });
 
 
