@@ -85,7 +85,14 @@
         <% logs.forEach(function(u){ %>
         <div class="log">
             <span class="format_date"><%-u.format_date%> :</span>
-             <span class="uweight"><%-u.uweight%></span>      </div>
+            <%if(u.uweight){%>
+             <span class="uweight"><%-u.uweight%></span> kg
+            <% } %>
+            <span style="color: #DDD">/</span>
+            <%if(u.urunning){%>
+             <span class="uweight"><%-u.urunning%></span> km
+            <% } %>
+        </div>
         <% }) %>
 
         <% if (logs.length === 0 ){ %>

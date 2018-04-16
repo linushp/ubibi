@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=600, initial-scale=0.5, maximum-scale=1, user-scalable=yes"/>
+    <meta name="viewport" content="width=800, initial-scale=0.5, maximum-scale=1, user-scalable=yes"/>
 
     <title>签到统计</title>
     <style>
@@ -65,7 +65,7 @@
     签到统计
 </div>
 
-<div style="width: 600px;margin: 30px auto">
+<div style="width: 800px;margin: 30px auto">
 
 
     <table>
@@ -81,6 +81,12 @@
                     <% columns.forEach(function(column){ %>
                         <% if(column.type==='uname'){ %>
                             <td class="<%-column.type%>"><%-row[column.key]%> <span class="loseWeight"> ( <%-row['loseWeight']%> ) </span>  </td>
+                        <% } else if(column.type==='uweight') { %>
+                            <td class="<%-column.type%>">
+                                <%-(row[column.key].uweight||"")%>
+                                <span style="color: #DDD">/</span>
+                                <%-(row[column.key].urunning||"")%>
+                            </td>
                         <% } else { %>
                             <td class="<%-column.type%>"><%-row[column.key]%></td>
                         <% } %>

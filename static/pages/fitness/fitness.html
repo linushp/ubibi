@@ -50,6 +50,12 @@
             border-radius: 3px;
             height: 35px;
             color: #ffffff;
+            text-indent: 0;
+        }
+
+        #submit_button2{
+            background-color: #4c3018;
+            border-color: #4c3018;
         }
         .nickname{
             font-size: 12px;
@@ -82,7 +88,14 @@
         <input type="text" id="uname" placeholder="昵称">
         <div class="nickname">今日体重</div>
         <input type="text" id="uweight" placeholder="今日体重">
-        <button id="submit_button">提交</button>
+        <button id="submit_button">提交体重</button>
+
+
+        <div class="nickname">今日运动</div>
+        <input type="text" id="urunning" placeholder="今日运动">
+        <button id="submit_button2">提交运动</button>
+
+
         <div style="font-size: 12px;color: rebeccapurple">
             本页面没有做任何校验，请不要恶意访问。谢谢
         </div>
@@ -94,7 +107,15 @@
             <% logs.forEach(function(u){ %>
             <li>
                 <a href="/fitness/logs/<%-u.uid%>" class="log_link"><%-u.uname%>  </a>
-                <span style="color: cadetblue;font-size: 12px;"><%-u.uweight%></span>
+
+                <%if(u.uweight){%>
+                <span style="color: cadetblue;font-size: 12px;"><%-u.uweight%></span> kg
+                <% } %>
+                <span style="color: #DDD">/</span>
+                <%if(u.urunning){%>
+                <span style="color: cadetblue;font-size: 12px;"><%-u.urunning%></span> km
+                <% } %>
+
             </li>
             <% }) %>
         </ul>
@@ -137,6 +158,8 @@
 
 
 
+
+
         $("#submit_button").click(function () {
             var uname = $("#uname").val();
             RebixUtils.CookieUtils.set("uname",uname);
@@ -147,6 +170,30 @@
                 }
                 else if(d&& d.result && d.result.affectedRows === 1){
                     showMessage("今天签到成功了");
+                    setTimeout(function () {
+                        window.location.href= "/fitness/logs/" + d.uid
+                    },1000);
+                }else{
+                    showMessage("签到失败，请检查输入")
+                }
+            });
+        });
+
+
+
+
+
+
+        $("#submit_button2").click(function () {
+            var uname = $("#uname").val();
+            RebixUtils.CookieUtils.set("uname",uname);
+            var urunning = $("#urunning").val();
+            $.get("/fitness/new_data_running?uname="+uname+"&urunning="+urunning,function (d) {
+                if(d && d.errorCode > 0){
+                    showMessage(d.errorMsg);
+                }
+                else if(d&& d.result && d.result.affectedRows === 1){
+                    showMessage("运动签到成功了");
                     setTimeout(function () {
                         window.location.href= "/fitness/logs/" + d.uid
                     },1000);
