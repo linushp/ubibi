@@ -68,6 +68,8 @@
 <div style="width: 800px;margin: 30px auto">
 
 
+    <h2>体重(单位：kg)</h2>
+
     <table>
         <tr>
 
@@ -84,8 +86,6 @@
                         <% } else if(column.type==='uweight') { %>
                             <td class="<%-column.type%>">
                                 <%-(row[column.key].uweight||"")%>
-                                <span style="color: #DDD">/</span>
-                                <%-(row[column.key].urunning||"")%>
                             </td>
                         <% } else { %>
                             <td class="<%-column.type%>"><%-row[column.key]%></td>
@@ -97,6 +97,76 @@
 
         </tr>
     </table>
+
+
+
+
+
+
+    <h2>跑步（单位：km）</h2>
+
+    <table>
+        <tr>
+
+            <% columns.forEach(function(column){ %>
+            <th><%-column.text%></th>
+            <% }) %>
+
+
+            <% rows.forEach(function(row){ %>
+        <tr>
+            <% columns.forEach(function(column){ %>
+            <% if(column.type==='uname'){ %>
+            <td class="<%-column.type%>"><%-row[column.key]%> </td>
+            <% } else if(column.type==='uweight') { %>
+            <td class="<%-column.type%>">
+                <%-(row[column.key].urunning||"")%>
+            </td>
+            <% } else { %>
+            <td class="<%-column.type%>"><%-row[column.key]%></td>
+            <% } %>
+            <% }) %>
+        </tr>
+        <% }) %>
+        </tr>
+    </table>
+
+
+
+
+
+
+    <h2>步数（单位：步）</h2>
+
+    <table>
+        <tr>
+
+            <% columns.forEach(function(column){ %>
+            <th><%-column.text%></th>
+            <% }) %>
+
+
+            <% rows.forEach(function(row){ %>
+        <tr>
+            <% columns.forEach(function(column){ %>
+            <% if(column.type==='uname'){ %>
+            <td class="<%-column.type%>"><%-row[column.key]%> </td>
+            <% } else if(column.type==='uweight') { %>
+            <td class="<%-column.type%>">
+                <%-(row[column.key].uwalk||"")%>
+            </td>
+            <% } else { %>
+            <td class="<%-column.type%>"><%-row[column.key]%></td>
+            <% } %>
+            <% }) %>
+        </tr>
+        <% }) %>
+        </tr>
+    </table>
+
+
+
+
 
 </div>
 

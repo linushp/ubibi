@@ -57,6 +57,11 @@
             background-color: #4c3018;
             border-color: #4c3018;
         }
+
+        #submit_button3{
+            background-color: #444c37;
+            border-color: #444c37;
+        }
         .nickname{
             font-size: 12px;
             color: #0E90D2;
@@ -87,13 +92,17 @@
         <div class="nickname">昵称</div>
         <input type="text" id="uname" placeholder="昵称">
         <div class="nickname">今日体重</div>
-        <input type="text" id="uweight" placeholder="今日体重">
+        <input type="text" id="uweight" placeholder="今日体重(单位:kg)">
         <button id="submit_button">提交体重</button>
 
 
-        <div class="nickname">今日运动</div>
-        <input type="text" id="urunning" placeholder="今日运动">
-        <button id="submit_button2">提交运动</button>
+        <div class="nickname">今日跑步</div>
+        <input type="text" id="urunning" placeholder="今日跑步(单位:km)">
+        <button id="submit_button2">提交跑步</button>
+
+        <div class="nickname">今日步数</div>
+        <input type="text" id="uwalk" placeholder="今日步数(单位:步)">
+        <button id="submit_button3">提交步数</button>
 
 
         <div style="font-size: 12px;color: rebeccapurple">
@@ -115,6 +124,14 @@
                 <%if(u.urunning){%>
                 <span style="color: cadetblue;font-size: 12px;"><%-u.urunning%></span> km
                 <% } %>
+
+                <span style="color: #DDD">/</span>
+
+
+                <%if(u.uwalk){%>
+                <span style="color: cadetblue;font-size: 12px;"><%-u.uwalk%></span> 步
+                <% } %>
+
 
             </li>
             <% }) %>
@@ -193,7 +210,7 @@
                     showMessage(d.errorMsg);
                 }
                 else if(d&& d.result && d.result.affectedRows === 1){
-                    showMessage("运动签到成功了");
+                    showMessage("跑步签到成功了");
                     setTimeout(function () {
                         window.location.href= "/fitness/logs/" + d.uid
                     },1000);
@@ -202,6 +219,30 @@
                 }
             });
         });
+
+
+
+        $("#submit_button3").click(function () {
+            var uname = $("#uname").val();
+            RebixUtils.CookieUtils.set("uname",uname);
+            var uwalk = $("#uwalk").val();
+            $.get("/fitness/new_data_walk?uname="+uname+"&uwalk="+uwalk,function (d) {
+                if(d && d.errorCode > 0){
+                    showMessage(d.errorMsg);
+                }
+                else if(d&& d.result && d.result.affectedRows === 1){
+                    showMessage("跑步签到成功了");
+                    setTimeout(function () {
+                        window.location.href= "/fitness/logs/" + d.uid
+                    },1000);
+                }else{
+                    showMessage("签到失败，请检查输入")
+                }
+            });
+        });
+
+
+
 
     </script>
 </body>

@@ -30,15 +30,6 @@ var FitnessService = require('../services/FitnessService');
 router.get("/new_data_running", async function (req, res) {
     var nowDate = new Date();
 
-    // if(nowDate.getHours() >= 10){
-    //     res.send({
-    //         errorCode:1,
-    //         errorMsg:"请在10点之前签到"
-    //     });
-    //     return;
-    // }
-
-
     var req_query = req.query;
     var uname = req_query.uname;
     var urunning = parseFloat(req_query.urunning);
@@ -63,7 +54,7 @@ router.get("/new_data_running", async function (req, res) {
     }
 
 
-    if (!urunning) {
+    if (!urunning || urunning > 15) {
         res.send({
             errorCode: 1,
             errorMsg: "请输入正确的公里数"
@@ -73,6 +64,55 @@ router.get("/new_data_running", async function (req, res) {
 
 
     var mm = await FitnessService.createRunningSignLog(user.id, uname, urunning);
+    res.send({
+        uid: user.id,
+        errorCode: 0,
+        errorMsg: null,
+        result: mm
+    });
+
+});
+
+
+
+
+router.get("/new_data_walk", async function (req, res) {
+    var nowDate = new Date();
+
+    var req_query = req.query;
+    var uname = req_query.uname;
+    var uwalk = parseInt(req_query.uwalk,10);
+
+
+    if (!uname) {
+        res.send({
+            errorCode: 1,
+            errorMsg: "请输入昵称"
+        });
+        return;
+    }
+
+    var user = await FitnessService.getUserByName(uname);
+
+    if (!user) {
+        res.send({
+            errorCode: 1,
+            errorMsg: "您输入到昵称不在白名单里面"
+        });
+        return;
+    }
+
+
+    if (!uwalk || uwalk>30000 || uwalk < 100) {
+        res.send({
+            errorCode: 1,
+            errorMsg: "请输入正确的步数"
+        });
+        return;
+    }
+
+
+    var mm = await FitnessService.createWalkSignLog(user.id, uname, uwalk);
     res.send({
         uid: user.id,
         errorCode: 0,
@@ -170,8 +210,9 @@ function getPeriodRowData(user, data_list, columns) {
 
                 var uweight = logObj.uweight;
                 var urunning = logObj.urunning;
+                var uwalk = logObj.uwalk;
 
-                rowData[column.key] = {uweight:uweight,urunning:urunning};
+                rowData[column.key] = logObj; //{uweight:uweight,urunning:urunning,uwalk:uwalk};
 
 
                 uweightList.push(uweight);
@@ -429,11 +470,13 @@ router.get("/", async function (req, res) {
         var logObj = logsMap["user_" + uid] || {};
         var uweight = logObj.uweight || null;
         var urunning = logObj.urunning || 0;
+        var uwalk = logObj.uwalk || 0;
         logs2.push({
             uid: obj.id,
             uname: obj.uname,
             uweight: uweight,
-            urunning:urunning
+            urunning:urunning,
+            uwalk:uwalk
         });
     }
 

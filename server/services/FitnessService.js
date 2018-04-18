@@ -9,6 +9,7 @@ var FitnessSignLogModel = {
         'uname',
         'uweight',
         "urunning",
+        "uwalk",
         'format_date',
         'format_time',
         'create_time',
@@ -88,6 +89,26 @@ function createSignLog1(uid, uname, uweight, date) {
 
 }
 
+function createWalkSignLog(uid, uname, uwalk) {
+    var date = new Date();
+
+
+    var format_time = formatDateTime(date, "YYYY-MM-DD hh:mm:ss");
+    var format_date = formatDateTime(date, "YYYY-MM-DD");
+
+    var signLogDAO = SqlQueryUtils.createSimpleDAO(FitnessSignLogModel);
+
+    return signLogDAO.saveOrUpdate({
+        format_date: format_date,
+        format_time: format_time,
+        "uid": uid,
+        'uname': uname,
+        'uwalk': uwalk
+    }, {
+        uid: uid,
+        format_date: format_date
+    });
+}
 
 function createRunningSignLog(uid, uname, urunning) {
     var date = new Date();
@@ -210,6 +231,7 @@ module.exports = {
     getTodayLogList: getTodayLogList,
     createSignLog1: createSignLog1,
     createRunningSignLog:createRunningSignLog,
+    createWalkSignLog:createWalkSignLog,
     createSignLog: createSignLog,
     getUserByName: getUserByName,
     getUserById: getUserById,

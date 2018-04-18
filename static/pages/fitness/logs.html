@@ -92,6 +92,10 @@
             <%if(u.urunning){%>
              <span class="uweight"><%-u.urunning%></span> km
             <% } %>
+            <span style="color: #DDD">/</span>
+            <%if(u.uwalk){%>
+            <span class="uweight"><%-u.uwalk%></span> 步
+            <% } %>
         </div>
         <% }) %>
 
