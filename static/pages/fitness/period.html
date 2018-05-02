@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=800, initial-scale=0.5, maximum-scale=1, user-scalable=yes"/>
+    <meta name="viewport" content="width=600, initial-scale=0.5, maximum-scale=1, user-scalable=yes"/>
 
     <title>签到统计</title>
     <style>
@@ -65,7 +65,7 @@
     签到统计
 </div>
 
-<div style="width: 800px;margin: 30px auto">
+<div style="width: 600px;margin: 30px auto">
 
 
     <h2>体重(单位：kg)</h2>
@@ -73,14 +73,14 @@
     <table>
         <tr>
 
-            <% columns.forEach(function(column){ %>
+            <% columns_weight.forEach(function(column){ %>
             <th><%-column.text%></th>
             <% }) %>
 
 
             <% rows.forEach(function(row){ %>
                 <tr>
-                    <% columns.forEach(function(column){ %>
+                    <% columns_weight.forEach(function(column){ %>
                         <% if(column.type==='uname'){ %>
                             <td class="<%-column.type%>"><%-row[column.key]%> <span class="loseWeight"> ( <%-row['loseWeight']%> ) </span>  </td>
                         <% } else if(column.type==='uweight') { %>
@@ -93,8 +93,6 @@
                     <% }) %>
                 </tr>
             <% }) %>
-
-
         </tr>
     </table>
 
@@ -108,26 +106,26 @@
     <table>
         <tr>
 
-            <% columns.forEach(function(column){ %>
-            <th><%-column.text%></th>
+            <% columns_running.forEach(function(column){ %>
+                <th><%-column.text%></th>
             <% }) %>
 
 
             <% rows.forEach(function(row){ %>
-        <tr>
-            <% columns.forEach(function(column){ %>
-            <% if(column.type==='uname'){ %>
-            <td class="<%-column.type%>"><%-row[column.key]%> </td>
-            <% } else if(column.type==='uweight') { %>
-            <td class="<%-column.type%>">
-                <%-(row[column.key].urunning||"")%>
-            </td>
-            <% } else { %>
-            <td class="<%-column.type%>"><%-row[column.key]%></td>
-            <% } %>
+                <tr>
+                    <% columns_running.forEach(function(column){ %>
+                        <% if(column.type==='uname'){ %>
+                            <td class="<%-column.type%>"><%-row[column.key]%> </td>
+                        <% } else if(column.type==='uweight') { %>
+                            <td class="<%-column.type%>">
+                                <%-(row[column.key].urunning||"")%>
+                            </td>
+                        <% } else { %>
+                            <td class="<%-column.type%>"><%-row[column.key]%></td>
+                        <% } %>
+                    <% }) %>
+                </tr>
             <% }) %>
-        </tr>
-        <% }) %>
         </tr>
     </table>
 
@@ -141,14 +139,12 @@
     <table>
         <tr>
 
-            <% columns.forEach(function(column){ %>
+            <% columns_walk.forEach(function(column){ %>
             <th><%-column.text%></th>
             <% }) %>
-
-
             <% rows.forEach(function(row){ %>
         <tr>
-            <% columns.forEach(function(column){ %>
+            <% columns_walk.forEach(function(column){ %>
             <% if(column.type==='uname'){ %>
             <td class="<%-column.type%>"><%-row[column.key]%> </td>
             <% } else if(column.type==='uweight') { %>
@@ -164,6 +160,38 @@
         </tr>
     </table>
 
+
+
+
+    <% if(!!total_money) { %>
+        <h2>收入（单位：元）</h2>
+        <table>
+            <tr>
+
+                <% columns_income.forEach(function(column){ %>
+                <th><%-column.text%></th>
+                <% }) %>
+                <% rows.forEach(function(row){ %>
+            <tr>
+                <% columns_income.forEach(function(column){ %>
+                <% if(column.type==='uname'){ %>
+                <td class="<%-column.type%>"><%-row[column.key]%> </td>
+                <% } else if(column.type==='uweight') { %>
+                <td class="<%-column.type%>">
+                    <%-(row[column.key].uwalk||"")%>
+                </td>
+                <% } else { %>
+                <td class="<%-column.type%>"><%-row[column.key]%></td>
+                <% } %>
+                <% }) %>
+            </tr>
+            <% }) %>
+            </tr>
+        </table>
+
+        <div>总钱数：<%-total_money%></div>
+
+    <% } %>
 
 
 

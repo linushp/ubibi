@@ -231,7 +231,7 @@
                     showMessage(d.errorMsg);
                 }
                 else if(d&& d.result && d.result.affectedRows === 1){
-                    showMessage("跑步签到成功了");
+                    showMessage("步数签到成功了");
                     setTimeout(function () {
                         window.location.href= "/fitness/logs/" + d.uid
                     },1000);

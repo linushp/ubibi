@@ -74,14 +74,12 @@ router.get("/new_data_running", async function (req, res) {
 });
 
 
-
-
 router.get("/new_data_walk", async function (req, res) {
     var nowDate = new Date();
 
     var req_query = req.query;
     var uname = req_query.uname;
-    var uwalk = parseInt(req_query.uwalk,10);
+    var uwalk = parseInt(req_query.uwalk, 10);
 
 
     if (!uname) {
@@ -103,7 +101,7 @@ router.get("/new_data_walk", async function (req, res) {
     }
 
 
-    if (!uwalk || uwalk>30000 || uwalk < 100) {
+    if (!uwalk || uwalk > 30000 || uwalk < 100) {
         res.send({
             errorCode: 1,
             errorMsg: "请输入正确的步数"
@@ -197,27 +195,32 @@ function getPeriodRowData(user, data_list, columns) {
 
     var signDays = 0;
 
+    var sportIncomeTotal = 0;
+
     var uweightList = [];
     var uid = user.id;
     for (var i = 0; i < columns.length; i++) {
         var column = columns[i];
         if (column.type === 'uweight') {
-            var logObj  = getPeriodCellData(uid, data_list, column.key);
+            var logObj = getPeriodCellData(uid, data_list, column.key);
 
             rowData[column.key] = {};
 
             if (logObj) {
 
                 var uweight = logObj.uweight;
-                var urunning = logObj.urunning;
-                var uwalk = logObj.uwalk;
 
-                rowData[column.key] = logObj; //{uweight:uweight,urunning:urunning,uwalk:uwalk};
+                var urunning_income = (logObj.urunning || 0) * 0.4;
+                var uwalk_income = (logObj.uwalk || 0) * (1 / 10000);
 
+                logObj['sportIncome'] = Math.max(urunning_income, uwalk_income);
+
+                rowData[column.key] = logObj; //{uweight:uweight,urunning:urunning,uwalk:uwalk,sportIncome};
 
                 uweightList.push(uweight);
                 if (column['is_include']) {
                     signDays++;
+                    sportIncomeTotal = sportIncomeTotal + logObj['sportIncome']
                 }
             }
         }
@@ -232,7 +235,7 @@ function getPeriodRowData(user, data_list, columns) {
         var endWeight = uweightList[uweightList.length - 1];
         loseWeight = beginWeight - endWeight;
         loseWeight_percent = (loseWeight / beginWeight) * 100;
-        if(loseWeight_percent<0){
+        if (loseWeight_percent < 0) {
             loseWeight_percent = 0;
         }
     }
@@ -243,6 +246,10 @@ function getPeriodRowData(user, data_list, columns) {
     rowData['loseWeight'] = loseWeight.toFixed(2);
 
     rowData['signDays'] = signDays;
+
+    rowData['sportIncomeTotal'] = sportIncomeTotal; //运动总收入
+    rowData['sportIncome_display'] = sportIncomeTotal.toFixed(2); //运动总收入
+
 
     return rowData;
 }
@@ -304,17 +311,62 @@ router.get("/period/:pid", async function (req, res) {
     });
 
     var p = path.join(__dirname, "../../static/pages/fitness/period.html");
-    res.render(p, wrapperWithMoney({
+
+
+
+    var responseData = wrapperWithMoney({
         periodData: periodData,
         columns: columns || [],
         rows: rows || []
-    }));
+    });
+
+    var total_money = parseFloat(periodData.total_money || 0);
+
+
+    var columns2 = responseData.columns;
+    responseData.columns_income = get_columns_income(columns2);
+    responseData.columns_walk=get_columns_weight(columns2);
+    responseData.columns_running= get_columns_weight(columns2);
+    responseData.columns_weight= get_columns_weight(columns2);
+    responseData.total_money = total_money;
+    res.render(p, responseData);
 
     //
     //
     //
     // res.send("OK");
 });
+
+
+function get_columns_weight(columns) {
+    var result = [];
+
+    var kkk = ['loseWeight_percent', 'signDays', 'sportIncome_display', 'total_income'];
+
+    for (var i = 0; i < columns.length; i++) {
+        var obj = columns[i];
+        var key = obj.key;
+        if (kkk.indexOf(key) === -1) {
+            result.push(obj);
+        }
+    }
+
+
+    return result;
+}
+
+function get_columns_income(columns) {
+    var result = [];
+    for (var i = 0; i < columns.length; i++) {
+        var obj = columns[i];
+        var type = obj.type;
+        if (type !== 'uweight') {
+            result.push(obj);
+        }
+    }
+    return result;
+}
+
 
 function wrapperWithMoney(obj) {
 
@@ -342,8 +394,14 @@ function wrapperWithMoney(obj) {
 
     columns.push({
         type: "signDays",
-        text: "签到",
+        text: "签到(天)",
         key: "signDays"
+    });
+
+    columns.push({
+        type: "sportIncome_display",
+        text: "运动收入",
+        key: "sportIncome_display"
     });
 
     columns.push({
@@ -355,20 +413,26 @@ function wrapperWithMoney(obj) {
 
     var total_loseWeight_percent_float = 0;
     var total_signDays = 0;
+    var total_sportIncomeTotal = 0;
 
     for (var i = 0; i < rows.length; i++) {
         var obj1 = rows[i];
         if (isMember(membersList, obj1)) {
+
             total_signDays += obj1['signDays'];
+            total_sportIncomeTotal += obj1['sportIncomeTotal'];
+
             total_loseWeight_percent_float += obj1['loseWeight_percent_float'] || 0;
         }
     }
 
+
     //总签到收入
     var total_signDays_income = total_signDays * 2;
 
+
     //总减重收入
-    var total_weight_income = total_money - total_signDays_income;
+    var total_weight_income = total_money - total_signDays_income - total_sportIncomeTotal;
 
     //每百分比减重收入
     var total_loseWeight_percent_float_per_income = 0;
@@ -380,11 +444,19 @@ function wrapperWithMoney(obj) {
     for (var i = 0; i < rows.length; i++) {
         var obj2 = rows[i];
         if (isMember(membersList, obj2)) {
-            var obj2_total_income = (obj2['signDays'] * 2) + total_loseWeight_percent_float_per_income * obj2['loseWeight_percent_float']
+
+            var obj2_total_income = (obj2['signDays'] * 2); //  签到收入
+
+            obj2_total_income = obj2_total_income + total_loseWeight_percent_float_per_income * obj2['loseWeight_percent_float']
+
+            obj2_total_income = obj2_total_income + obj2["sportIncomeTotal"]; //
+
             obj2['total_income'] = obj2_total_income.toFixed(2);
+
         } else {
             obj2['total_income'] = "未参与"
         }
+
     }
 
 
@@ -475,8 +547,8 @@ router.get("/", async function (req, res) {
             uid: obj.id,
             uname: obj.uname,
             uweight: uweight,
-            urunning:urunning,
-            uwalk:uwalk
+            urunning: urunning,
+            uwalk: uwalk
         });
     }
 
