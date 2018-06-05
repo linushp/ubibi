@@ -187,7 +187,12 @@ function getPeriodCellData(uid, data_list, format_date) {
 }
 
 
-function getPeriodRowData(user, data_list, columns) {
+function getPeriodRowData(user, data_list, columns,periodData) {
+
+
+    var run_money_per = parseFloat(periodData.run_money_per || 0);
+    var sign_money_per = parseFloat(periodData.sign_money_per || 0);
+
     var rowData = {
         uid: user.id,
         uname: user.uname
@@ -197,7 +202,8 @@ function getPeriodRowData(user, data_list, columns) {
 
     var sportIncomeTotal = 0;
 
-    var uweightList = [];
+    var recordList = [];
+    var weightList = [];
     var uid = user.id;
     for (var i = 0; i < columns.length; i++) {
         var column = columns[i];
@@ -210,16 +216,20 @@ function getPeriodRowData(user, data_list, columns) {
 
                 var uweight = logObj.uweight;
 
-                var urunning_income = (logObj.urunning || 0) * 0.4;
+                if(uweight && uweight>0){
+                    signDays++;
+                    weightList.push(uweight);
+                }
+
+                var urunning_income = (logObj.urunning || 0) * run_money_per;
                 var uwalk_income = (logObj.uwalk || 0) * (1 / 10000);
 
                 logObj['sportIncome'] = Math.max(urunning_income, uwalk_income);
 
                 rowData[column.key] = logObj; //{uweight:uweight,urunning:urunning,uwalk:uwalk,sportIncome};
 
-                uweightList.push(uweight);
+                recordList.push(uweight);
                 if (column['is_include']) {
-                    signDays++;
                     sportIncomeTotal = sportIncomeTotal + logObj['sportIncome']
                 }
             }
@@ -230,9 +240,9 @@ function getPeriodRowData(user, data_list, columns) {
     var loseWeight = 0;
     var loseWeight_percent = 0;
     //计算减轻的体重
-    if (uweightList.length >= 2) {
-        var beginWeight = uweightList[0];
-        var endWeight = uweightList[uweightList.length - 1];
+    if (weightList.length >= 2) {
+        var beginWeight = weightList[0];
+        var endWeight = weightList[weightList.length - 1];
         loseWeight = beginWeight - endWeight;
         loseWeight_percent = (loseWeight / beginWeight) * 100;
         if (loseWeight_percent < 0) {
@@ -301,7 +311,7 @@ router.get("/period/:pid", async function (req, res) {
     var rows = [];
     for (var i = 0; i < userList.length; i++) {
         var user = userList[i];
-        var rowData = getPeriodRowData(user, data_list, columns);
+        var rowData = getPeriodRowData(user, data_list, columns,periodData);
         rows.push(rowData);
     }
 
@@ -373,6 +383,9 @@ function wrapperWithMoney(obj) {
     var periodData = obj.periodData;
     var total_money = parseFloat(periodData.total_money || 0);
 
+    var run_money_per = parseFloat(periodData.run_money_per || 0);
+    var sign_money_per = parseFloat(periodData.sign_money_per || 0);
+
     if (!total_money) {
         return obj;
     }
@@ -428,7 +441,7 @@ function wrapperWithMoney(obj) {
 
 
     //总签到收入
-    var total_signDays_income = total_signDays * 2;
+    var total_signDays_income = total_signDays * sign_money_per;
 
 
     //总减重收入
@@ -445,7 +458,7 @@ function wrapperWithMoney(obj) {
         var obj2 = rows[i];
         if (isMember(membersList, obj2)) {
 
-            var obj2_total_income = (obj2['signDays'] * 2); //  签到收入
+            var obj2_total_income = (obj2['signDays'] * sign_money_per); //  签到收入
 
             obj2_total_income = obj2_total_income + total_loseWeight_percent_float_per_income * obj2['loseWeight_percent_float']
 

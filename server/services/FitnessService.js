@@ -38,7 +38,9 @@ var FitnessSignPeriodModel = {
         'total_money',
         'members',
         'create_time',
-        'update_time'
+        'update_time',
+        'run_money_per',
+        'sign_money_per'
     ]
 };
 
