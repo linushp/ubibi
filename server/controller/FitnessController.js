@@ -124,10 +124,10 @@ router.get("/new_data_walk", async function (req, res) {
 router.get("/new_data", async function (req, res) {
     var nowDate = new Date();
 
-    if (nowDate.getHours() >= 10) {
+    if (nowDate.getHours() >= 14) {
         res.send({
             errorCode: 1,
-            errorMsg: "请在10点之前签到"
+            errorMsg: "请在14点之前签到"
         });
         return;
     }
@@ -187,7 +187,18 @@ function getPeriodCellData(uid, data_list, format_date) {
 }
 
 
-function getPeriodRowData(user, data_list, columns,periodData) {
+function getEndWeight(uid,data_list,to_date) {
+    for (var i = 0; i < data_list.length; i++) {
+        var obj = data_list[i];
+        if(obj.uid === uid && obj.format_date===to_date){
+            return obj.uweight;
+        }
+    }
+    return null;
+}
+
+
+function getPeriodRowData(user, data_list, columns,periodData,to_date) {
 
 
     var run_money_per = parseFloat(periodData.run_money_per || 0);
@@ -216,7 +227,7 @@ function getPeriodRowData(user, data_list, columns,periodData) {
 
                 var uweight = logObj.uweight;
 
-                if(uweight && uweight>0){
+                if (uweight && uweight > 0) {
                     signDays++;
                     weightList.push(uweight);
                 }
@@ -242,13 +253,22 @@ function getPeriodRowData(user, data_list, columns,periodData) {
     //计算减轻的体重
     if (weightList.length >= 2) {
         var beginWeight = weightList[0];
-        var endWeight = weightList[weightList.length - 1];
-        loseWeight = beginWeight - endWeight;
-        loseWeight_percent = (loseWeight / beginWeight) * 100;
-        if (loseWeight_percent < 0) {
+
+        var endWeight = getEndWeight(uid,data_list,to_date); //weightList[weightList.length - 1];
+
+        if(endWeight){
+            loseWeight = beginWeight - endWeight;
+            loseWeight_percent = (loseWeight / beginWeight) * 100;
+            if (loseWeight_percent < 0) {
+                loseWeight_percent = 0;
+            }
+        }
+        else {
+            loseWeight = 0;
             loseWeight_percent = 0;
         }
     }
+
 
     rowData['loseWeight_percent'] = loseWeight_percent.toFixed(2) + "%";
     rowData['loseWeight_percent_float'] = loseWeight_percent;
@@ -311,7 +331,7 @@ router.get("/period/:pid", async function (req, res) {
     var rows = [];
     for (var i = 0; i < userList.length; i++) {
         var user = userList[i];
-        var rowData = getPeriodRowData(user, data_list, columns,periodData);
+        var rowData = getPeriodRowData(user, data_list, columns,periodData,to_date);
         rows.push(rowData);
     }
 
